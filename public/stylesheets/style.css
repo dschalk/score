@@ -1,0 +1,644 @@
+body
+{
+    background-color: black;
+}
+
+#LR {
+    width: 100%;
+    background-color: black;
+    float: left;
+}
+#L {
+    width: 45%;
+    float:left;
+    margin-left:0.1%;
+    margin-right:1%;
+}
+
+#R {
+width: 45%;
+    float:right;
+    margin-left:1%;
+    margin-right:1.5%;
+    }
+
+#tilt {
+    font-size: 60px;
+    color: red;
+}
+
+#non_default {
+    text-align: left;
+    color: #2c9b7e;
+    font-size:16px;
+}
+
+p   {
+    text-indent: 7px;
+}
+
+#sc {
+    color: red;
+    font-size: 40px;
+
+}
+
+.b2   {
+    /*@include border-radius(4px);*/
+    text-align: center;
+    font-size: 15px;
+    background-color: black;
+    color: greenyellow;
+    border:2px solid;
+    border-radius:20px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+.b2:hover {
+    text-align: center;
+    font-size: 15px;
+    background-color: #411910;
+    color: green;
+    border:2px solid;
+    border-radius:20px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+.b2:focus   {
+    /*@include border-radius(4px);*/
+    text-align: center;
+    font-size: 15px;
+    background-color: #000000;
+    color: greenyellow;
+    border:2px solid;
+    border-radius:20px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+.b3 {
+    text-align: center;
+    font-size: 15px;
+    background-color: #411910;
+    color: deepskyblue;
+    border:2px solid;
+    border-radius:10px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+.b3:hover {
+    text-align: center;
+    font-size: 15px;
+    background-color: #4b000a;
+    color: greenyellow;
+    border:2px solid;
+    border-radius:10px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+.b3:focus {
+    text-align: center;
+    font-size: 15px;
+    background-color: #411910;
+    color: greenyellow;
+    border:2px solid;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+    border-radius:10px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+div.comp {
+    padding-left: 15%;
+    float: left;
+    width: 90%;
+    display: block;
+}
+
+form#players {
+    width: 100%
+}
+
+#signin {
+    width: 100%;
+    margin-left:auto;
+    margin-right:auto;
+    float: left;
+    background-color: black;
+}
+
+.cow {
+    width: 70px;
+    float: left;
+}
+
+.log {
+    width: 100%;
+    text-align: center;
+}
+
+#first_message {
+    width: 100%;
+    color: orange;
+    float: left;
+    padding-left:30%;
+}
+
+input {
+    background-color: rgb(200,200,200);
+}
+
+input {
+    outline: none;
+    border: 3px solid lawngreen;
+    font-size: 18px;
+    color: blue;
+    text-align: center;
+}
+
+input:focus{
+outline: none;
+box-shadow: 0px 0px 5px #61C5FA;
+border:3px solid orange;
+}
+
+input:hover{
+border: 3px solid red;
+box-shadow: 0 0 5px #61C5FA;
+border-radius: 5px;
+}
+
+input:focus:hover{
+outline: none;
+box-shadow: 0 0 5px #61C5FA;
+border:3px solid blue;
+border-radius:5px;
+
+}
+
+#caption {
+    color: yellow;
+    width: 30%;
+    font-size: 26px;
+    float: left;
+    padding-left:5%;
+}
+
+div.score {
+    width: 95%;
+
+}
+
+.n {
+    float: left;
+    width: 8%;
+    background-color: #fffeba;
+    color: #c80232;
+    border: 1px inset;
+    border-color: green;
+}
+
+.n:hover {
+    float: left;
+    width: 8%;
+    background-color: #d2ffb0;
+    color: #2c1741;
+    border: 1px inset;
+    border-color: blue;
+}
+.n:focus {
+    float: left;
+    width: 8%;
+    background-color: #e6ffce;
+    color: #1b2b41;
+    border: 1px outset;
+    border-color: red;
+}
+.nb {
+    float: left;
+    width: 8%;
+    background-color: black;
+    color: #ff965a;
+    border: 5px inset;
+    border-color: green;
+}
+
+.nb:hover {
+    float: left;
+    width: 8%;
+    background-color: black;
+    color: #ba24ff;
+    border: 5px inset;
+    border-color: blue;
+}
+.nb:focus {
+    float: left;
+    width: 8%;
+    background-color: black;
+    color: #ffdf6c;
+    border: 5px outset;
+    border-color: orange;
+}
+
+
+
+.not {
+    float: left;
+    width: 75%;
+    background-color: #fffeba;
+    color: #c80232;
+    border: 1px inset;
+    border-color: green;
+}
+
+.not:hover {
+    float: left;
+    width: 75%;
+    background-color: #d2ffb0;
+    color: #2c1741;
+    border: 1px inset;
+    border-color: blue;
+}
+.not:focus {
+    float: left;
+    width: 75%;
+    background-color: #e6ffce;
+    color: #1b2b41;
+    border: 1px outset;
+    border-color: red;
+}
+.nbot {
+    float: left;
+    width: 14%;
+    background-color: black;
+    color: #ff965a;
+    border: 5px inset;
+    border-color: green;
+}
+
+.nbot:hover {
+    float: left;
+    width: 14%;
+    background-color: black;
+    color: #ba24ff;
+    border: 5px inset;
+    border-color: blue;
+}
+.nbot:focus {
+    float: left;
+    width: 14%;
+    background-color: black;
+    color: #ffdf6c;
+    border: 5px outset;
+    border-color: orange;
+}
+
+
+
+div.scoreboard{
+    float:right;
+    background-color: rgb(50,80,55);
+    color: rgb(190,255,190);
+    width:20%;
+    font-size: 22px;
+    margin-right: 3%;
+    text-align: left;
+    border:2px solid;
+    border-radius:25px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+.sides {
+    color: rgb(150,155,255);
+    margin-left: 4%;
+    font-size: 25px;
+    width: 90%;
+    float: left;
+}
+
+.rolldice {
+    width:90%;
+    float: left;
+    background-color: black;
+}
+
+.message3 {
+    font-size: 28px;
+    color: orangered;
+    width: 85%;
+    float: right;
+}
+
+.on {
+    height: 46px;
+    width: 10%;
+    border:3px outset;
+    color: red;
+    background: lightblue;
+    font-size: 40px;
+    font-weight: bold;
+}
+.onx {
+    height: 46px;
+    width: 12%;
+    border:1px outset;
+    color: red;
+    background: lightblue;
+    font-size: 42px;
+    font-weight: bold;
+}
+.onxx {
+    height: 52px;
+    width: 10%;
+    border:1px outset;
+    color: red;
+    background: lightblue;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+
+.off {
+    height: 40px;
+    width: 8%;
+    border:1px outset;
+    color: yellow;
+    background: black;
+    font-size: 22px;
+}
+
+
+.offx {
+    height: 40px;
+    width: 8%;
+    border:1px outset;
+    color: yellow;
+    background: black;
+    font-size: 22px;
+}
+
+.offxx {
+    height: 40px;
+    width: 8%;
+    border:1px outset;
+    color: yellow;
+    background: black;
+    font-size: 22px;
+}
+
+#cars {
+    font-size: 20px;
+}
+
+.bull {
+    color: rgb(61, 193, 200);
+}
+
+.sow {
+    background-color: #98ffb3;
+    text-align: center;
+}
+
+
+button.hover  {
+    border:1px inset;
+    color: black;
+    background: #fa9d65;
+    font-size: 18px;
+    text-align: center;
+    float: left;
+}
+
+button.mess_button {
+    border:1px inset;
+    color: greenyellow;
+    background-color: lightblue;
+    font-size: 18px;
+    text-align: center;
+}
+
+button.mess_button.hover {
+    background-color: darkblue;
+}
+
+.change, .log{
+    border:1px inset;
+    color: black;
+    background: lightskyblue;
+    font-size: 18px;
+    text-align: center;
+}
+
+.calc  {
+    width: 100%;
+    float: left;
+}
+
+div.logo {
+    width: 20%;
+    font-size: 50px;
+    text-indent: 30px;
+    color: red;
+    float: left;
+    margin-right: 15%;
+
+}
+
+div.scoreboard{
+    float:right;
+    background-color: rgb(50,80,55);
+    color: rgb(190,255,190);
+    width:18%;
+    font-size: 22px;
+    margin-right: 3%;
+    text-align: left;
+    border:2px solid;
+    border-radius:25px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+
+.blank {
+    height: 10px;
+    width: 35%;
+    font-size: 20px;
+}
+
+.login{
+    background-color: #4e81d0;
+    font-size: 18px;
+    color: #d8ff7a;
+    margin-left: 20px;
+    margin-right: 5px;
+}
+
+div.countdown{
+    background-color: rgb(0,0,0);
+    font-size: 45px;
+    color: rgb(255,255,1);
+    float: left;
+    text-align: center;
+    width: 15%;
+    margin-right: 3%;
+}
+
+div.owls{
+    background-color: #98ffb3;
+    float: left;
+    width: 100%;
+}
+
+div.containsbuttons {
+    background-color: #98ffb3;
+    width: 100%;
+}
+
+div.buttons{
+    background-color: rgb(0,0,0);
+    font-size: 35px;
+    color: blue;
+    float: left;
+    text-align: left;
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+div.start {
+    background-color: rgb(0,0,0);
+    font-size: 35px;
+    color: white;
+    text-align: left;
+    width: 100%;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+.message{
+    color: rgb(0,255,255);
+    background-color: rgb(0,0,0);
+    font-size: 25px;
+    float: left;
+    text-align: left;
+    width: 75%;
+    padding-left: 8%;
+}
+
+div.usermess {
+    color: yellow;
+    width: 97%;
+    float: left;
+}
+
+.response {
+    background-color: rgb(240,230,140);
+}
+
+.message2{
+    background-color: rgb(0,0,0);
+    font-size: 25px;
+    color: rgb(200,230,130);
+    float: left;
+    text-align: left;
+    width: 80%;
+    margin: 2% 1% 2% 10%;
+}
+
+div.textbox {
+    padding: 1% 1% 1% 3%;
+    background-color: black;
+    color: rgb(100,250,250);
+    width: 100%;
+    float: left;
+}
+
+div.ev  {
+    width: 100%;
+    position: relative;
+    text-align: left;
+    color: rgb(210,255,255);
+    margin-left: 2%;
+}
+
+div.ev2  {
+    text-align: left;
+    padding: 1.5%;
+    color: rgb(210,255,255);
+    margin-left: 2%;
+}
+
+div.rolldisplay {
+    font-size: 25px;
+    color: rgb(255,155,0);
+    padding-left: 4%;
+    float: left;
+}
+
+.rules {
+    color: rgb(132, 147, 200);
+    background-color: rgb(0,0,0);
+    font-size: 22px;
+    text-align: left;
+    border: none;
+}
+
+.top {
+    font-size: 32px;
+    text-align: center;
+    color: #e218bf;
+    width: 95%;
+    float: left;
+}
+
+
+#b {
+    text-align: center;
+    font-size: 15px;
+    background-color: #41292f;
+    color: #e1ff4b;
+    border:2px solid;
+    border-radius:20px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+#b:hover {
+    text-align: center;
+    font-size: 15px;
+    background-color: black;
+    color: red;
+    border:2px solid;
+    border-radius:20px;
+    border-color: red;
+    padding: 15px;
+}
+
+
+#bfocus {
+    text-align: center;
+    font-size: 15px;
+    background-color: blue;
+    color: orange;
+    border:2px solid;
+    border-radius:20px;
+    border-color: rgb(255,165,0);
+    padding: 15px;
+}
+
+
+

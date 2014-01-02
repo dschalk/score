@@ -1,0 +1,18 @@
+{
+	"name": "score3",
+	"version": "0.1.0-8",
+	"private": false,
+	"scripts": {
+		"start": "node app"
+	},
+	"dependencies": {
+		"express": "3.x",
+		"ejs": "0.8.x",
+		"socket.io": "0.9.x",
+		"promise": "1.3.x"
+	},
+	"subdomain": "score",
+	"engines": {
+		"node": "0.10.x"
+	}
+}

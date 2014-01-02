@@ -1,0 +1,198 @@
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+<script src="/javascripts/jquery-1.10.2.min.js"></script>
+<script src="/javascripts/processing3.js"></script>
+<script src="/javascripts/processing2.js"></script>
+<script src="/javascripts/ion.sound.js"></script>
+<div class = logs></div>
+
+<body>
+<div id="signin">
+<form>
+<button class="nb" type="submit" >Name</button>
+<input type="text" class="n" placeholder="Name" id="cow">
+
+<div id = "caption">
+    The real time<br/>
+    &nbsp &nbsp multi-player<br/>&nbsp &nbsp &nbsp &nbsp game of
+    <div id = "sc">&nbsp &nbsp &nbsp &nbsp Score!</div>
+</div>
+
+<div class = "scoreboard"></div>
+</form>
+</div>
+<div id = "first_message">
+    Roll the dice to see who else is online.
+</div>
+
+<div class = rolldice>
+
+    <button class="b3" id="roll" >ROLL THE DICE</button>
+    <button class = "b3" id="random">GENERATE RANDOM NUMBERS</button>
+
+
+
+
+    <form id = "eval">
+        <select class='b2'>
+            <ul id='output'>
+                <li><option value = "0"/>SELECT DETAILS></li>
+                <li><option value = "0" style="width:72px; height:20px;"/>EVALUATE - No Fractions, All Positive</li>
+                <li> <option value = "1"/>EVALUATE - Include Negative Number Solutions</li>
+                <li><option value = "2"/>EVALUATE - Fractions and Negative Numbers/li>
+            </ul>
+        </select>
+        <input type='button' class='b2'value='EVALUATE' id='eval'/>
+    </form>
+
+
+
+
+
+
+
+</div>
+
+<br/><br/>
+<div class="sides">The sides of the dice are 6, 6, 12, and 20.
+    <br/>
+<div class = "rollDisplay"> </div>
+
+</div>
+<br>
+<div class = message ></div><br>
+
+<div class = message2 ><span id = "ruleMessage">You need to use three or four dice in order to score.<br/>
+    In other words, one or both of your final numbers must have blue backgrounds.</span><br/>
+</div>
+<div class = "message3"> </div>
+
+<div class = "countdown" ></div>
+
+<div class = "buttons" style="float:left">
+    <input type="button" id="0" value="0" class="off" onclick="tog(this);" />
+    <input type="button" id="1" value="0" class="off" onclick="tog(this);" />
+    <input type="button" id="2" value="0" class="off" onclick="tog(this);" />
+    <input type="button" id="3" value="0" class="off" onclick="tog(this);" /><br>
+    <input type="button" style = "width: 7%;" id="4" value= "+" class="off" onclick="tog(this);" />
+    <input type="button" style = "width: 7%;" id="5" value="-" class="off" onclick="tog(this);" />
+    <input type="button" style = "width: 7%;" id="6" value="x" class="off" onclick="tog(this);" />
+    <input type="button" style = "width: 7%;" id="7" value="/" class="off" onclick="tog(this);" />
+    <input type="button" style = "width: 30%;" id="8" value="concatenate left of" class="off" onclick="tog(this);" /><br>
+    <input type="button" id="9" value="0" class="off" onclick="tog2(this);" />
+    <input type="button" id="10" value="0" class="off" onclick="tog2(this);" />
+    <input type="button" id="11" value="0" class="off" onclick="tog2(this);" />
+    <input type="button" id="12" value="0" class="off" onclick="tog2(this);" />
+    <div class = "score">
+        <button id="score" class="b3" >SCORE</button>
+        <button id="impossible" class="b3">IMPOSSIBLE</button>
+        <button id="interrupt" class="b3">SCORE</button>
+        <button class="b3" id="compute" style="border-color:red; border-width:3px; margin-left:15%;">CALCULATE</button><br>
+    </div>
+
+</div>
+
+
+
+<div>
+
+</div>
+<div id="LR">
+<div id="L">
+<br>
+    <div class = "ev"></div>
+
+    <div class = "bull">
+        Privately experiment with your own data here:<br>
+        <span id = "cars">Caution: clicking EVALUATE here logs you out of any game you are in.<br></span>
+
+    <form>
+            <input type="text" id ='a8' size='3'/>
+            <input type="text" id ='b8' size='3'/>
+            <input type="text" id ='c8' size='3'/>
+            <input type="text" id ='d8' size='3'/><br/>
+            Score Number:</span> <input type="text" id ='e8' size='3' value="20"/>
+            <select class='b3'>
+                <ul id='output'>
+                    <li><option value = "0"/>SELECT DETAILS</li>
+                    <li><option value = "0" style="width:72px; height:20px;"/>EVALUATE - No Fractions, All Positive</li>
+                    <li> <option value = "1"/>EVALUATE - Include Negative Number Solutions</li>
+                    <li><option value = "2"/>EVALUATE - Fractions and Negative Numbers</li>
+                </ul>
+            </select>
+            <input type='button' class='b2'value='EVALUATE' id='eval2'/>
+    </form>
+
+
+    <button class="b2" id="clean" >ERASE</button>
+
+
+
+
+
+    </div>
+</div>
+<div id="R">
+
+<div class="usermess"></div>
+<div id = "textbox" >
+    <form class="signin">
+        <button type="submit" id="mess_button" style="color: black; background-color: black"></button>
+        <input type="text" class="not" placeholder="Enter Message" id="egg">
+    </form>
+</div>
+    <div id = non_default style="font-size:24; color:yellowgreen">
+        <br/>
+    <h3>  NON-DEFAULT NUMBER SELECTOR </h3>
+
+    In addition to the simulated dice game with 6, 12, and 20-sided dice, players have the option of playing Score! with four random numbers having the upper bounds of their choice.  A 7-sided die wouldn't roll nicely and a 53-sided one would be hard to make, but 7 tne 53 are valid choices in random number play. So is four 15's. When the upper-bounds of the four random numbers change, players might want to also change the "Score Number"; that is, the number which bangs the gong and wins a point.  If players wanted four upper bounds of 100 each, they might want to continue trying to find ways to arrive at 20, but they might want to try for 150 instead.  A "Score Number" box is included below for selecting score numbers.
+</div>
+    <form style="text-align:center; font-size: 22px">
+        <input type="text" class='d1' size='3'/>
+        <input type="text" class='d2' size='3'/>
+        <input type="text" class='d3' size='3'/>
+        <input type="text" class='d4' size='3'/><br/>
+        <span style="color:yellowgreen; font-size: 32px;">Score Number:</span>:<input type="text" class='d5' size="3"/>
+    </form>
+
+    <div style="text-align:center" >
+        <button class="b3" id="monkey"> Select New Numbers </button>
+        <button class="b3" id="ape"> Back To Default </button>
+    </div>
+    <div class="rules">
+        <h3> Rules: </h3>
+        <p>Four dice are rolled. The numbers are shown on the top and bottom rows.
+            Operators are shown in the middle row.  If a player clicks SCORE, that player has 30 seconds in which
+            to explain how the operators can be used on three or four dice to arrive at the number 20.  This can
+            be accomplished in two, or three stages. If you make a 20 (4x5, 10+10, etc.) with the first
+            calculation, the round isn't over.  You have used only two dice.  If you have two identical numbers,
+            say 6's, you can divide 6 into 6 the then multiply the 1 you get times the twenty and, Score!  You
+            could also add 6 and then subtract the other 6. Zero's aren't allowed, so DO NOT subtract 6 from the
+            other six and add the 0 to twenty.  Anytime that is possible, the other two methods will be available.
+            If you have two consecutive numbers, you can subtract to get a 1. If the roll is 1, 2, 12, 20, you
+            can concatinate the 1 behind the 2, divide that by 12, and multiply the resulting 1 times 20.  If
+            you do it in 30 seconds or less, Score!  After each preliminary calculation is performed, the new
+            numbers are displayed and the countdown continues. The default dice denominations are 6, 6, 12,
+            and 20, corresponding to the most symetical yet large enough to be readable physical dice.  </p><p>
+            You can put any numbers you like in the boxes to the left, such as 9, 9, 9, 9 (solution: concatinate,
+            divide, and add), but those numbers would never come up using the default dice since two of them have
+            only six sides. If players agree to change that, or if a solo player wants to see random rolls of
+            non-default dice combinations, the boxes below can be used to change the denominations of the game dice.
+        </p><p>IMPOSSIBLE: If a player clicks IMPOSSIBLE, the other players have 60 seconds in which to click
+            SCORE and then show a solution withing 30 seconds.  Clicking Score and not showing an answer within
+            30 seconds or clicking IMPOSSIBLE and having someone else score result in the loss of a point.
+            Clicking SCORE and entering a solution within 30 seconds increases a player';s score by one point.<br><br>
+            A browser that loads the game registers as player "Fred." I more than one browser is online, there is
+            only one Fred.  If someone is not competing, but just evaluating rolls, that player automatically becomes "Solo,"
+            as all can see on the scoreboard.
+
+        </p>
+
+</div>
+
+
+    <br>
+
+</div>
+</div>
+</body>

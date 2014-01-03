@@ -37,9 +37,9 @@ app.configure(function() {
     app.use(express.directory('public'));
 });
 io = require("socket.io").listen(server);
-evalNums = require('./routes/evalNums.js');
-
-
+evalNums = require('./routes/evalNums');
+timer = require('./routes/tim').tim(io);
+gameData = require('./routes/monitor').monitor(timer, io);
 
 var messages = [];
 var data = {};l
@@ -67,10 +67,23 @@ server.listen(app.get('port'), function(){
 
 io.sockets.on('connection', function (socket) {// Creates socket objects when clients connect and passes them .
 
-	timer = require('./routes/tim').tim(socket);
-	gameData = require('./routes/monitor').monitor(socket, timer, io);
 
-	// gameData.setSocket(socket);
+	socket.on('stop', function (data) {
+		console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT' +
+			'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT' +
+			'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+		var scorePromise = new Promise(function (resolve, reject) {
+				resolve(timer.setColor('red'));
+				reject(function() {
+					console.log('Error');
+				});
+			});
+			scorePromise.then(timer.setBail(false))
+				.then(timer.setTick(-1))
+				.then(io.sockets.emit('scoreup', data));
+	});
+
+
     socket.on('happyclown', function (data) {
         players[data.player] = data.playerdoc;
         socket.emit('sb', players);
@@ -80,7 +93,15 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 	socket.on('tilt', function () {
 	io.socket.emit('timeup');
 	io.socket.emit('infinityMessage');
-	timer.setBail(true);
+	});
+
+	socket.on('timeFinish', function () {
+		var finishPromise = new Promise(function (resolve, reject) {
+			resolve(data = gameData.getData());
+			reject(function() {console.log('Error at timeFinish');
+			});
+		});
+		finishPromise.then(io.sockets.emit('scoreUp', data))
 	});
 
 	socket.on('cleanup', function () {
@@ -97,7 +118,6 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 
     socket.on('rollRequest', function() {
 	    gameData.setm(4);
-	    timer.setBail(false);
 		players = {};
 		io.sockets.emit('reset');
 	    io.sockets.emit('mReset');
@@ -111,7 +131,7 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		var output = data.output;
 		var z = gameData.getnumberOb();
 		var scNum = gameData.getscoreNum();
-	    evalNums.roll(z['0'], z['1'], z['2'], z['3'], socket, flag, output, scNum);
+	    evalNums.roll(z['0'], z['1'], z['2'], z['3'], socket, flag, output, scNum, gameData);
     });
 
     socket.on('evalRequest2', function (data) {
@@ -134,24 +154,22 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		    data.currentPlayer = data.player;
 		    gameData.setData(data);
 		    var timerPromise = new Promise(function (resolve, reject) {
-			    resolve(timer.setData(data));
-			    reject(function() {
-				    console.log('timer.setData failed to return.');
+			    resolve(timer.setTick(30));
+			    reject(function() {console.log('Error at timer, play === 1 : true')
 			    });
 		    });
-			timerPromise.then(timer.setTick(30)).then(timer.time());
-
+			timerPromise.then(timer.setColor('orange'))
+				.then(timer.time(socket));
 	    }
 	    if (data.play === 2) {
 		    data.impossibleClicker = data.currentPlayer = data.player;
-		    gameData.setData(data);
 		    var timerPromise2 = new Promise(function (resolve, reject) {
-			    resolve(timer.setData(data));
+			    resolve(gameData.setData(data));
 			    reject(function() {
 				    console.log('timer.setTick failed to return.');
 			    });
 		    });
-		    timerPromise2.then(timer.setTick(60)).then(timer.time());
+		    timerPromise2.then(timer.setTick(60)).then(timer.time(socket));
 	    }
 	    if (data.play === 3) {
 		    data.currentPlayer = data.interruptClicker = data.player;
@@ -163,12 +181,11 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 				    console.log('timer.setTick failed to return.');
 			    });
 		    });
-		    timerPromise3.then(timer.setData(data)).then(timer.setTick(30));
+		    timerPromise3.then(timer.setTick(30));
 	    }
     });
 
 	socket.on('bail', function () {
-		timer.setBail(true);
 		timer.setTick(-1);
 	});
 
@@ -229,7 +246,6 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		    });
 	    });
 	    calcPromise.then(gameData.calc());
-	    timer.setBail(false);
     });
 });
 

@@ -1,9 +1,8 @@
-exports.monitor = function (sock, tim, iota) {
+exports.monitor = function (tim, iota) {
 	var timer = tim;
 	var io = iota;
 	var nums = {}; //Persists throughout round of play.
 	var numberOb = {}; //Contains currently available numbers.
-	var socket = sock;
 	var x, y, op;
 	var abs = Math.abs;
 	var complexity = 0;
@@ -27,7 +26,6 @@ exports.monitor = function (sock, tim, iota) {
 	rx4 = 88;
 	var opArray = ['plus', 'minus', 'times', 'divided by', 'concatenated behind'];
 	return {calc : function () {
-		timer.setBail(false);
 		console.log(data);
 		console.log(numberOb);
 		console.log('That was data and numberOb___from calc__in the monitor module (gameData)*******************************************************')
@@ -61,9 +59,8 @@ exports.monitor = function (sock, tim, iota) {
 				return;
 			}
 			else if (complexity !== 2 && x / y !== ~~x / y) {
-				socket.emit('fractionMessage');
+				io.sockets.emit('fractionMessage');
 				return;
-				// socket.broadcast.emit('infinityMessage'); This is only for the current player.
 			}
 			else {
 				data.newo = x / y;
@@ -73,8 +70,7 @@ exports.monitor = function (sock, tim, iota) {
 			if (~~x === x && ~~y === y) {
 				data.newo = parseInt((x.toString() + y.toString()), 10);
 			} else {
-				socket.emit('concatMessage');
-				//socket.broadcast.emit('concatMessage');
+				io.sockets.emit('concatMessage');
 				return;
 			}
 		} else {
@@ -191,8 +187,7 @@ exports.monitor = function (sock, tim, iota) {
             numberOb[1] = rx2 = r2 = nums.b = Math.floor(Math.random() * (d2)) + 1;
             numberOb[2] = rx3 = r3 = nums.c = Math.floor(Math.random() * (d3)) + 1;
             numberOb[3] = rx4 = r4 = nums.d = Math.floor(Math.random() * (d4)) + 1;
-            socket.emit('rollNums', nums);
-	        socket.broadcast.emit('rollNums', nums);
+            io.sockets.emit('rollNums', nums);
 	        console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE__nums');
 	        console.log(nums);
             return nums;
@@ -214,18 +209,16 @@ exports.monitor = function (sock, tim, iota) {
 				data.b = temp[1];
 				data.operator = opArray[data.op];
 				data.play = play;
+			console.log('?????????????????????????????????????????_________________data from process');
+			console.log(data);
 				if (data.newo === 'tilt') {
 					io.sockets.emit('timeUp, data');
 					io.sockets.emit('infinityMessage');
 					io.sockets.emit('bail');
 				}
 				else if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
+					io.sockets.emit('scoreUp', data);
 					timer.setTick(-1);
-					data.currentPlayer = data.player;
-					socket.emit('scoreUp', data);
-					socket.broadcast.emit('scoreUp', data);
-					console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$___data from process, newo === 20 true')
-					console.log(data);
 					}
 				else if (data.m === 4) {
 					numberOb = {'0':data.a, '1':data.b, '2':data.newo, '3':'cow'};
@@ -238,9 +231,8 @@ exports.monitor = function (sock, tim, iota) {
 					io.sockets.emit('dragon', data);
 				}
 				else if (data.m === 2) {
+					io.sockets.emit('thor', data);
 					timer.setTick(-1);
-					socket.emit('thor', data);
-					socket.broadcast.emit('thor', data);
 				}
 			}
 

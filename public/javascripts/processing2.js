@@ -173,9 +173,8 @@ $(function() {
             return;
         }
     */
-	    var data = {};
-        data.play = 1;
-		data.player = player;
+		var data = {play:1};
+	    data.player = player;
         $('div.countdown').fadeIn(1000);
         $('button#compute').fadeIn(700);
 	    $('setScore', data);
@@ -328,9 +327,9 @@ socket.on('buttonReset', function(data) {
 		$('#compute').fadeIn(1000);
 	}
 });
-
 socket.on('tic', function(data) {
-    $('div.countdown').html(data.tick).show();
+	var tick = data.tick;
+    $('div.countdown').html(tick).show();
 });
 
 socket.on('impossibletimer', function(data) {

@@ -342,60 +342,23 @@ div.scoreboard{
 }
 
 .on {
-    height: 46px;
-    width: 10%;
+    height: 110px;
+    width: 140px;
     border:3px outset;
+    border-color: red;
     color: red;
-    background: lightblue;
-    font-size: 40px;
+    background-color: lightblue;
+    font-size: 2em;
     font-weight: bold;
 }
-.onx {
-    height: 46px;
-    width: 12%;
-    border:1px outset;
-    color: red;
-    background: lightblue;
-    font-size: 42px;
-    font-weight: bold;
-}
-.onxx {
-    height: 52px;
-    width: 10%;
-    border:1px outset;
-    color: red;
-    background: lightblue;
-    font-size: 36px;
-    font-weight: bold;
-}
-
 
 .off {
-    height: 40px;
-    width: 8%;
+    height: 80px;
+    width: 110px;
     border:1px outset;
     color: yellow;
     background: black;
-    font-size: 22px;
-}
-
-
-.offx {
-    height: 40px;
-    width: 8%;
-    border:1px outset;
-    color: yellow;
-    background: black;
-    font-size: 22px;
-}
-
-.offxx {
-    height: 40px;
-    width: 8%;
-    border:1px outset;
-    color: yellow;
-    background: black;
-    font-size: 22px;
+    font-size: 1em;
 }
 
 #cars {

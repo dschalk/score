@@ -1,5 +1,4 @@
 exports.roll = function (a, b, c, d, socket, flag, output, scNum) {
-	evalData = require('monitor').monitor();
 	var scoreNum = scNum;
     console.log('****************************************************__________________scoreNum');
 	console.log('****************************************************__________________scoreNum');

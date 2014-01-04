@@ -1,4 +1,5 @@
-exports.monitor = function (tim, iota) {
+exports.monitor = function (tim, iota, P) {
+	var Promise = P;
 	var timer = tim;
 	var io = iota;
 	var nums = {}; //Persists throughout round of play.
@@ -11,7 +12,6 @@ exports.monitor = function (tim, iota) {
 	var data = {};
 	var currentPlayer;
 	var play;
-	var impossibleClicker;
 	var d1 = 6,// Upper bounds on the random integers.
 	d2 = 6,
 	d3 = 12,
@@ -26,23 +26,11 @@ exports.monitor = function (tim, iota) {
 	rx4 = 88;
 	var opArray = ['plus', 'minus', 'times', 'divided by', 'concatenated behind'];
 	return {calc : function () {
-		console.log(data);
-		console.log(numberOb);
-		console.log('That was data and numberOb___from calc__in the monitor module (gameData)*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
-		console.log('That was data and numberOb___*******************************************************')
 		x = data.yin = numberOb[data.x];
 		y = data.yang = numberOb[data.y];
 		op = data.op;
-		console.log('FFFFFFFFFFFFFFFFFFF00000000000000000____x____op____y____ ' + x + ' ' + op + ' ' + y);
 		if (op == 0) {
 			data.newo = x + y;
-			console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' +
-				'FFFFFFFFFF00____x____op____y___newo_ ' + x + ' ' + op + ' ' + y + ' ' + data.newo);
 		}
 		else if (op == 1) {
 			if (complexity === 0) {
@@ -54,30 +42,29 @@ exports.monitor = function (tim, iota) {
 			data.newo = x * y;
 		}
 		else if (op == 3) {
-			if (y == 0) {
-				data.newo = 'tilt';
-				return;
-			}
+			if (y === 0) {
+				data.newo = 'horse';
+				}
 			else if (complexity !== 2 && x / y !== ~~x / y) {
-				io.sockets.emit('fractionMessage');
+				data.newo = 'mule';
 				return;
 			}
 			else {
-				data.newo = x / y;
+				data.newo = x/y;
 			}
 		}
 		else if (op == 4) {
 			if (~~x === x && ~~y === y) {
 				data.newo = parseInt((x.toString() + y.toString()), 10);
 			} else {
-				io.sockets.emit('concatMessage');
+				data.newo = 'donkey';
 				return;
 			}
 		} else {
-			data.newo = 999;
+			data.newo = 'error';
 		}
 		this.process(data);
-	},
+		},
 
         setd: function(x, y, z, w) {
             d1 = x;
@@ -102,13 +89,10 @@ exports.monitor = function (tim, iota) {
             rx3 = data.c;
             rx4 = data.d;
         },
-        setrx: function(obj) {// The current roll.
-            rx1 = obj.a;
-            rx2 = obj.b;
-            rx3 = obj.c;
-            rx4 = obj.d;
-        },
 
+		getNums : function () {
+			return nums;
+		},
 
 	    setscoreNum: function(number) {
 		    scoreNum = number;
@@ -129,58 +113,13 @@ exports.monitor = function (tim, iota) {
 			numberOb = number;
 		},
 
-		getnumberOb: function() {
-			return numberOb;
-		},
-
 		setm: function(number) {
 			m = number;
-		},
-		getm: function() {
-			return m;
 		},
 
 	    setcow: function(numb) {
 		    cow = numb;
 	    },
-	    getcow: function() {
-		    return cow;
-
-		},
-
-	    setimpossibleClicker: function(str) {
-		    data.impossibleClicker = str;
-	    },
-
-		getimpossibleClicker: function() {
-			return impossibleClicker;
-		},
-
-		setinterruptClicker: function(str) {
-			data.interruptClicker = str;
-		},
-
-		setscoreClicker: function(str) {
-			data.scoreClicker = str;
-		},
-
-	    setplay: function(int) {
-		    data.play = int;
-	    },
-
-	    setcurrentPlayer: function(str) {
-		    data.currentPlayer = str;
-	    },
-
-	    getd: function() {
-            return {a:d1, b:d2, c:d3, d:d4};
-        },
-        getr: function() {
-            return nums;
-        },
-        getrx: function () {
-            return {a:rx1, b:rx2, c:rx3, d:rx4};
-        },
 
         r: function () {
             numberOb[0] = rx1 = r1 = nums.a = Math.floor(Math.random() * (d1)) + 1;
@@ -188,8 +127,7 @@ exports.monitor = function (tim, iota) {
             numberOb[2] = rx3 = r3 = nums.c = Math.floor(Math.random() * (d3)) + 1;
             numberOb[3] = rx4 = r4 = nums.d = Math.floor(Math.random() * (d4)) + 1;
             io.sockets.emit('rollNums', nums);
-	        console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE__nums');
-	        console.log(nums);
+            data.nums = nums;
             return nums;
         },
 
@@ -205,37 +143,61 @@ exports.monitor = function (tim, iota) {
 					console.log(temp);
 				}
 			}
-				data.a = temp[0];
-				data.b = temp[1];
-				data.operator = opArray[data.op];
-				data.play = play;
-			console.log('?????????????????????????????????????????_________________data from process');
-			console.log(data);
-				if (data.newo === 'tilt') {
-					io.sockets.emit('timeUp, data');
-					io.sockets.emit('infinityMessage');
-					io.sockets.emit('bail');
+			data.a = temp[0];
+			data.b = temp[1];
+			data.operator = opArray[data.op];
+			data.play = play;
+			if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
+				io.sockets.emit('scoreUp', data);
+				timer.setTick(-1);
 				}
-				else if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
-					io.sockets.emit('scoreUp', data);
-					timer.setTick(-1);
-					}
-				else if (data.m === 4) {
-					numberOb = {'0':data.a, '1':data.b, '2':data.newo, '3':'cow'};
-					console.log(numberOb);
-					console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-					io.sockets.emit('godzilla', data);
-				}
-				else if (data.m === 3) {
-					numberOb = {'0':data.a, '1':data.newo, '2':'cow', '3':'cow'}
-					io.sockets.emit('dragon', data);
-				}
-				else if (data.m === 2) {
-					io.sockets.emit('thor', data);
-					timer.setTick(-1);
-				}
+			else if (data.m === 4) {
+				numberOb = {'0':data.a, '1':data.b, '2':data.newo, '3':'cow'};
+				io.sockets.emit('godzilla', data);
+			}
+			else if (data.m === 3 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== donkey)) {
+				numberOb = {'0':data.a, '1':data.newo, '2':'cow', '3':'cow'}
+				io.sockets.emit('dragon', data);
+			}
+			else if (data.m === 2 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== donkey)) {
+				io.sockets.emit('thor', data);
+				timer.setTick(-1);
 			}
 
+			else if (data.newo === 'horse') {
+				tiltPromise = new Promise(function(resolve, reject) {
+					resolve(io.sockets.emit('tilt', data));
+					reject(function () {
+						console.log("Error. io.sockets.emit('tilt, data') did not succeed");
+					});
+				});
+				tiltPromise.then(timer.setClick(-1));
+			}
+			else if (data.newo === 'mule') {
+				fractionPromise = new Promise(function(resolve, reject) {
+					resolve(io.sockets.emit('fractionMessage', data));
+					reject(function () {
+						console.log("Error. io.sockets.emit('tilt, data') did not succeed");
+					});
+				});
+				fractionPromise.then(timer.setClick(-1));
+			}
+			else if (data.newo === 'donkey') {
+				concatPromise = new Promise(function(resolve, reject) {
+					resolve(io.sockets.emit('concatMessage', data));
+					reject(function () {
+						console.log("Error. io.sockets.emit('tilt, data') did not succeed");
+					});
+				});
+				concatPromise.then(timer.setClick(-1));
+			}
+
+			else if (data.newo === 'donkey') {
+				console.log('calc failed to return a number');
+			}
+
+
+		}
 	};
 };
 

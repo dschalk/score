@@ -52,22 +52,6 @@ $(document).ready(function() {
     }, 500);
 });
 
-socket.on('reset', function (data){
-	copyax = 4;
-	copybx = 4;
-	$('button#roll').hide().fadeIn(100).fadeOut(100).fadeIn(200);
-	$('button#eval').fadeOut(1000);
-	$('button#random').fadeOut(1000);
-	$('button#score').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(200);
-	$('button#interrupt').fadeOut(1000);
-	$('button#impossible').fadeIn(600);
-	$('button#compute').fadeOut(1000);
-	$('div.countdown').append("");
-	$('div.message').hide();
-	$('div.message2').hide();
-	$('div.message3').hide();
-	$('div.buttons').show();
-});
 
 $(function() {
     $('.nb').click(function() {
@@ -142,12 +126,7 @@ $(function() {
     });
 });
 
-$(function() {
-    $('#clean').click(function() {
-        socket.emit('erase');
-        return false;
-    });
-});
+
 
 $(function() {
     $('#impossible').click(function() {
@@ -216,10 +195,6 @@ $(function() {
     });
 });
 
-socket.on('highlightOff', function () {
-    $('.on').attr({"class": "off"});
-});
-
 socket.on('anotherRound', function () {
 	$('button#roll').hide().fadeIn(300).fadeOut(300).fadeIn(500);
 	$('button#eval').fadeOut(1000);
@@ -230,21 +205,6 @@ socket.on('anotherRound', function () {
 	$('button#compute').fadeOut(400);
 	$('button#compute').fadeIn(600);
 	$('.message3').html(' ');
-});
-
-socket.on('default', function() {
-
-        $('.d1').val(6);
-        $('.d2').val(6);
-        $('.d3').val(12);
-        $('.d4').val(20);
-        $('.d5').val(20);
-        $('div.sides').html("The sides of the dice are 6, 6, 12, and 20 and the Score Number is 20" );
-})
-
-socket.on('mailbox', function (data) {
-    $('div.usermess').prepend('<br/>' + data.player + ' says ' + data.message);
-    $('#egg').val("");
 });
 
 socket.on('rollNums', function(data) {    //  Listens for roll information and populates the selection boxes
@@ -293,40 +253,6 @@ socket.on('rollNums', function(data) {    //  Listens for roll information and p
     $('div.rollDisplay').fadeIn(1200).html(data.a + " &nbsp;&nbsp;" + data.b + "&nbsp;&nbsp; " + data.c + "&nbsp;&nbsp;" + data.d + '<br/>');
 });
 
-socket.on('message', function (data) {
-    $('div.usermess').prepend(data.player + " says: " + data.message + "<br/>");
-    $('.response').val("");
-});
-
-socket.on('showbutton', function (data) {
-    $('button#roll').fadeIn(1000);
-    $('button#interrupt').fadeOut(1000);
-    $('.on').attr({"class": "offx"});
-    $('.response').val("");
-});
-
-socket.on('buttonReset', function(data) {
-    $('button#roll').fadeOut(1000);
-    $('button#eval').fadeOut(1000);
-	$('div.message').html(" ");
-	$('button#score').fadeOut(1000);
-	$('#interrupt').hide();
-	$('#impossible').hide();
-	if (data.currentPlayer === playerdoc.player) {
-		$('#compute').show();
-	}
-
-	if (data.play == 2) {
-		$('#compute').fadeOut(500);
-		$('#interrupt').fadeIn(800);
-		$('#impossible').hide();
-	}
-
-	if (data.play == 3) {
-		$('#interrupt').hide();
-		$('#compute').fadeIn(1000);
-	}
-});
 socket.on('tic', function(data) {
 	var tick = data.tick;
     $('div.countdown').html(tick).show();
@@ -358,23 +284,6 @@ socket.on('sb', function (players) {
     });
 });
 
-socket.on('numberchanger', function (data) {
-    $(function () {
-	    $('.on').attr({class:'off'})
-        if (data.cow === 6) {
-            typecow = 6;
-            $('div.sides').html("Upper bounds on the four random integers: " + data.a + " " + data.b + " " + data.c + " " + data.d);
-            $('button#roll').hide();
-            $('button#random').show();
-        }
-        else {
-            $('div.sides').html("The virtual dice roll is: " + data.a + " " + data.b + " " + data.c + " " + data.d);
-            $('button#roll').show();
-            $('button#random').hide();
-            typecow = 5
-        }
-    });
-});
 
 socket.on('eval', function(data){        // Receives and displays the computer's calculations.
     console.log(data);
@@ -478,7 +387,6 @@ socket.on('thor', function (data) {    //  Listens for roll information and popu
     });
 
 socket.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
-	$('#roll').show();
     if (data.cow === 6) {
         $('button#roll').hide();
         $('button#random').fadeIn(1000);
@@ -490,7 +398,7 @@ socket.on('timeUp', function (data) {    //  Listens for roll information and po
     $('button#score').fadeOut(1000);
     $('button#impossible').fadeOut(1000);
     $('div.countdown').html(" ");
-	if (player === data.scoreClicker || player === data.imposibleClicker) {playerdoc.score -= 1;}
+	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
 	if (player === data.impossibleClicker) {playerdoc.score += 1}
 });
 
@@ -512,28 +420,37 @@ socket.on('scoreUp', function (data) {    //  Listens for roll information and p
     $('button#compute').fadeOut(1000);
     $('div.buttons').fadeIn(800).hide();
     //$('div.message').html(data[7] + " scored!  One point added. ");
-console.log(data.play + ' ' + playerdoc.player + ' ' + data.impossibleClicker + ' ' + data.currentPlayer);
 	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score += 1;}
 	if (player === data.impossibleClicker) {playerdoc.score -= 1}
-	console.log(player);
-	console.log(data.impossibleClicker);
 });
 
 socket.on('wash', function () {
     $('div.ev').html(" ")
     }
 );
+socket.on('tilt', function (data) {    //  Listens for roll information and populates the selection boxes
+    console.log("44444444444444444444444444444444444444444444444444444444444444_in 'tilt'");
+    $.ionSound.play("tilt");
+    $('message3').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
+    $('message2').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
+    if (data.cow === 6) {
+        $('button#roll').hide();
+        $('button#random').fadeIn(1000);
+    } else {
+        $('button#random').hide();
+        $('button#roll').fadeIn(1000);
+    }
+    $('button#eval').fadeIn(1000);
+    $('div.countdown').hide();
+    $('button#score').fadeOut(1000);
+    $('button#impossible').fadeOut(1000);
+    $('button#interrupt').fadeOut(1000);
+    $('button#compute').fadeOut(1000);
+    $('div.buttons').fadeIn(800);
+    if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
+    if (player === data.impossibleClicker) {playerdoc.score += 1}
+});
 
-socket.on('wash', function () {
-		$('div.ev').html(" ");
-	}
-);
-
-socket.on('infinityMessage', function () {
-		$.ionSound.play("tilt");
-		$('message3').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.")
-	}
-);
 
 socket.on('fractionMessage', function () {
 		$('message3').html("Fractions are not allowed on the basic complexity level.  Hint: multipying by a fraction is the same as multiplying by the numerator and dividing by the denominator.");

@@ -22,11 +22,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.json())
+app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());;
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/javascripts/')));
 app.use(express.static(path.join(__dirname, 'views')));
 
 app.configure(function() {
@@ -37,22 +38,21 @@ app.configure(function() {
     app.use(express.directory('public'));
 });
 io = require("socket.io").listen(server);
+
 evalNums = require('./routes/evalNums');
-timer = require('./routes/tim').tim(io);
-gameData = require('./routes/monitor').monitor(timer, io);
+timer = require('./routes/tim').tim();
+gameData = require('./routes/monitor').monitor(timer, io, Promise);
 
 var messages = [];
-var data = {};l
+var data = {};
 var name = "Steve";
 var k = 777;
 var a;
 var l;
 var i = 888;
-var interrupt;
-var cow = {};
 app.get('/', routes.index);
 app.use(function (req, res, next){
-    res.locals.scripts = ['/public/javascripts/jquery-1.11.0-beta1.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js',  '/public/javascripts/processing2.js'];
+    res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
 });
 // development only
@@ -68,40 +68,40 @@ server.listen(app.get('port'), function(){
 io.sockets.on('connection', function (socket) {// Creates socket objects when clients connect and passes them .
 
 
-	socket.on('stop', function (data) {
-		console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT' +
-			'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT' +
-			'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+
+    socket.on('stop', function (data) {
 		var scorePromise = new Promise(function (resolve, reject) {
-				resolve(timer.setColor('red'));
+				resolve(io.sockets.emit('scoreup', data));
 				reject(function() {
 					console.log('Error');
 				});
 			});
 			scorePromise.then(timer.setBail(false))
 				.then(timer.setTick(-1))
-				.then(io.sockets.emit('scoreup', data));
 	});
-
 
     socket.on('happyclown', function (data) {
         players[data.player] = data.playerdoc;
-        socket.emit('sb', players);
-        socket.broadcast.emit('sb', players);
+        socket.emit('sb', players);        socket.broadcast.emit('sb', players);
     });
 
-	socket.on('tilt', function () {
-	io.socket.emit('timeup');
-	io.socket.emit('infinityMessage');
+	socket.on('tilt2', function (data) {
+		io.sockets.emit('tilt', data);
+		console.log('555555555555555555555555555555555555555555555555555555555555555__sent data to tilt from app.js')
+	})
+
+	socket.on('tiltControl', function () {
+	var tiltPromise = new Promise(function (resolve, reject) {
+		resolve(data = gameData.getData());
+		reject(function() {console.log('Error at timeFinish');
+		});
 	});
 
-	socket.on('timeFinish', function () {
-		var finishPromise = new Promise(function (resolve, reject) {
-			resolve(data = gameData.getData());
-			reject(function() {console.log('Error at timeFinish');
-			});
-		});
-		finishPromise.then(io.sockets.emit('scoreUp', data))
+	tiltPromise.then(io.sockets.emit('tilt', data))
+		.then(
+		console.log('$$$$$$$$$$$$$$$$$$$$$$$$$444444444444444444' +
+			'444444444444444444444444444444444444444444444444444444444444'))
+		.then(console.log(data));
 	});
 
 	socket.on('cleanup', function () {
@@ -129,9 +129,11 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		players = {};
 		var flag = 6;
 		var output = data.output;
-		var z = gameData.getnumberOb();
+		var z = gameData.getNums();
+	    console.log('33333333333333333333333333333333333333333333333333333333333__nums');
+	    console.log(z);
 		var scNum = gameData.getscoreNum();
-	    evalNums.roll(z['0'], z['1'], z['2'], z['3'], socket, flag, output, scNum, gameData);
+	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, output, scNum, gameData);
     });
 
     socket.on('evalRequest2', function (data) {
@@ -154,12 +156,14 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		    data.currentPlayer = data.player;
 		    gameData.setData(data);
 		    var timerPromise = new Promise(function (resolve, reject) {
-			    resolve(timer.setTick(30));
+			    resolve(timer.setData(data));
 			    reject(function() {console.log('Error at timer, play === 1 : true')
 			    });
 		    });
-			timerPromise.then(timer.setColor('orange'))
-				.then(timer.time(socket));
+		    timerPromise.then(timer.setTick(20))
+                .then(timer.time(socket));
+            console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ____data');
+            console.log(data);
 	    }
 	    if (data.play === 2) {
 		    data.impossibleClicker = data.currentPlayer = data.player;
@@ -169,7 +173,7 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 				    console.log('timer.setTick failed to return.');
 			    });
 		    });
-		    timerPromise2.then(timer.setTick(60)).then(timer.time(socket));
+		    timerPromise2.then(timer.setTick(60)).then(timer.time(data));
 	    }
 	    if (data.play === 3) {
 		    data.currentPlayer = data.interruptClicker = data.player;

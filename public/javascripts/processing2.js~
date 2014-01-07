@@ -152,6 +152,17 @@ $(function() {
         socket.emit('evalRequest2', data);
         return false;
     });
+
+    $('#eval').click(function() {
+        playerdoc = { "player": "Solo", "score": 0 };
+        player = "Solo";
+        var data = {};
+		data.flag = 6;
+		data.complexity = $('#output').val();
+        socket.emit('evalRequest', data);
+        return false;
+    });
+
 });
 
 $(function() {
@@ -223,7 +234,6 @@ $(function() {
 socket.on('rollNums', function(dat) {    //  Listens for roll information and populates the selection boxes
 	data = dat;
 	$('.on').attr({"class": "off"});
-    $('.message6').hide();
 	$("#0").val(data.a).show();
 	$("#1").val(data.b).show().css("background-color", "black");
 	$("#2").val(data.c).show().css("background-color", "black");

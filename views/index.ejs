@@ -3,6 +3,7 @@
 <script src="/javascripts/jquery-1.10.2.min.js"></script>
 <script src="/javascripts/processing3.js"></script>
 <script src="/javascripts/processing2.js"></script>
+<script src="/javascripts/processing4.js"></script>
 <script src="/javascripts/ion.sound.js"></script>
 <div class = logs></div>
 
@@ -60,14 +61,16 @@
 
 </div>
 <br>
-<div class = message ></div><br>
+<div class='message'><span class="numb"></span></div><br/>
+<div class='message5'><span class="numb"></span></div><br/>
+<div class='message6'><span class="numb"></span></div><br/>
 
 <div class = message2 ><span id = "ruleMessage">You need to use three or four dice in order to score.<br/>
     In other words, one or both of your final numbers must have blue backgrounds.</span><br/>
 </div>
 <div class = "message3"> </div>
 
-<div class = "countdown" ></div>
+<div id = "count" ></div>
 
 <div class = "buttons" style="float:left">
     <input type="button" id="0" value="0" class="off" onclick="tog(this);" />
@@ -87,16 +90,10 @@
         <button id="score" class="b3" >SCORE</button>
         <button id="impossible" class="b3">IMPOSSIBLE</button>
         <button id="interrupt" class="b3">SCORE</button>
-        <button class="off" style="width:22%" id="compute">CALCULATE</button><br>
+        <button class="off" id="compute" >CALCULATE</button><br>
     </div>
-
 </div>
 
-
-
-<div>
-
-</div>
 <div id="LR">
 <div id="L">
 <br>
@@ -168,7 +165,7 @@
             calculation, the round isn't over.  You have used only two dice.  If you have two identical numbers,
             say 6's, you can divide 6 into 6 the then multiply the 1 you get times the twenty and, Score!  You
             could also add 6 and then subtract the other 6. Zero's aren't allowed, so DO NOT subtract 6 from the
-            other six and add the 0 to twenty.  Anytime that is possible, the other two methods will be available.
+            other six and add the 0 to twenty.  Acdnytime that is possible, the other two methods will be available.
             If you have two consecutive numbers, you can subtract to get a 1. If the roll is 1, 2, 12, 20, you
             can concatinate the 1 behind the 2, divide that by 12, and multiply the resulting 1 times 20.  If
             you do it in 30 seconds or less, Score!  After each preliminary calculation is performed, the new

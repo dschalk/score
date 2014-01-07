@@ -1,6 +1,5 @@
-exports.monitor = function (tim, iota, P) {
+exports.monitor = function (iota, P) {
 	var Promise = P;
-	var timer = tim;
 	var io = iota;
 	var nums = {}; //Persists throughout round of play.
 	var numberOb = {}; //Contains currently available numbers.
@@ -8,10 +7,10 @@ exports.monitor = function (tim, iota, P) {
 	var abs = Math.abs;
 	var complexity = 0;
 	var scoreNum = 20;
-	var cow;
 	var data = {};
 	var currentPlayer;
-	var play;
+	var impossibleClicker;
+	var play = 88;
 	var d1 = 6,// Upper bounds on the random integers.
 	d2 = 6,
 	d3 = 12,
@@ -25,6 +24,7 @@ exports.monitor = function (tim, iota, P) {
 	rx3 = 88,
 	rx4 = 88;
 	var opArray = ['plus', 'minus', 'times', 'divided by', 'concatenated behind'];
+
 	return {calc : function () {
 		x = data.yin = numberOb[data.x];
 		y = data.yang = numberOb[data.y];
@@ -55,7 +55,7 @@ exports.monitor = function (tim, iota, P) {
 		}
 		else if (op == 4) {
 			if (~~x === x && ~~y === y) {
-				data.newo = parseInt((x.toString() + y.toString()), 10);
+				data.newo = parseInt((x.toString() + y.toString()));
 			} else {
 				data.newo = 'donkey';
 				return;
@@ -63,7 +63,7 @@ exports.monitor = function (tim, iota, P) {
 		} else {
 			data.newo = 'error';
 		}
-		this.process(data);
+		this.process();
 		},
 
         setd: function(x, y, z, w) {
@@ -102,24 +102,29 @@ exports.monitor = function (tim, iota, P) {
 	    },
 
 		setData : function (d) {
-		data = d;
+			data = d;
+			play = d.play;
 		},
 
 		getData : function () {
 			return data;
 		},
 
+		setimpossibleClicker : function (i) {
+			impossibleClicker = i;
+		},
+
+		getimpossibleClicker : function () {
+			return impossibleClicker;
+		},
+
+		getPlay : function () {
+			return play;
+		},
+
 		setnumberOb: function(number) {
 			numberOb = number;
 		},
-
-		setm: function(number) {
-			m = number;
-		},
-
-	    setcow: function(numb) {
-		    cow = numb;
-	    },
 
         r: function () {
             numberOb[0] = rx1 = r1 = nums.a = Math.floor(Math.random() * (d1)) + 1;
@@ -127,15 +132,17 @@ exports.monitor = function (tim, iota, P) {
             numberOb[2] = rx3 = r3 = nums.c = Math.floor(Math.random() * (d3)) + 1;
             numberOb[3] = rx4 = r4 = nums.d = Math.floor(Math.random() * (d4)) + 1;
             io.sockets.emit('rollNums', nums);
+	        io.sockets.emit('mReset');
             data.nums = nums;
-            return nums;
+	        var cow = {'pointer': 'roll'};
+	        io.sockets.emit('pageUpdate', cow);
         },
 
 		process : function() {
 			var temp = [];
 			var n = 0;
 			for (k = 0; k < data.m; k += 1) {
-				var arg = [k, m, numberOb[k], data.x, data.y];
+				var arg = [k, data.m, numberOb[k], data.x, data.y];
 				console.log(arg);
 				if (k !== data.x && k !== data.y) {
 					temp[n] = numberOb[k];
@@ -149,30 +156,42 @@ exports.monitor = function (tim, iota, P) {
 			data.play = play;
 			if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
 				io.sockets.emit('scoreUp', data);
-				timer.setTick(-1);
-				}
+				io.sockets.emit('setClock', {tick: -1});
+				io.sockets.emit('displayOff');
+				play = 10;
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+				console.log(data);
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
+
+			}
+
 			else if (data.m === 4) {
-				numberOb = {'0':data.a, '1':data.b, '2':data.newo, '3':'cow'};
+				numberOb = {'0':data.a, '1':data.b, '2':data.newo};
 				io.sockets.emit('godzilla', data);
 			}
-			else if (data.m === 3 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== donkey)) {
-				numberOb = {'0':data.a, '1':data.newo, '2':'cow', '3':'cow'}
+
+			else if (data.m === 3 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== 'donkey')) {
+				numberOb = {'0':data.a, '1':data.newo};
 				io.sockets.emit('dragon', data);
 			}
-			else if (data.m === 2 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== donkey)) {
+
+			else if (data.m === 2 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== 'donkey')) {
 				io.sockets.emit('thor', data);
-				timer.setTick(-1);
+				var cow = {'pointer': 'done', 'tick': -1};
+				io.sockets.emit('pageUpdate', cow);
+				io.sockets.emit('offClock', cow);
+				play = data.play = 10;
 			}
 
 			else if (data.newo === 'horse') {
-				tiltPromise = new Promise(function(resolve, reject) {
-					resolve(io.sockets.emit('tilt', data));
-					reject(function () {
-						console.log("Error. io.sockets.emit('tilt, data') did not succeed");
-					});
-				});
-				tiltPromise.then(timer.setClick(-1));
+				io.sockets.emit('tilt', data);
+				io.sockets.emit('offClock');
 			}
+
 			else if (data.newo === 'mule') {
 				fractionPromise = new Promise(function(resolve, reject) {
 					resolve(io.sockets.emit('fractionMessage', data));
@@ -182,6 +201,7 @@ exports.monitor = function (tim, iota, P) {
 				});
 				fractionPromise.then(timer.setClick(-1));
 			}
+
 			else if (data.newo === 'donkey') {
 				concatPromise = new Promise(function(resolve, reject) {
 					resolve(io.sockets.emit('concatMessage', data));
@@ -192,10 +212,9 @@ exports.monitor = function (tim, iota, P) {
 				concatPromise.then(timer.setClick(-1));
 			}
 
-			else if (data.newo === 'donkey') {
+			else if (data.newo === 'error') {
 				console.log('calc failed to return a number');
 			}
-
 
 		}
 	};

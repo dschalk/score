@@ -1,4 +1,5 @@
 var socket = io.connect();
+
 socket.on('reset', function (data){
 	copyax = 4;
 	copybx = 4;

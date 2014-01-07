@@ -136,10 +136,9 @@ $(function() {
 socket.on('mReset', function () {
 	m = 5;
 });
-
+//        **********************************************************************************
 $(function() {
 	$('#compute').click(function() {
-
 		if (ax === bx) {
 			var av1 = $('#0').val();
 			var av2 = $('#1').val();
@@ -166,32 +165,35 @@ $(function() {
 				$('compute').trigger('click');
 			}
 		}
-		if (
-			document.getElementById("4").className==="off" &&
-				document.getElementById("5").className==="off" &&
-				document.getElementById("6").className==="off" &&
-				document.getElementById("7").className==="off" &&
-				document.getElementById("8").className==="off")  {
+
+		if (!(
+			document.getElementById("4").className==="on" ||
+				document.getElementById("5").className==="on" ||
+				document.getElementById("6").className==="on" ||
+				document.getElementById("7").className==="on" ||
+				document.getElementById("8").className==="on"))  {
 			$(".message3").html('Please select an operator');
 			return;
 		}
 
-		if (
-			document.getElementById("0").className==="off" &&
-				document.getElementById("1").className==="off" &&
-				document.getElementById("2").className==="off" &&
-				document.getElementById("3").className==="off")      {
+		if (!(
+			document.getElementById("0").className==="on" ||
+				document.getElementById("1").className==="on" ||
+				document.getElementById("2").className==="on" ||
+				document.getElementById("3").className==="on"))     {
 			$('.message3').html('Please select two numbers').show();
 			return;
 		}
-		if (
-			document.getElementById("9").className==="off" &&
-				document.getElementById("10").className==="off" &&
-				document.getElementById("11").className==="off" &&
-				document.getElementById("12").className==="off")     {
+		if (!(
+			document.getElementById("9").className==="on" ||
+				document.getElementById("10").className==="on" ||
+				document.getElementById("11").className==="on" ||
+				document.getElementById("12").className==="on"))    {
 			$('.message3').html('Please select two numbers').show();
 			return;
-		} else {
+		};
+
+		{
 			console.log('Past the tests, preparing data for transmission **********************************************');
 			stage += 1; //  This determines what happens in calc() on the server and whether the results
 			// $('div.message3').html(' ');
@@ -203,8 +205,10 @@ $(function() {
 			data.m = m;
 			console.log('Here is data coming out of the click callback^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: ');
 			console.log(data);
+			$('.ev').append(data.m + ' ' + stage);
 			socket.emit('compute', data);
-			return false;
+			$('.on').attr({"class": "off"});
+			// return false;
 		}
 	})
 });

@@ -1,20 +1,15 @@
 var socket = io.connect();
 var messages = [];
-// var data = {'0': 888, '1': 888, '2': 888, '3': 888, '7': "Fred"};
+var tick = -88;
 var stage = 1;
 var typecow = 888;
 var data;
-var cow = 888;
-var op, x, y, idax, idopx, idbx, obj, az, bz, cz, dz;
-var k = 777, i = 888, j = 999, a, b, c, d, l, n, m, newo;
-var bl = false;
-var len = 888, i = 888, interrupt;
+var idax, idopx, idbx;
+var a, b, newo;
 var playerdoc = { "player": "Steve", "score": 0 };
 var player = "Steve";
-var scoreClicker, impossibleClicker, interruptClicker;
 
 $(document).ready(function() {
-
     copyax = 4;
     copybx = 4;
     $('button#roll').hide().fadeIn(300).fadeOut(300).fadeIn(500);
@@ -24,9 +19,12 @@ $(document).ready(function() {
     $('button#interrupt').fadeOut(1000);
     $('button#impossible').fadeOut(1000);
     $('button#compute').fadeOut(1000);
-    $('div.countdown').append("");
     $('.message3').html(' ');
-    $('div.message').html("Greetings from Alex and David ");
+	$('.message5').hide();
+    //$('div.message').html("Greetings from Alex and David ");
+
+
+	/*
 	if (data.play === 1) {
 		console.log('data received ##########@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 		$('button#roll').hide();
@@ -36,10 +34,13 @@ $(document).ready(function() {
 		$('button#roll').fadeIn(1000);
 	}
 	if (player === data.scoreClicker || player === data.imposibleClicker) {playerdoc.score -= 1;}
-    $.ionSound({
+    */
+
+	$.ionSound({
         sounds: [
             "Gong",
-            "A"
+            "A",
+	        "tilt"
         ],
         path: "sounds/",                // set path to sounds
         multiPlay: true,               // playin only 1 sound at once
@@ -48,10 +49,37 @@ $(document).ready(function() {
     setInterval(function() {
         data.playerdoc = playerdoc;
         data.player = player;
+	    data.tick = tick;
         socket.emit('happyclown', data);
-    }, 500);
+	    if (tick > -1) {
+		$('.message5').html(tick).show();
+		tick -= 1;
+	    }
+    }, 1000);
 });
 
+socket.on('displayOn', function () {
+	$('.message5').show();
+});
+
+socket.on('offClock', function () {
+	tick = -1;
+	$('.message5').hide();
+});
+
+socket.on('setClock', function (data) {
+	tick = data.tick;
+});
+
+
+socket.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
+	$('#0').val(data['a']);
+	$('#1').val(data['newo']);
+	$('#2').val('cowC').hide();
+	$('#9').val(data['a']);
+	$('#10').val(data['newo']);
+	$('#11').val('cowD').hide();
+});
 
 $(function() {
     $('.nb').click(function() {
@@ -77,11 +105,11 @@ $(function() {
 
 $(function() {
     $('#mess_button').click(function() {
-        var data = {};
-        data.message = $('#egg').val();
-        data.player = player;
-        socket.emit('messages', data);
-        return false;
+	    var data = {};
+	    data.message = $('#egg').val();
+	    data.player = player;
+	    socket.emit('messages', data);
+	    return false;
     })
 });
 
@@ -124,9 +152,18 @@ $(function() {
         socket.emit('evalRequest2', data);
         return false;
     });
+
+    $('#eval').click(function() {
+        playerdoc = { "player": "Solo", "score": 0 };
+        player = "Solo";
+        var data = {};
+		data.flag = 6;
+		data.complexity = $('#output').val();
+        socket.emit('evalRequest', data);
+        return false;
+    });
+
 });
-
-
 
 $(function() {
     $('#impossible').click(function() {
@@ -154,8 +191,7 @@ $(function() {
     */
 		var data = {play:1};
 	    data.player = player;
-        $('div.countdown').fadeIn(1000);
-        $('button#compute').fadeIn(700);
+        $('button#compute').fadeIn(200).fadeOut(200).fadeIn(200);
 	    $('setScore', data);
         socket.emit('timer', data);
         return false;
@@ -195,82 +231,17 @@ $(function() {
     });
 });
 
-socket.on('anotherRound', function () {
-	$('button#roll').hide().fadeIn(300).fadeOut(300).fadeIn(500);
-	$('button#eval').fadeOut(1000);
-	$('button#random').fadeOut(1000);
-	$('button#score').fadeOut(1000);
-	$('button#interrupt').fadeOut(1000);
-	$('button#impossible').fadeOut(1000);
-	$('button#compute').fadeOut(400);
-	$('button#compute').fadeIn(600);
-	$('.message3').html(' ');
-});
-
-socket.on('rollNums', function(data) {    //  Listens for roll information and populates the selection boxes
+socket.on('rollNums', function(dat) {    //  Listens for roll information and populates the selection boxes
+	data = dat;
 	$('.on').attr({"class": "off"});
 	$("#0").val(data.a).show();
-	$("#1").val(data.b).show();
-	$("#2").val(data.c).show();
+	$("#1").val(data.b).show().css("background-color", "black");
+	$("#2").val(data.c).show().css("background-color", "black");
 	$("#3").val(data.d).show();
 	$("#9").val(data.a).show();
-	$("#10").val(data.b).show();
-	$("#11").val(data.c).show();
+	$("#10").val(data.b).show().css("background-color", "black");
+	$("#11").val(data.c).show().css("background-color", "black");
 	$("#12").val(data.d).show();
-	$('button#score').fadeIn(500);
-	$('button#impossible').fadeIn(500);
-    $.ionSound.play("A");
-	$('.message3').html(' ');
-	$('.message2').html(' ');
-	$('span').show();
-    $('#egg').val("");
-    $('div#first_message').hide();
-    $('#eval').show();
-    $('div.buttons').show();
-    $('#ruleMessage').html(' ');
-	var cow = data.cow;
-	<!--
-	console.log('***********COW*************____in rollNums*******____cow:');
-	console.log(cow);
-	console.log('***********COW**********COW**************COW***********************__cow in rollNums');
-    if (cow === 6) {
-        $('button#roll').hide();
-        $('button#random').fadeIn(1000);
-        typecow = 6
-    } else {
-        $('button#random').hide();
-        $('button#roll').fadeIn(1000);
-        typecow = 5;
-    }
-	-->
-    $('.eval').fadeIn(500);
-    $('button#score').fadeIn(750);
-    $('button#impossible').fadeIn(1000);
-    $('button#interrupt').fadeOut(1000);
-    $('button#compute').fadeOut(1000);
-    $('div.countdown').html("");
-    $('div.message').html('Clicking "EVALUATE" often yields surprising results. Clicking it during game play causes a player to log out and be re-named "Solo."');
-    $('div.rollDisplay').fadeIn(1200).html(data.a + " &nbsp;&nbsp;" + data.b + "&nbsp;&nbsp; " + data.c + "&nbsp;&nbsp;" + data.d + '<br/>');
-});
-
-socket.on('tic', function(data) {
-	var tick = data.tick;
-    $('div.countdown').html(tick).show();
-});
-
-socket.on('impossibletimer', function(data) {
-    $('button#interrupt').fadeIn(1000);
-    $('button#score').fadeOut(1000);
-    $('button#impossible').fadeOut(1000);
-    $('button#compute').fadeIn(700);
-    $('div.message').html(" ");
-    impossibleClicker = data.impossibleClicker;
-});
-
-socket.on('interrupttimer', function(data) {
-    interruptClicker = data.interruptClicker;
-    $('button#interrupt').fadeOut(1000);
-    $('div.message').html(" ");
 });
 
 socket.on('sb', function (players) {
@@ -284,7 +255,6 @@ socket.on('sb', function (players) {
     });
 });
 
-
 socket.on('eval', function(data){        // Receives and displays the computer's calculations.
     console.log(data);
 	$('.message3').html(' ');
@@ -297,7 +267,7 @@ socket.on('eval', function(data){        // Receives and displays the computer's
         $('button#random').fadeIn(1000);
     } else {
         $('button#random').hide();
-        $('button#roll').fadeIn(1000);
+        $('button#roll').fadeIn(800);
     }
     for (i=0; i<len; i+=1) {
     $('div.ev').prepend(bee[i] + '<br/>');
@@ -316,95 +286,139 @@ socket.on('eval2', function(data){        // Receives and displays the computer'
 $("div.ev").prepend("*************<br>" + data.a + "&nbsp; " + data.b + "&nbsp; " + data.c + "&nbsp; " + data.d + "<br>");
 });
 
-socket.on('godzilla', function (data) {    //  Listens for roll information and populates the selection boxes.
-	$('div.message2').show();
-	$('.message3').html(' ');
-    $('button#compute').show();
-    $('div.message888').hide();
-    $('div.countdown').fadeIn(1000);
-    $('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " +
-	    data['newo'] + ". &nbsp;&nbsp;Available numbers are now " + data['a'] + " " + data['b'] + " and " + data['newo'] + "<br/>");
-    $('#0').val(data['a']);
-    $('#1').val(data['b']);
-    $('#2').val(data['newo']);
-    $('#3').val('peaches').hide();
-    $('#9').val(data['a']);
-    $('#10').val(data['b']);
-    $('#11').val(data['newo']);
-    $('#12').val('peaches').hide();
-    $('button#eval').fadeOut(1000);
-    $('button#roll').fadeOut(1000);
-    $('button#score').fadeOut(1000);
-    $('button#interrupt').fadeOut(1000);
-    $('button#impossible').fadeOut(1000);
-    });
+socket.on('pageUpdate', function (cow){
 
-socket.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
-	$('.message3').html(' ');
+	if (cow.pointer === 'roll') {
+		$('.on').attr({"class": "off"});
+		$('.message5').hide();
+		$('#compute').hide();
+		$('button#score').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+		$('button#impossible').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeIn(100);
+		$.ionSound.play("A");
+		$('.message3').html(' ');
+		$('.message2').html(' ');
+		$('span').show();
+		$('#egg').val("");
+		$('div#first_message').hide();
+		$('#eval').fadeIn(600);
+		$('div.buttons').show();
+		$('#ruleMessage').hide();
+		$('div.message').html('Clicking "EVALUATE" often yields surprising results. Clicking it during game play causes a player to log out and be re-named "Solo."');
+		$('div.rollDisplay').fadeIn(1200).html(data.a + " &nbsp;&nbsp;" + data.b + "&nbsp;&nbsp; " + data.c + "&nbsp;&nbsp;" + data.d + '<br/>');
+		return;
+	}
+
+	if (cow.pointer === 'godzilla') {
+
+		$('.message3').html(' ');
+		$('button#compute').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+		$('div.message888').hide();
+		$('button#eval').fadeOut(1000);
+		$('button#roll').fadeOut(1000);
+		$('button#score').fadeOut(1000);
+		$('button#interrupt').fadeOut(1000);
+		$('button#impossible').fadeOut(1000);
+		return;
+	}
+
+	if (cow.pointer === 'dragon') {
+		$('.on').attr({"class": "off"});
+		$('button#compute').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+		$('.message3').html(' ');
+		return;
+	}
+
+	if (cow.pointer === 'thor') {
+		$('.on').attr({"class": "off"});
+		$('.message3').html("Click ROLL THE DICE to start another round.<br/>Click EVALUATE to display the computer's solutions.");
+		return;
+	}
+
+	if (cow.pointer === 'interrupt') {
+		$('.on').attr({"class": "off"});
+		$('.message3').html("Click ROLL THE DICE to start another round.<br/>Click EVALUATE to display the computer's solutions.");
+		return;
+	}
+
+	if (cow.pointer = 'timeUp') {
+		$('.on').attr({"class": "off"});
+		if (data.cow === 6) {
+			$('button#roll').hide();
+			$('.message5').hide();
+			$('button#random').fadeIn(1000);
+		} else {
+			$('button#random').hide();
+			$('button#roll').fadeIn(1000);
+		}
+		$('button#eval').fadeIn(800);
+		$('button#score').fadeIn(200).fadeOut(200).fadeIn(200);
+		$('button#impossible').fadeIn(1000);
+		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
+		if (player === data.impossibleClicker) {playerdoc.score += 1}
+		return;
+	}
+
+	if (cow.pointer = 'done') {
+		$('button#score').fadeOut(1000);
+		$('button#impossible').fadeOut(1000);
+		$('button#eval').fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
+		$('button#compute').fadeIn(700);
+		$('#roll').show();
+		if (data.cow === 6) {
+			$('button#roll').hide();
+			$('button#random').fadeIn(1000);
+		} else {
+			$('button#random').hide();
+			$('button#roll').fadeIn(1000);
+		}
+	}
+
+});
+
+socket.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.
+	data = dat;
+	$('div.message2').show().append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " +
+		data['newo'] + ". &nbsp;&nbsp;Available numbers are now " + data['a'] +
+		" " + data['b'] + " and " + data['newo'] + "<br/>");
+	$('#0').val(data.a);
+	$('#1').val(data.b);
+	$('#2').val(data.newo).css("background-color", "blue");
+	$('#3').val('peaches').hide();
+	$('#9').val(data.a);
+	$('#10').val(data.b);
+	$('#11').val(data.newo).css("background-color", "blue");
+	$('#12').val('peaches').hide();
+});
+
+socket.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes.
+
 	$('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " +
-		data['newo'] +". &nbsp;&nbsp;Available numbers are now " + data['a']  + " and " + data['newo'] + "<br/>");
-    $('#0').val(data['a']);
-    $('#1').val(data['newo']);
+		data['newo'] +". &nbsp;&nbsp;Available numbers are now " +
+		data['a']  + " and " + data['newo'] + "<br/>");
+
+	$('#0').val(data['a']);
+    $('#1').val(data['newo']).css("background-color", "blue");
     $('#2').val('cowC').hide();
     $('#9').val(data['a']);
-    $('#10').val(data['newo']);
+    $('#10').val(data['newo']).css("background-color", "blue");
     $('#11').val('cowD').hide();
-    $('button#score').fadeOut(1000);
-    $('button#impossible').fadeOut(1000);
-    $('button#eval').fadeOut(1000);
-    $('button#roll').fadeIn().fadeOut(1000);
-    $('button#compute').fadeIn(500);
-    });
+});
 
 socket.on('thor', function (data) {    //  Listens for roll information and populates the selection boxes
-	$('.on').attr({"class": "off"});
-	$('.message3').html(' ');
 	$('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
-    $('#0').val(data['newo']);
+	$('#0').val(data['newo']);
     $('#1').hide();
     $('#9').val(data['newo']);
     $('#10').hide();
-
-    $('button#score').fadeOut(1000);
-    $('button#impossible').fadeOut(1000);
-    $('button#eval').fadeOut(1000);
-    $('button#roll').fadeIn(750).fadeOut(750);
-    $('button#compute').fadeIn(700);
-	$('#roll').show();
-	if (data.cow === 6) {
-		$('button#roll').hide();
-		$('button#random').fadeIn(1000);
-	} else {
-		$('button#random').hide();
-		$('button#roll').fadeIn(1000);
-	}
-	$('button#eval').fadeIn(1000);
-	$('button#score').fadeOut(1000);
-	$('button#impossible').fadeOut(1000);
-	$('div.countdown').html(" ");
-	if (player === data.currentPlayer) {playerdoc.score -= 1;}
-	if (player === data.impossibleClicker) {playerdoc.score += 1}
     });
 
 socket.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
-    if (data.cow === 6) {
-        $('button#roll').hide();
-        $('button#random').fadeIn(1000);
-    } else {
-        $('button#random').hide();
-        $('button#roll').fadeIn(1000);
-    }
-    $('button#eval').fadeIn(1000);
-    $('button#score').fadeOut(1000);
-    $('button#impossible').fadeOut(1000);
-    $('div.countdown').html(" ");
 	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
 	if (player === data.impossibleClicker) {playerdoc.score += 1}
 });
 
 socket.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
     $.ionSound.play("Gong");
-    $('div.countdown').hide();
     $('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
     if (data.cow === 6) {
         $('button#roll').hide();
@@ -428,11 +442,13 @@ socket.on('wash', function () {
     $('div.ev').html(" ")
     }
 );
+
 socket.on('tilt', function (data) {    //  Listens for roll information and populates the selection boxes
     console.log("44444444444444444444444444444444444444444444444444444444444444_in 'tilt'");
     $.ionSound.play("tilt");
-    $('message3').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
-    $('message2').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
+
+   // $('message3').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
+   // $('message2').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
     if (data.cow === 6) {
         $('button#roll').hide();
         $('button#random').fadeIn(1000);
@@ -441,7 +457,7 @@ socket.on('tilt', function (data) {    //  Listens for roll information and popu
         $('button#roll').fadeIn(1000);
     }
     $('button#eval').fadeIn(1000);
-    $('div.countdown').hide();
+	$('.message6').show().html("<h1>TILT</h1><span id='tilt'>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.  Minus one point.</span>");
     $('button#score').fadeOut(1000);
     $('button#impossible').fadeOut(1000);
     $('button#interrupt').fadeOut(1000);
@@ -451,7 +467,6 @@ socket.on('tilt', function (data) {    //  Listens for roll information and popu
     if (player === data.impossibleClicker) {playerdoc.score += 1}
 });
 
-
 socket.on('fractionMessage', function () {
 		$('message3').html("Fractions are not allowed on the basic complexity level.  Hint: multipying by a fraction is the same as multiplying by the numerator and dividing by the denominator.");
 	}
@@ -459,5 +474,4 @@ socket.on('fractionMessage', function () {
 
 socket.on('concatMessage', function () {
 		$('message3').html("concatenation is only for whole numbers, not fractions.");
-	}
-);
+});

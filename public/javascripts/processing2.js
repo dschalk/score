@@ -12,7 +12,7 @@ var player = "Steve";
 $(document).ready(function() {
     copyax = 4;
     copybx = 4;
-    $('button#roll').hide().fadeIn(300).fadeOut(300).fadeIn(500);
+    $('button#roll').fadeIn(1000);
     $('button#eval').fadeOut(1000);
     $('button#random').fadeOut(1000);
     $('button#score').fadeOut(1000);
@@ -20,7 +20,7 @@ $(document).ready(function() {
     $('button#impossible').fadeOut(1000);
     $('button#compute').fadeOut(1000);
     $('.message3').html(' ');
-	$('.message5').hide();
+	$('.message5').html(' ');
     //$('div.message').html("Greetings from Alex and David ");
 
 
@@ -52,19 +52,15 @@ $(document).ready(function() {
 	    data.tick = tick;
         socket.emit('happyclown', data);
 	    if (tick > -1) {
-		$('.message5').html(tick).show();
+			$('.message5').html(tick);
 		tick -= 1;
 	    }
     }, 1000);
 });
 
-socket.on('displayOn', function () {
-	$('.message5').show();
-});
-
 socket.on('offClock', function () {
 	tick = -1;
-	$('.message5').hide();
+	$('.message5').html(' ');
 });
 
 socket.on('setClock', function (data) {
@@ -162,7 +158,7 @@ $(function() {
             return;
         }
     */
-        $('#interrupt').fadeIn(1000);
+        $('#interrupt').fadeIn(800);
         data.play = 2;
 	    data.player = player;
         socket.emit('timer', data);
@@ -180,8 +176,7 @@ $(function() {
     */
 		var data = {play:1};
 	    data.player = player;
-        $('button#compute').fadeIn(200).fadeOut(200).fadeIn(200);
-	    $('setScore', data);
+        $('button#compute').fadeIn(500);
         socket.emit('timer', data);
         return false;
     });
@@ -280,10 +275,10 @@ socket.on('pageUpdate', function (cow){
 
 	if (cow.pointer === 'roll') {
 		$('.on').attr({"class": "off"});
-		$('.message5').hide();
+		$('.message5').html(' ');
 		$('#compute').hide();
-		$('button#score').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-		$('button#impossible').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeIn(100);
+		$('button#score').fadeIn(700);
+		$('button#impossible').fadeIn(700);
 		$.ionSound.play("A");
 		$('.message3').html(' ');
 		$('.message2').html(' ');
@@ -301,7 +296,7 @@ socket.on('pageUpdate', function (cow){
 	if (cow.pointer === 'godzilla') {
 
 		$('.message3').html(' ');
-		$('button#compute').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+		$('button#compute').fadeOut(600).
 		$('div.message888').hide();
 		$('button#eval').fadeOut(1000);
 		$('button#roll').fadeOut(1000);
@@ -334,14 +329,14 @@ socket.on('pageUpdate', function (cow){
 		$('.on').attr({"class": "off"});
 		if (data.cow === 6) {
 			$('button#roll').hide();
-			$('.message5').hide();
+			$('.message5').html("Round Over");
 			$('button#random').fadeIn(1000);
 		} else {
 			$('button#random').hide();
 			$('button#roll').fadeIn(1000);
 		}
 		$('button#eval').fadeIn(800);
-		$('button#score').fadeIn(200).fadeOut(200).fadeIn(200);
+		$('button#score').fadeIn(600)
 		$('button#impossible').fadeIn(1000);
 		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
 		if (player === data.impossibleClicker) {playerdoc.score += 1}

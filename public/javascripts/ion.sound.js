@@ -116,4 +116,4 @@
         $.ionSound.play = function () {};
     };
 
-}(jQuery));
+}($));

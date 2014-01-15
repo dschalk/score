@@ -1,5 +1,4 @@
 express = require('express');
-Promise = require ('promise');
 routes = require('./routes/');
 http = require('http');
 path = require('path');
@@ -27,7 +26,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public/javascripts/')));
 app.use(express.static(path.join(__dirname, 'views')));
 
 app.configure(function() {
@@ -39,8 +37,8 @@ app.configure(function() {
 });
 io = require("socket.io").listen(server);
 
-evalNums = require('./routes/evalNums');
-gameData = require('./routes/monitor').monitor(io, Promise);
+evalNums = require('./modules/evalNums');
+gameData = require('./modules/monitor').monitor(io);
 
 var messages = [];
 var data = {};
@@ -50,6 +48,7 @@ var a;
 var l;
 var i = 888;
 app.get('/', routes.index);
+app.get('/experiments', routes.experiments);
 app.use(function (req, res, next){
     res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
@@ -90,20 +89,20 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
     socket.on('evalRequest', function (data) {
 		players = {};
 		var flag = 6;
-		var output = data.output;
 		var z = gameData.getNums();
+	    var output = data.output;
 	    console.log('33333333333333333333333333333333333333333333333333333333333__nums');
 	    console.log(z);
 		var scNum = gameData.getscoreNum();
-	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, output, scNum, gameData);
+	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, output, scNum);
     });
 
     socket.on('evalRequest2', function (data) {
 		players = {};
 		var flag = 5;
-		var complexity = data.output;
+		var output = data.output;
 		var scNum = parseInt(data.e, 10);
-        evalNums.roll(data.a, data.b, data.c, data.d, socket, flag, complexity, scNum);
+        evalNums.roll(data.a, data.b, data.c, data.d, socket, flag, output, scNum);
     });
 
     socket.on('messages', function (data) {
@@ -215,13 +214,8 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 	    data.y = dat.y;
 	    data.op = dat.op;
 	    data.m = dat.m;
-	    var calcPromise = new Promise(function (resolve, reject) {
-		    resolve(gameData.setData(data));
-		    reject(function() {
-			    console.log('gameData.setData(data) failed.');
-		    });
-	    });
-	    calcPromise.then(gameData.calc());
+		gameData.setData(data);
+	    gameData.calc();
     });
 });
 

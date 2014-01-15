@@ -31,14 +31,11 @@
     <button class="b3" id="roll" >ROLL THE DICE</button>
     <button class = "b3" id="random">GENERATE RANDOM NUMBERS</button>
 
-    <form id = "eval">
-        <select class='b2'>
-            <ul id='output'>
-                <li><option value = "0"/>SELECT DETAILS></li>
-                <li><option value = "0" style="width:72px; height:20px;"/>EVALUATE - No Fractions, All Positive</li>
-                <li> <option value = "1"/>EVALUATE - Include Negative Number Solutions</li>
-                <li><option value = "2"/>EVALUATE - Fractions and Negative Numbers/li>
-            </ul>
+    <form>
+        <select class='b3' id='output'>
+            <option value="simple">Simple solutions.</option>
+            <option value="intermediate">Includes subtraction of negative numbers.</option>
+            <option value="complex">Subtraction of negatives and operations with fractions.</option>
         </select>
         <input type='button' class='b2'value='EVALUATE' id='eval'/>
     </form>
@@ -89,6 +86,7 @@
 <div id="L">
 <br>
     <div class = "ev"></div>
+    <div id = "ev2"></div>
 
     <div class = "bull">
         Privately experiment with your own data here:<br>
@@ -100,23 +98,15 @@
             <input type="text" id ='c8' size='3'/>
             <input type="text" id ='d8' size='3'/><br/>
             Score Number:</span> <input type="text" id ='e8' size='3' value="20"/>
-            <select class='b3'>
-                <ul id='output'>
-                    <li><option value = "0"/>SELECT DETAILS</li>
-                    <li><option value = "0" style="width:72px; height:20px;"/>EVALUATE - No Fractions, All Positive</li>
-                    <li> <option value = "1"/>EVALUATE - Include Negative Number Solutions</li>
-                    <li><option value = "2"/>EVALUATE - Fractions and Negative Numbers</li>
-                </ul>
-            </select>
-            <input type='button' class='b2'value='EVALUATE' id='eval2'/>
+        <select class='b3' id='complexity'>
+            <option value="simple">Simple solutions.</option>
+            <option value="intermediate">Includes subtraction of negative numbers.</option>
+            <option value="complex">Subtraction of negatives and operations with fractions.</option>
+        </select>
+        <input type='button' class='b2 'value='EVALUATE' id='eval2'/>
     </form>
 
-
     <button class="b2" id="clean" >ERASE</button>
-
-
-
-
 
     </div>
 </div>
@@ -148,6 +138,14 @@
         <button class="b3" id="ape"> Back To Default </button>
     </div>
     <div class="rules">
+        <h3>Educational Tool</h3>
+        <p>Students can practice using negative numbers by selecting the "intermediate" level of evaluation.
+            For example, 3, 5, 11, and 11 has solutions involving subtraction and addition of negative numbers.
+            Students can practice multiplying and dividing by fractions by selecting the "complex" level of
+        evaluation. Some of the solutions to 2, 3, 9, and 14 involve fractions.</p>
+        <p>Looking for errors in the computer's output can be engaging and educational. When a solution that
+        look wrong at first turns out to be correct, a student has learned something. Students who find at least
+            one error are entitled to receive an "Expert Beta Tester" certificate signed by Alex and David Schalk.</p>
         <h3> Rules: </h3>
         <p>Four dice are rolled. The numbers are shown on the top and bottom rows.
             Operators are shown in the middle row.  If a player clicks SCORE, that player has 30 seconds in which
@@ -158,11 +156,11 @@
             could also add 6 and then subtract the other 6. Zero's aren't allowed, so DO NOT subtract 6 from the
             other six and add the 0 to twenty.  Acdnytime that is possible, the other two methods will be available.
             If you have two consecutive numbers, you can subtract to get a 1. If the roll is 1, 2, 12, 20, you
-            can concatinate the 1 behind the 2, divide that by 12, and multiply the resulting 1 times 20.  If
+            can concatenate the 1 behind the 2, divide that by 12, and multiply the resulting 1 times 20.  If
             you do it in 30 seconds or less, Score!  After each preliminary calculation is performed, the new
             numbers are displayed and the countdown continues. The default dice denominations are 6, 6, 12,
             and 20, corresponding to the most symetical yet large enough to be readable physical dice.  </p><p>
-            You can put any numbers you like in the boxes to the left, such as 9, 9, 9, 9 (solution: concatinate,
+            You can put any numbers you like in the boxes to the left, such as 9, 9, 9, 9 (solution: concatenate,
             divide, and add), but those numbers would never come up using the default dice since two of them have
             only six sides. If players agree to change that, or if a solo player wants to see random rolls of
             non-default dice combinations, the boxes below can be used to change the denominations of the game dice.

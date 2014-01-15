@@ -49,6 +49,8 @@ var l;
 var i = 888;
 app.get('/', routes.index);
 app.get('/experiments', routes.experiments);
+app.get('/playground', routes.playground);
+app.get('/cow', routes.cow);
 app.use(function (req, res, next){
     res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
@@ -90,19 +92,19 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		players = {};
 		var flag = 6;
 		var z = gameData.getNums();
-	    var output = data.output;
-	    console.log('33333333333333333333333333333333333333333333333333333333333__nums');
-	    console.log(z);
+	    console.log('33333333333333333333333333333333333333333333333333333333333__output');
+	    console.log(data.complexity);
 		var scNum = gameData.getscoreNum();
-	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, output, scNum);
+	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, data.complexity, scNum);
     });
 
     socket.on('evalRequest2', function (data) {
 		players = {};
 		var flag = 5;
-		var output = data.output;
 		var scNum = parseInt(data.e, 10);
-        evalNums.roll(data.a, data.b, data.c, data.d, socket, flag, output, scNum);
+        evalNums.roll(data.a, data.b, data.c, data.d, socket, flag, data.complexity, scNum);
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx__output');
+	    console.log(data.complexity);
     });
 
     socket.on('messages', function (data) {

@@ -135,20 +135,19 @@ $(function() {
         playerdoc = {
 			"player": "Solo",
 			"score": 0
-        }
-        player = "Solo";
-        var data = {};
-        data.flag = 5;
-        data.output = $('#output').val();
-        data.a = $('#a8').val();
-        data.b = $('#b8').val();
-        data.c = $('#c8').val();
-        data.d = $('#d8').val();
-        data.e = $('#e8').val();
-        socket.emit('evalRequest2', data);
+        };
+	    var cow = {};
+	    cow.complexity = $('#complexity').val();
+        cow.a = $('#a8').val();
+        cow.b = $('#b8').val();
+        cow.c = $('#c8').val();
+        cow.d = $('#d8').val();
+        cow.e = $('#e8').val();
+        socket.emit('evalRequest2', cow);
         return false;
     });
 });
+
 
 $(function() {
     $('#impossible').click(function() {
@@ -258,7 +257,7 @@ socket.on('eval', function(data){        // Receives and displays the computer's
     $('div.ev').prepend(bee[i] + '<br/>');
     }
 $("div.ev").prepend("*************<br/>" + data.a + "&nbsp; " + data.b + "&nbsp; " +
-	data.c + "&nbsp; " + data.d + "<br/>");
+	data.c + "&nbsp; " + data.d + " complexity = " + data.complexity + "<br/>");
 });
 
 socket.on('eval2', function(data){        // Receives and displays the computer's calculations.
@@ -268,7 +267,8 @@ socket.on('eval2', function(data){        // Receives and displays the computer'
     for (i=0; i<len; i+=1) {
     $('div.ev').prepend(bee[i] + '<br>');
     }
-$("div.ev").prepend("*************<br>" + data.a + "&nbsp; " + data.b + "&nbsp; " + data.c + "&nbsp; " + data.d + "<br>");
+$("div.ev").prepend("*************<br>" + data.a + "&nbsp; " + data.b + "&nbsp; " +
+	data.c + "&nbsp; " + data.d + " complexity = " + data.complexity + "<br>");
 });
 
 socket.on('pageUpdate', function (cow){

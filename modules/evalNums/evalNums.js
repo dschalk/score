@@ -1,4 +1,4 @@
-exports.roll = function (a, b, c, d, socket, flag, output, scNum) {
+exports.roll = function (a, b, c, d, socket, flag, complexity, scNum) {
 	var scoreNum = scNum;
     console.log('****************************************************__________________scoreNum');
 	console.log('****************************************************__________________scoreNum');
@@ -7,7 +7,6 @@ exports.roll = function (a, b, c, d, socket, flag, output, scNum) {
 	console.log('****************************************************__________________scoreNum');
 	console.log('****************************************************__________________scoreNum');
     var data = {};
-	output = parseInt(output, 10);
 	var a = parseInt(a, 10);
 	var b = parseInt(b, 10);
 	var c = parseInt(c, 10);
@@ -97,27 +96,22 @@ exports.roll = function (a, b, c, d, socket, flag, output, scNum) {
     var y = ar2[j][2];
     var z = ar2[j][3];
 
-    var op = [" + ", " - ", " x ", " divided by ", " concatinated left of ",
-        " subtracted from ", " divided into ", " concatinated in front of "
+    var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
+        " subtracted from ", " divided into ", " concatenated in front of "
     ];
 
 var calc = [
 	function (xt, yt) {return xt + yt;},
     function (xt,yt) {
-	    if ((xt - yt) >= 0) {
+	    if ((xt - yt) >= 0 || complexity !== "simple") {
 		    return xt - yt;
 	    }
-	    else if (output === 1 || output === 2) {
-	        return xt - yt;
-	    }
-	    else return undefined;
+	    else { return undefined; }
     },
     function (xt,yt) {return xt * yt;},
     function (xt,yt){
-	    if (output ===2) {
+	    if (complexity === "complex" || ~~(xt/yt) === xt/yt) {
 		    return xt/yt
-	    } else if (~~(xt/yt) ===xt/yt) {
-		    return xt/yt;
 	    } else { return undefined; }
 	},
 	function (xt, yt) {
@@ -260,6 +254,7 @@ console.log("Clowns and devious horses *******************scoreNum****__scoreNum
 	console.log("Clowns and devious horses **********************______scoreNum____**_8");
 
     data.alexander = lion;
+	data.complexity = complexity;
     socket.emit('eval', data);
     if (flag === 6) {
     socket.broadcast.emit('eval', data);

@@ -81,7 +81,9 @@ var timeclock = function (n) {
 primus.on('setClock', function (data) {
 	tick = data.tick;
 	$('#message5').html(' ').show();
-	// timeclock(data.tick);
+	if (data.play == 3 && player != data.player) {
+		$('#compute').fadeOut();
+	}
 });
 
 primus.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
@@ -298,7 +300,6 @@ primus.on('pageUpdate', function (cow){
 	}
 
 	if (cow.pointer === 'godzilla') {
-
 		$('.message3').html(' ');
 		$('button#compute').fadeOut(600).
 		$('div.message888').hide();
@@ -342,6 +343,18 @@ primus.on('pageUpdate', function (cow){
 		$('button#eval').fadeIn(800);
 		$('button#score').fadeIn(600)
 		$('button#impossible').fadeIn(1000);
+		$('button#interrupt').fadeOut(1000);
+		$('button#compute').fadeOut(1000);
+		$('div.buttons').fadeOut(1000);
+		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
+		if (player === data.impossibleClicker) {playerdoc.score += 1}
+		if (data.cow === 6) {
+			$('button#roll').hide();
+			$('button#random').fadeIn(1000);
+		} else {
+			$('button#random').hide();
+			$('button#roll').fadeIn(1000);
+		}
 		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
 		if (player === data.impossibleClicker) {playerdoc.score += 1}
 		return;
@@ -402,8 +415,21 @@ primus.on('thor', function (data) {    //  Listens for roll information and popu
     });
 
 primus.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
-	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
+	$('button#eval').fadeIn(1000);
+	$('button#score').fadeOut(1000);
+	$('button#impossible').fadeOut(1000);
+	$('button#interrupt').fadeOut(1000);
+	$('button#compute').fadeOut(1000);
+	$('div.buttons').hide();
+	if (player === data.currentPlayer && player !== data.impossibleClicker) {playerdoc.score -= 1;}
 	if (player === data.impossibleClicker) {playerdoc.score += 1}
+	if (data.cow === 6) {
+		$('button#roll').hide();
+		$('button#random').fadeIn(1000);
+	} else {
+		$('button#random').hide();
+		$('button#roll').fadeIn(1000);
+	}
 });
 
 primus.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
@@ -423,7 +449,7 @@ primus.on('scoreUp', function (data) {    //  Listens for roll information and p
     $('button#compute').fadeOut(1000);
     $('div.buttons').fadeIn(800).hide();
     //$('div.message').html(data[7] + " scored!  One point added. ");
-	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score += 1;}
+	if (player === data.player && player !== data.impossibleClicker) {playerdoc.score += 1;}
 	if (player === data.impossibleClicker) {playerdoc.score -= 1}
 });
 

@@ -91,8 +91,6 @@ primus.on('connection', function (spark) {
 
     spark.on('happyclown', function (data) {
         players[data.player] = data.playerdoc;
-		console.log('______________________________##########################___________play = ' + gameData.getPlay());
-	    console.log('______________________________##########################___________tick = ' + data.tick);
 	    primus.send('sb', players);
     });
 
@@ -109,12 +107,6 @@ primus.on('connection', function (spark) {
 		var flag = 6;
 		var z = gameData.getNums();
 	    z.complexity = data.complexity;
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
-	    console.log(z);
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
 		var scNum = parseInt(gameData.getscoreNum(), 10);
 	    evalNums.roll(z.a, z.b, z.c, z.d, primus, flag, z.complexity, scNum);
     });
@@ -124,13 +116,6 @@ primus.on('connection', function (spark) {
 		var flag = 5;
 		var scNum = parseInt(data.e, 10);
         evalNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
-	    console.log(data);
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
-
     });
 
     spark.on('messages', function (data) {
@@ -138,77 +123,47 @@ primus.on('connection', function (spark) {
     });
 
     spark.on('timer', function(data) {
-	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-	    console.log('@@@@@@@@@@@@@_______________________________@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
-	    console.log(data);
-	    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@________________________________@@@@@@__data ');
-	    console.log(data);
+	    var sow = {};
+	    var cow = {};
 		primus.send('displayOn');
 	    primus.send('buttonReset', data);  //Removes highlighting from buttons.
 	    if (data.play === 1) {
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-		    data.scoreClicker = data.player;
-		    data.currentPlayer = data.player;
 		    data.pointer = 'score';
-		    cow = {};
-		    cow.tick = 30;
-		    primus.send('setClock', cow);
+		    sow = {'tick': 30, 'play': 1};
+		    primus.send('setClock', sow);
 		    gameData.setData(data);
 		    setTimeout( function () {
-				if (gameData.getPlay() === 1) {
-					primus.send('timeUp, data');
-					var cow = {'pointer': 'timeUp'};
-					primus.send('pageUpdate', cow);
-				}
+				primus.send('timeUp, data');
+				var cow = {'pointer': 'timeUp'};
+				primus.send('pageUpdate', cow);
 		    }, 30000);
 		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
 		    console.log(data);
 	    }
 
 	    if (data.play === 2) {
-		    data.impossibleClicker = data.currentPlayer = data.player;
-		    gameData.setimpossibleClicker(data.impossibleClicker);
+		    data.impossibleClicker = data.player;
 		    gameData.setData(data);
-		    var sow = {'tick': 60};
+		    gameData.setimpossibleClicker(data.player);
+		    sow = {'tick': 60, 'play': 2};
 		    primus.send('setClock', sow);
 		    setTimeout( function () {
-			    if (gameData.getPlay() === 2) {
-				    primus.send('timeUp, data');
-				    var cow = {'pointer': 'timeUp'};
-				    primus.send('pageUpdate', cow);
-			    }
-			}, 60000);
-		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
-		    console.log(data);
-	    }
-
-	    if (data.play === 3) {
-		    data.impossibleClicker = gameData.getimpossibleClicker();
-		    data.currentPlayer = data.interruptClicker = data.player;
-		    gameData.setData(data);
-		    var cow = {'tick': 30};
-		    primus.send('setClock', cow);
-
-		    setTimeout( function () {
-			    if (gameData.getPlay === 3) {
-				    console.log('________________________________________HOLY SHIT    CHRIST    WHAT THE FUCK?')
 			    primus.send('timeUp, data');
 			    var cow = {'pointer': 'timeUp'};
 			    primus.send('pageUpdate', cow);
-			    }
+			}, 60000);
+	    }
+
+	    if (data.play === 3) {
+		    sow = {'tick': 30, 'play': 3, 'player': data.player};
+		    primus.send('setClock', sow);
+		    gameData.setData(data);
+		    setTimeout( function () {
+			    primus.send('timeUp, data');
+			    cow = {'pointer': 'timeUp'};
+			    primus.send('pageUpdate', cow);
 		    }, 30000);
 	    }
-	    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
-	    console.log(data);
     });
 
     spark.on('reset', function() {
@@ -229,14 +184,11 @@ primus.on('connection', function (spark) {
 	    for (var n = 0; n <4; n+=1) {
             if (scrum[n] !== '6' && scrum[n] !== '12' && scrum[n] !== '20') {
 	            k += 1;
-                gameData.setcow(6);
                 data.cow = 6; // If '6' the browser displays "random numbers," otherwise, "dice."
                 primus.send('numberchanger', data);
                 return;
             }
 	    }
-        gameData.setcow(5);
-	    // gameData.setr();
         data.cow = 5;
         primus.send('numberchanger', data);
     });
@@ -255,7 +207,6 @@ primus.on('connection', function (spark) {
 	    data.y = dat.y;
 	    data.op = dat.op;
 	    data.m = dat.m;
-
 	    var promise = new RSVP.Promise(function(resolve, reject) {
 			resolve (gameData.setData(data));
 			reject(console.log('Problem with promise in compute'));

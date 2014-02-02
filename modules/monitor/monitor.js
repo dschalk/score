@@ -5,11 +5,9 @@ exports.monitor = function (pri) {
 	var x, y, op;
 	var abs = Math.abs;
 	var complexity = 0;
-	var cow;
+	var impossibleClicker = '%ytr56dfg787%*&';
 	var scoreNum = 20;
 	var data = {};
-	var currentPlayer;
-	var impossibleClicker;
 	var play = 88;
 	var d1 = 6,// Upper bounds on the random integers.
 	d2 = 6,
@@ -60,11 +58,10 @@ exports.monitor = function (pri) {
 				data.newo = 'donkey';
 				return;
 			}
-		} else {
-			data.newo = 'error';
 		}
-		this.process();
-		},
+		else data.newo = 'error';
+		this.process()
+	},
 
         setd: function(x, y, z, w) {
             d1 = x;
@@ -84,7 +81,6 @@ exports.monitor = function (pri) {
 			y = data.y;
 			op = data.op;
 			complexity = data.complexity;
-			currentPlayer = data.currentPlayer;
             rx2 = data.b;
             rx3 = data.c;
             rx4 = data.d;
@@ -97,6 +93,11 @@ exports.monitor = function (pri) {
 	    setscoreNum: function(number) {
 		    scoreNum = number;
 	    },
+
+		setimpossibleClicker: function(x) {
+			impossibleClicker = x;
+		},
+
 	    getscoreNum: function() {
 		    return scoreNum;
 	    },
@@ -108,24 +109,6 @@ exports.monitor = function (pri) {
 
 		getData : function () {
 			return data;
-		},
-
-
-		setcow : function (c) {
-			cows = c;
-		},
-
-		getcow : function () {
-			return cows;
-		},
-
-
-		setimpossibleClicker : function (i) {
-			impossibleClicker = i;
-		},
-
-		getimpossibleClicker : function () {
-			return impossibleClicker;
 		},
 
 		getPlay : function () {
@@ -153,7 +136,6 @@ exports.monitor = function (pri) {
 			var n = 0;
 			for (k = 0; k < data.m; k += 1) {
 				var arg = [k, data.m, numberOb[k], data.x, data.y];
-				console.log(arg);
 				if (k !== data.x && k !== data.y) {
 					temp[n] = numberOb[k];
 					n += 1;
@@ -165,18 +147,11 @@ exports.monitor = function (pri) {
 			data.operator = opArray[data.op];
 			data.play = play;
 			if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
+				data.impossibleClicker = impossibleClicker;
 				primus.send('scoreUp', data);
 				primus.send('setClock', {tick: -1});
 				primus.send('displayOff');
 				play = 10;
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-				console.log(data);
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-				console.log('$$$$$$$$$$$$$$$$_________________######################____@@_______data from process');
-
 			}
 
 			else if (data.m === 4) {

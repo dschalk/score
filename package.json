@@ -4,7 +4,7 @@
 	"repository:": "http://github.com/dschalk/score",
 	"private": false,
 	"scripts": {
-	"start": "node app"
+		"start": "node app"
 	},
 	"dependencies": {
 		"underscore": "1.5.x",
@@ -23,5 +23,9 @@
 		"rsvp": "*",
 		"express": "~3.4.4",
 		"socket.io-client": "*"
+	},
+	"subdomain": "score",
+	"engines": {
+		"node": "0.10.x"
 	}
 }

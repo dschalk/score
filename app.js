@@ -1,11 +1,21 @@
-express = require('express');
-routes = require('./routes/');
-http = require('http');
-path = require('path');
+'use strict';
+var RSVP = require('rsvp');
+var express = require('express')
+	, Primus = require('primus')
+	, app = express();
 
-app = express();
-server = http.createServer(app);
-var players = {};
+var Rooms = require('primus-rooms'),
+	server = require('http').createServer(app),
+	primus = new Primus(server, { transformer: 'socket.io', parser: 'JSON' }),
+	Emitter = require('primus-emitter');
+primus.use('rooms', Rooms);
+primus.use('emitter', Emitter);
+
+var	routes = require('./routes/'),
+	http = require('http'),
+	path = require('path'),
+
+	players = {};
 // all environments
 app.use(function noCachePlease(req, res, next) {
 	if (req.url === '/') {
@@ -35,10 +45,8 @@ app.configure(function() {
     app.use(express.logger("short"));
     app.use(express.directory('public'));
 });
-io = require("socket.io").listen(server);
-
-evalNums = require('./modules/evalNums');
-gameData = require('./modules/monitor').monitor(io);
+	var evalNums = require('./modules/evalNums'),
+	gameData = require('./modules/monitor').monitor(primus);
 
 var messages = [];
 var data = {};
@@ -55,78 +63,111 @@ app.use(function (req, res, next){
     res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
 });
-// development only
+
+/* development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+*/
+
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
 //@@@@@@@@@@@@@#################$$$$$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@
 
-io.sockets.on('connection', function (socket) {// Creates socket objects when clients connect and passes them .
+primus.on('connection', function (spark) {
+	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+	console.log('connection has the following headers', spark.headers);
+	console.log('connection was made from', spark.address);
+	console.log('connection id', spark.id);
+	console.log('the whole spark:', spark);
+	console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
-    socket.on('happyclown', function (data) {
-        players[data.player] = data.playerdoc;
-		console.log('______________________________##########################___________play = ' + gameData.getPlay());
-	    console.log('______________________________##########################___________tick = ' + data.tick);
-	    io.sockets.emit('sb', players);
-    });
-
-	socket.on('cleanup', function () {
+	spark.on('rollRequest', function() {
+		gameData.r();
 		players = {};
 	});
 
-    socket.on('timeUpApp', function (data) {
-        io.sockets.emit('timeUp', data);
+    spark.on('happyclown', function (data) {
+        players[data.player] = data.playerdoc;
+		console.log('______________________________##########################___________play = ' + gameData.getPlay());
+	    console.log('______________________________##########################___________tick = ' + data.tick);
+	    primus.send('sb', players);
     });
 
-    socket.on('rollRequest', function() {
+	spark.on('cleanup', function () {
+		players = {};
+	});
 
-		gameData.r();
-	    players = {};
+    spark.on('timeUpApp', function (data) {
+        primus.send('timeUp', data);
     });
 
-    socket.on('evalRequest', function (data) {
+    spark.on('evalRequest', function (data) {
 		players = {};
 		var flag = 6;
 		var z = gameData.getNums();
-	    console.log('33333333333333333333333333333333333333333333333333333333333__output');
-	    console.log(data.complexity);
-		var scNum = gameData.getscoreNum();
-	    evalNums.roll(z.a, z.b, z.c, z.d, socket, flag, data.complexity, scNum);
+	    z.complexity = data.complexity;
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
+	    console.log(z);
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   z from evalRequest');
+		var scNum = parseInt(gameData.getscoreNum(), 10);
+	    evalNums.roll(z.a, z.b, z.c, z.d, primus, flag, z.complexity, scNum);
     });
 
-    socket.on('evalRequest2', function (data) {
+    spark.on('evalRequest2', function (data) {
 		players = {};
 		var flag = 5;
 		var scNum = parseInt(data.e, 10);
-        evalNums.roll(data.a, data.b, data.c, data.d, socket, flag, data.complexity, scNum);
-	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx__output');
-	    console.log(data.complexity);
+        evalNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
+	    console.log(data);
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
+	    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   data from evalRequest2');
+
     });
 
-    socket.on('messages', function (data) {
-        socket.broadcast.emit('mailbox', data);
-        socket.emit('mailbox', data);
+    spark.on('messages', function (data) {
+        primus.send('mailbox', data);
     });
 
-    socket.on('timer', function(data) {
-		io.sockets.emit('displayOn');
-	    io.sockets.emit('buttonReset', data);  //Removes highlighting from buttons.
+    spark.on('timer', function(data) {
+	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+	    console.log('>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+	    console.log('@@@@@@@@@@@@@_______________________________@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
+	    console.log(data);
+	    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@________________________________@@@@@@__data ');
+	    console.log(data);
+		primus.send('displayOn');
+	    primus.send('buttonReset', data);  //Removes highlighting from buttons.
 	    if (data.play === 1) {
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+		    console.log('>>>><<<<<<<<<<<<<<<<<<<<<<<<YYYYYYYYYYYZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
 		    data.scoreClicker = data.player;
 		    data.currentPlayer = data.player;
 		    data.pointer = 'score';
-		    var cow = {'tick': 30};
-		    io.sockets.emit('setClock', cow);
+		    cow = {};
+		    cow.tick = 30;
+		    primus.send('setClock', cow);
 		    gameData.setData(data);
 		    setTimeout( function () {
 				if (gameData.getPlay() === 1) {
-					io.sockets.emit('timeUp, data');
+					primus.send('timeUp, data');
 					var cow = {'pointer': 'timeUp'};
-					io.sockets.emit('pageUpdate', cow);
+					primus.send('pageUpdate', cow);
 				}
 		    }, 30000);
 		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
@@ -138,12 +179,12 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		    gameData.setimpossibleClicker(data.impossibleClicker);
 		    gameData.setData(data);
 		    var sow = {'tick': 60};
-		    io.sockets.emit('setClock', sow);
+		    primus.send('setClock', sow);
 		    setTimeout( function () {
 			    if (gameData.getPlay() === 2) {
-				    io.sockets.emit('timeUp, data');
+				    primus.send('timeUp, data');
 				    var cow = {'pointer': 'timeUp'};
-				    io.sockets.emit('pageUpdate', cow);
+				    primus.send('pageUpdate', cow);
 			    }
 			}, 60000);
 		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
@@ -155,14 +196,14 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 		    data.currentPlayer = data.interruptClicker = data.player;
 		    gameData.setData(data);
 		    var cow = {'tick': 30};
-		    io.sockets.emit('setClock', cow);
+		    primus.send('setClock', cow);
 
 		    setTimeout( function () {
 			    if (gameData.getPlay === 3) {
 				    console.log('________________________________________HOLY SHIT    CHRIST    WHAT THE FUCK?')
-			    io.sockets.emit('timeUp, data');
+			    primus.send('timeUp, data');
 			    var cow = {'pointer': 'timeUp'};
-			    io.sockets.emit('pageUpdate', cow);
+			    primus.send('pageUpdate', cow);
 			    }
 		    }, 30000);
 	    }
@@ -170,17 +211,17 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
 	    console.log(data);
     });
 
-    socket.on('reset', function() {
+    spark.on('reset', function() {
         gameData.setd(6, 6, 12, 20);
         gameData.setscoreNum(20);
-        io.sockets.emit('default');
+        primus.send('default');
     });
 
-    socket.on('erase', function() {
-        socket.emit('wash');
+    spark.on('erase', function() {
+        primus.send('wash');
     });
 
-    socket.on('monkey', function(data) {
+    spark.on('monkey', function(data) {
         gameData.setd(data.a, data.b, data.c, data.d);
 	    var scrum = [data.a, data.b, data.c, data.d];
 	    gameData.setscoreNum(data.scoreNum);
@@ -189,35 +230,38 @@ io.sockets.on('connection', function (socket) {// Creates socket objects when cl
             if (scrum[n] !== '6' && scrum[n] !== '12' && scrum[n] !== '20') {
 	            k += 1;
                 gameData.setcow(6);
-                data.cow = 6;
-                socket.emit('numberchanger', data);
-                socket.broadcast.emit('numberchanger', data);
+                data.cow = 6; // If '6' the browser displays "random numbers," otherwise, "dice."
+                primus.send('numberchanger', data);
                 return;
             }
 	    }
         gameData.setcow(5);
-	    gameData.setr();
+	    // gameData.setr();
         data.cow = 5;
-        socket.emit('numberchanger', data);
-        socket.broadcast.emit('numberchanger', data);
+        primus.send('numberchanger', data);
     });
 
-	socket.on('updateNums', function (data) {
+	spark.on('updateNums', function (data) {
 		gameData.setnumberOb(data.numa, data.numb, data.numc, data.numd);
 	});
 
-	socket.on('updateNums', function (data) {
+	spark.on('updateNums', function (data) {
 		gameData.setnumberOb(data.numa, data.numb, data.numc, data.numd);
 	});
 
-    socket.on('compute', function (dat) {
+    spark.on('compute', function (dat) {
 	    var data = gameData.getData();
 	    data.x = dat.x;
 	    data.y = dat.y;
 	    data.op = dat.op;
 	    data.m = dat.m;
-		gameData.setData(data);
-	    gameData.calc();
-    });
+
+	    var promise = new RSVP.Promise(function(resolve, reject) {
+			resolve (gameData.setData(data));
+			reject(console.log('Problem with promise in compute'));
+	    });
+		promise.then(gameData.calc());
+	});
 });
+
 

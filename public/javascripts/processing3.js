@@ -1,8 +1,8 @@
-var socket = io.connect();
 var ax = 88, bx = 99, opx = 2000;
 var m = 5;
 var copyax, copybx;
 var data = {};
+var primus = new Primus;
 //var dr = require('../../modules/monitor').monitor();
 
 function tog(el){
@@ -133,7 +133,7 @@ $(function() {
 	});
 });
 
-socket.on('mReset', function () {
+primus.on('mReset', function () {
 	m = 5;
 });
 //        **********************************************************************************
@@ -206,7 +206,7 @@ $(function() {
 			console.log('Here is data coming out of the click callback^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: ');
 			console.log(data);
 			$('.ev').append(data.m + ' ' + stage);
-			socket.emit('compute', data);
+			primus.send('compute', data);
 			$('.on').attr({"class": "off"});
 			// return false;
 		}

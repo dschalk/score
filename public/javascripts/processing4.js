@@ -1,6 +1,5 @@
-var socket = io.connect();
-
-socket.on('reset', function (data){
+var primus = new Primus;
+primus.on('reset', function (data){
 	copyax = 4;
 	copybx = 4;
 	$('button#roll').hide().fadeIn(100).fadeOut(100).fadeIn(200);
@@ -19,16 +18,16 @@ socket.on('reset', function (data){
 
 $(function() {
     $('#clean').click(function() {
-        socket.emit('erase');
+        primus.send('erase');
         return false;
     });
 });
 
-socket.on('highlightOff', function () {
+primus.on('highlightOff', function () {
     $('.on').attr({"class": "off"});
 });
 
-socket.on('default', function() {
+primus.on('default', function() {
 
         $('.d1').val(6);
         $('.d2').val(6);
@@ -38,26 +37,26 @@ socket.on('default', function() {
         $('div.sides').html("The sides of the dice are 6, 6, 12, and 20 and the Score Number is 20" );
 })
 
-socket.on('mailbox', function (data) {
+primus.on('mailbox', function (data) {
     $('div.usermess').prepend('<br/>' + data.player + ' says ' + data.message);
     $('#egg').val("");
 });
 
 
 
-socket.on('message', function (data) {
+primus.on('message', function (data) {
     $('div.usermess').prepend(data.player + " says: " + data.message + "<br/>");
     $('.response').val("");
 });
 
-socket.on('showbutton', function (data) {
+primus.on('showbutton', function (data) {
     $('button#roll').fadeIn(1000);
     $('button#interrupt').fadeOut(1000);
     $('.on').attr({"class": "offx"});
     $('.response').val("");
 });
 
-socket.on('buttonReset', function(data) {
+primus.on('buttonReset', function(data) {
     $('button#roll').fadeOut(1000);
     $('button#eval').fadeOut(1000);
 	$('div.message').html(" ");
@@ -81,7 +80,7 @@ socket.on('buttonReset', function(data) {
 });
 
 
-socket.on('numberchanger', function (data) {
+primus.on('numberchanger', function (data) {
     $(function () {
 	    $('.on').attr({class:'off'})
         if (data.cow === 6) {

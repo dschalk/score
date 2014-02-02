@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/primus/primus.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <script src="/javascripts/zepto.js"></script>
+    <script src="/javascripts/underscore.js"></script>
+    <script src="/javascripts/Bacon.js"></script>
+    <!--
+
+    <script src="/javascripts/processing3.js"></script>
+    <script src="/javascripts/processing2.js"></script>
+    <script src="/javascripts/processing4.js"></script>
+    -->
+    <script src="/javascripts/ion.sound.js"></script>
+    <title></title>
+</head>
+<body style="color: yellow">
+<div id="containter" style="margin-left:2%;">
+    <div id="news"></div>
+<div id = 'top' style="float:left; width:97%;">
+    <form>
+        <button id="login" type="submit">Name</button>
+        <input type="text" id="newplayer" placeholder="Name">
+    </form>
+    <span style="margin-left:10%;">The game of &nbsp</span>
+    <span style="color:red; font-size:40px;"> Score!</span>
+    <div class = "scoreboard">Score Board</div>
+</div>
+<div id = 'section2' style="float:left; width:97%;">
+    <button id="rollbutton" class="b3" style="float:left; margin-right:2%; margin-top:1.4%;">ROLL THE DICE</button>        <button class = b3 id = 'evalbutton' style="float:left; margin-right:0.5%; margin-top:1.4%;" >EVALUATE</button>
+        <button class = "b4" id="random">GENERATE RANDOM NUMBERS</button>
+        <form style=" float:left;">
+            <select class = 'b3' id = 'output' style="margin-top:4%;">
+                <option value="simple" >Simple solutions. Click for more options</option>
+                <option value="intermediate" class = 'b3'>Includes subtraction of negative numbers.</option>
+                <option value="complex" class = 'b3'>Subtraction of negatives and operations with fractions.</option>
+            </select>
+        </form>
+        <div class = b2 id = 'complexbutton' style="margin-top:1.4%; float:left; margin-left:2%" >
+        ADVANCED<br/> SOLUTIONS<br/> ONLY
+    </div>
+    <br/>
+    <div class="sides">The sides of the dice are 6, 6, 12, and 20.
+    </div>
+</div>
+
+
+
+
+    <br>
+    <div class='message'><span class="numb"></span></div><br/>
+    <div class='message5'><span class="numb"></span></div><br/>
+    <div class='message6'><span class="numb"></span></div><br/>
+
+    <div class = message2 ><span id = "ruleMessage">You need to use three or four dice in order to score.<br/>
+    In other words, one or both of your final numbers must have blue backgrounds.</span><br/>
+    </div>
+    <div class = "message3"> </div>
+
+    <div id = "count" ></div>
+
+    <div class = "buttons" style="float:left">
+        <input type="button" id="0" value="0" class="off" onclick="tog(this);" />
+        <input type="button" id="1" value="0" class="off" onclick="tog(this);" />
+        <input type="button" id="2" value="0" class="off" onclick="tog(this);" />
+        <input type="button" id="3" value="0" class="off" onclick="tog(this);" /><br>
+        <input type="button" id="4" value= "+" class="off" onclick="tog(this);" />
+        <input type="button" id="5" value="-" class="off" onclick="tog(this);" />
+        <input type="button" id="6" value="x" class="off" onclick="tog(this);" />
+        <input type="button" id="7" value="/" class="off" onclick="tog(this);" />
+        <input type="button" style = "width: 28%;" id="8" value="concatenate left of" class="off" onclick="tog(this);" /><br>
+        <input type="button" id="9" value="0" class="off" onclick="tog2(this);" />
+        <input type="button" id="10" value="0" class="off" onclick="tog2(this);" />
+        <input type="button" id="11" value="0" class="off" onclick="tog2(this);" />
+        <input type="button" id="12" value="0" class="off" onclick="tog2(this);" />
+        <div class = "score">
+            <button id="score" class="b3" >SCORE</button>
+            <button id="impossible" class="b3">IMPOSSIBLE</button>
+            <button id="interrupt" class="b3">SCORE</button>
+            <button class="off" id="compute" >CALCULATE</button><br>
+        </div>
+    </div>
+
+<div id = 'section3' style="float:left; width:98%;">
+    <div id = 'section3A' style="float:left; width:45%;">
+        <br/>
+        <div class = "rollDisplay" style="float:left; font-size:30px; color:red;"> </div>
+        <br/>
+        <button class="b2" id="erase">ERASE</button>
+        <br/><br/>
+        <div id='evaldisplay' style="float:left;"></div>
+        </div>
+
+        <div id = "timeDiv" style="float: left; width: 80%;"></div>
+    </div>
+    <div id = 'section3B' style="float:right; width:45%%; margin-top: 30px">
+        Privately experiment with your own data here:<br>
+        <span id = "cars">Caution: clicking EVALUATE here logs you out of<br/> any game you are in.<br></span>
+        <form>
+            <input type="text" id ='a8' size='3'/>
+            <input type="text" id ='b8' size='3'/>
+            <input type="text" id ='c8' size='3'/>
+            <input type="text" id ='d8' size='3'/><br/>
+            Score Number:</span> <input type="text" id ='e8' size='3' value="20"/>
+            <br/>
+            <select class='b3' id='complexo'>
+                <option value="simple">Simple solutions.</option>
+                <option value="intermediate">Includes subtraction of negative numbers.</option>
+                <option value="complex">Subtraction of negatives and operations with fractions.</option>
+            </select>
+            <br/>
+            <input type='button' class='b2 'value='EVALUATE' id='evalbutton2' style="float:left"></input>
+            <br/><input style="float:left"  type='button' class='b2 'value='ADVANCED SOLUTIONS ONLY' id='complexbutton2'/>
+        </form>
+        <br/>
+        <div style="color:#ff5913; margin-top:50px; text-align:center; font-size: 28px;">
+                Modify Game Parameters
+        </div>
+            <div style="color:rgb(150,155,255); font-size: 28px;">
+                Change Upper Bounds:
+            </div>
+        <form style="text-align:center; font-size: 22px;">
+            <input type="text" class='d1' size='3'/>
+            <input type="text" class='d2' size='3'/>
+            <input type="text" class='d3' size='3'/>
+            <input type="text" class='d4' size='3'/><br/>
+            <div style="color:rgb(150,155,255); font-size: 28px;">
+                New Score Number:
+                <input type="text" class='d5' size="3"/>
+            </div>
+        </form>
+
+        <div style="text-align:center;" >
+
+        </div>
+
+        <form style=" float:left;">
+            <select class = 'b3' id = 'scope' style="margin-top:4%;">
+                <option value="private">Change only for yourself</option>
+                <option value="allplayers">Change for all players</option>
+            </select>
+        </form>
+        <div class = b2 id = 'changebutton' style="margin-top:1.4%; float:left; margin-left:2%" >
+            Make Changes
+    </div>
+        <button class="b3" id="ape"> Back To Default </button>
+</div>
+        <div class="rules" style = "float: left;">
+            <h3>Educational Tool</h3>
+            <p>Students can practice using negative numbers by selecting the "intermediate" level of evaluation.
+                For example, 3, 5, 11, and 11 has solutions involving subtraction and addition of negative numbers.
+                Students can practice multiplying and dividing by fractions by selecting the "complex" level of
+                evaluation. Some of the solutions to 2, 3, 9, and 14 involve fractions.</p>
+            <p>Looking for errors in the computer's output can be engaging and educational. When a solution that
+                look wrong at first turns out to be correct, a student has learned something. Students who find at least
+                one error are entitled to receive an "Expert Beta Tester" certificate signed by Alex and David Schalk.</p>
+            <h3> Rules: </h3>
+            <p>Four dice are rolled. The numbers are shown on the top and bottom rows.
+                Operators are shown in the middle row.  If a player clicks SCORE, that player has 30 seconds in which
+                to explain how the operators can be used on three or four dice to arrive at the number 20.  This can
+                be accomplished in two, or three stages. If you make a 20 (4x5, 10+10, etc.) with the first
+                calculation, the round isn't over.  You have used only two dice.  If you have two identical numbers,
+                say 6's, you can divide 6 into 6 the then multiply the 1 you get times the twenty and, Score!  You
+                could also add 6 and then subtract the other 6. Zero's aren't allowed, so DO NOT subtract 6 from the
+                other six and add the 0 to twenty.  Acdnytime that is possible, the other two methods will be available.
+                If you have two consecutive numbers, you can subtract to get a 1. If the roll is 1, 2, 12, 20, you
+                can concatenate the 1 behind the 2, divide that by 12, and multiply the resulting 1 times 20.  If
+                you do it in 30 seconds or less, Score!  After each preliminary calculation is performed, the new
+                numbers are displayed and the countdown continues. The default dice denominations are 6, 6, 12,
+                and 20, corresponding to the most symetical yet large enough to be readable physical dice.  </p><p>
+                You can put any numbers you like in the boxes to the left, such as 9, 9, 9, 9 (solution: concatenate,
+                divide, and add), but those numbers would never come up using the default dice since two of them have
+                only six sides. If players agree to change that, or if a solo player wants to see random rolls of
+                non-default dice combinations, the boxes below can be used to change the denominations of the game dice.
+            </p><p>IMPOSSIBLE: If a player clicks IMPOSSIBLE, the other players have 60 seconds in which to click
+                SCORE and then show a solution withing 30 seconds.  Clicking Score and not showing an answer within
+                30 seconds or clicking IMPOSSIBLE and having someone else score result in the loss of a point.
+                Clicking SCORE and entering a solution within 30 seconds increases a player';s score by one point.<br><br>
+                A browser that loads the game registers as player "Fred." I more than one browser is online, there is
+                only one Fred.  If someone is not competing, but just evaluating rolls, that player automatically becomes "Solo,"
+                as all can see on the scoreboard.
+            </p>
+    </div>
+</div>
+<!-- ****************************************************************************************** -->
+<script>
+   // Bacon.fromEventTarget(document.body, "click").onValue(function() { alert("Bacon!") })
+
+
+   var primus = new Primus('http://localhost:8080/');
+
+   primus.on('news', function (data) {
+       console.log(data);
+       primus.send('cowRequest');
+   });
+
+
+
+   $(document).ready(function() {
+        $('#scope').val('private');
+       });
+    var horse = {};
+    var cow = {'complexity' : 'simple'};
+    $(function() {
+        $("#output")
+                .asEventStream("change")
+                .subscribe(function(event) {
+                cow.complexity = $('#output').val();
+                });
+    });
+
+   $(function() {
+       $("#newplayer")
+           .asEventStream("change")
+           .subscribe(function(event) {
+               horse.player = $('#newplayer').val();
+           });
+   });
+
+   $(function() {
+       $("#changebutton")
+               .asEventStream("click")
+               .subscribe(function(event) {
+                   var data = {};
+                   data.a = $('.d1').val();
+                   data.b = $('.d2').val();
+                   data.c = $('.d3').val();
+                   data.d = $('.d4').val();
+                   data.scoreNum = $('.d5').val();
+                   data.scope = $('#scope').val();
+                   data.player = player;
+                   console.log(data);
+                   if (data.scope === 'allplayers') {
+                       data.scope = 'allplayers';
+                       socket.emit('monkey', data);
+                   }
+                   else if (data.scope === 'private') {
+                       data.scope = 'private';
+                       socket.emit('monkey', data);
+                   }
+                   else console.log('Data not emitted to monkey or monkeyPrivate');
+                   console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                   console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                   console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                   console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+               });
+   });
+
+    $(function() {
+        $("#rollbutton")
+                .asEventStream("click")
+                .subscribe(function(event) {
+                    var scope = $('#scope').val();
+                    var player = pd.getPlayer();
+                    socket.emit('rollRequest', {'player': player, 'scope': scope});
+                });
+    });
+
+
+
+    $(function() {
+        $("#evalbutton")
+                .asEventStream("click")
+                .subscribe(function(event) {
+                    cow.player = pd.getPlayer();
+                    socket.emit('evalRequest', cow);
+                    $('#erase').show();
+                });
+    });
+
+
+
+   $(function() {
+       $("#login")
+               .asEventStream("click")
+               .subscribe(function(event) {
+               socket.emit('new', horse);
+                   console.log(horse);
+               });
+   });
+
+    $(function() {
+        $("#evalbutton2")
+                .asEventStream("click")
+                .subscribe(function(event) {
+                    cow.complexity = $('#complexo').val();
+                    cow.a = parseInt($('#a8').val(), 10);
+                    cow.b = parseInt($('#b8').val(), 10);
+                    cow.c = parseInt($('#c8').val(), 10);
+                    cow.d = parseInt($('#d8').val(), 10);
+                    cow.e = parseInt($('#e8').val(), 10);
+                    socket.emit('evalRequest2', cow);
+                    $('#erase').show();
+                });
+    });
+
+    $(function() {
+        $("#complexbutton")
+                .asEventStream("click")
+                .subscribe(function(event) {
+                    socket.emit('complex_only', cow);
+                    $('#erase').show();
+                });
+    });
+
+    $(function() {
+        $("#complexbutton2")
+                .asEventStream("click")
+                .subscribe(function(event) {
+                    var sow = {};
+                    sow.complexity = $('#complexo').val();
+                    sow.a = $('#a8').val();
+                    sow.b = $('#b8').val();
+                    sow.c = $('#c8').val();
+                    sow.d = $('#d8').val();
+                    sow.e = $('#e8').val();
+                    sow.player = player;
+                    socket.emit('complex_only2', sow);
+                    $('#erase').show();
+                });
+    });
+
+    $("#erase").click(function() {
+        $("#evaldisplay").html('');
+        $("#erase").hide();
+    });
+
+    $('body').append("<div id = 'container' style='float: left; width:90%; color: yellow; font-size: 22px;'>Hey there!</div>");
+
+    </script>
+  </body>
+</html>

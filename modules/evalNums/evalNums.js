@@ -1,4 +1,4 @@
-exports.roll = function (a, b, c, d, socket, flag, complexity, scNum) {
+exports.roll = function (a, b, c, d, primus, flag, complexity, scNum) {
 	var scoreNum = scNum;
     console.log('****************************************************__________________scoreNum');
 	console.log('****************************************************__________________scoreNum');
@@ -255,10 +255,7 @@ console.log("Clowns and devious horses *******************scoreNum****__scoreNum
 
     data.alexander = lion;
 	data.complexity = complexity;
-    socket.emit('eval', data);
-    if (flag === 6) {
-    socket.broadcast.emit('eval', data);
-    }
+    primus.send('eval', data);
 };
 
 

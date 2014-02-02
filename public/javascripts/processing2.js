@@ -1,4 +1,3 @@
-var socket = io.connect();
 var messages = [];
 var tick = -88;
 var stage = 1;
@@ -8,6 +7,7 @@ var idax, idopx, idbx;
 var a, b, newo;
 var playerdoc = { "player": "Steve", "score": 0 };
 var player = "Steve";
+var primus = new Primus;
 
 $(document).ready(function() {
     copyax = 4;
@@ -20,10 +20,8 @@ $(document).ready(function() {
     $('button#impossible').fadeOut(1000);
     $('button#compute').fadeOut(1000);
     $('.message3').html(' ');
-	$('.message5').html(' ');
+	// $('.message5').html(' ');
     //$('div.message').html("Greetings from Alex and David ");
-
-
 	/*
 	if (data.play === 1) {
 		console.log('data received ##########@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
@@ -46,29 +44,47 @@ $(document).ready(function() {
         multiPlay: true,               // playin only 1 sound at once
         volume: "0.3"
     });
+
     setInterval(function() {
         data.playerdoc = playerdoc;
         data.player = player;
 	    data.tick = tick;
-        socket.emit('happyclown', data);
-	    if (tick > -1) {
-			$('.message5').html(tick);
-		tick -= 1;
+        primus.send('happyclown', data);
+	    if (tick < 0) {
+		    $('#message5').html(' ');
+	    }
+	    else {
+		    $('#message5').html(tick);
+		    tick -= 1;
 	    }
     }, 1000);
 });
 
-socket.on('offClock', function () {
+primus.on('offClock', function () {
 	tick = -1;
-	$('.message5').html(' ');
+	//$('.message5').html(' ');
 });
 
-socket.on('setClock', function (data) {
+var timeclock = function (n) {
+	if (n < 0) {
+		$('.message5').html('Round Over');
+	} else {
+		while (n > -1) {
+			setTimeout( function () {
+				$('#message5').append(n);
+				n -= 1;
+			}, 1000);
+		}
+	}
+};
+
+primus.on('setClock', function (data) {
 	tick = data.tick;
+	$('#message5').html(' ').show();
+	// timeclock(data.tick);
 });
 
-
-socket.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
+primus.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
 	$('#0').val(data['a']);
 	$('#1').val(data['newo']);
 	$('#2').val('cowC').hide();
@@ -94,7 +110,7 @@ $(function() {
 
 $(function() {
 	$('button#roll').click(function() {
-		socket.emit('rollRequest');
+		primus.send('rollRequest');
 		return false;
 	});
 });
@@ -104,7 +120,7 @@ $(function() {
 	    var data = {};
 	    data.message = $('#egg').val();
 	    data.player = player;
-	    socket.emit('messages', data);
+	    primus.send('messages', data);
 	    return false;
     })
 });
@@ -113,7 +129,7 @@ $(function() {
     $('#random').click(function() {
         data.cow = 6;
         typecow = 6;
-        socket.emit('rollRequest', data);
+        primus.send('rollRequest', data);
         return false;
     });
 });
@@ -123,9 +139,8 @@ $(function() {
         playerdoc = { "player": "Solo", "score": 0 };
         player = "Solo";
         var data = {};
-		data.flag = 6;
 		data.complexity = $('#output').val();
-        socket.emit('evalRequest', data);
+        primus.send('evalRequest', data);
         return false;
     });
 });
@@ -143,7 +158,7 @@ $(function() {
         cow.c = $('#c8').val();
         cow.d = $('#d8').val();
         cow.e = $('#e8').val();
-        socket.emit('evalRequest2', cow);
+        primus.send('evalRequest2', cow);
         return false;
     });
 });
@@ -160,7 +175,7 @@ $(function() {
         $('#interrupt').fadeIn(800);
         data.play = 2;
 	    data.player = player;
-        socket.emit('timer', data);
+        primus.send('timer', data);
         return false;
     });
 });
@@ -176,7 +191,7 @@ $(function() {
 		var data = {play:1};
 	    data.player = player;
         $('button#compute').fadeIn(500);
-        socket.emit('timer', data);
+        primus.send('timer', data);
         return false;
     });
 });
@@ -186,7 +201,7 @@ $(function() {
         data.play = 3;
 	    data.player = player;
         $('button#compute').fadeIn(800);
-        socket.emit('timer', data);
+        primus.send('timer', data);
         return false;
     });
 });
@@ -199,7 +214,7 @@ $(function() {
         data.c = $('.d3').val();
         data.d = $('.d4').val();
 	    data.scoreNum = $('.d5').val();
-        socket.emit('monkey', data);
+        primus.send('monkey', data);
         return false;
     });
 });
@@ -207,14 +222,14 @@ $(function() {
 $(function() {
     $('#ape').click(function() {
        // typecow = 5
-       // socket.emit('posts:ape', data);
+       // primus.send('posts:ape', data);
 
-        socket.emit('reset');
+        primus.send('reset');
         return false;
     });
 });
 
-socket.on('rollNums', function(dat) {    //  Listens for roll information and populates the selection boxes
+primus.on('rollNums', function(dat) {    //  Listens for roll information and populates the selection boxes
 	data = dat;
 	$('.on').attr({"class": "off"});
     $('.message6').hide();
@@ -228,7 +243,7 @@ socket.on('rollNums', function(dat) {    //  Listens for roll information and po
 	$("#12").val(data.d).show();
 });
 
-socket.on('sb', function (players) {
+primus.on('sb', function (players) {
     $(function () {
         $('div.scoreboard').html("Score Board <br><br>");
         for (cows in players) {
@@ -239,7 +254,7 @@ socket.on('sb', function (players) {
     });
 });
 
-socket.on('eval', function(data){        // Receives and displays the computer's calculations.
+primus.on('eval', function(data){        // Receives and displays the computer's calculations.
     console.log(data);
 	$('.message3').html(' ');
     var flag = "multi";
@@ -260,22 +275,11 @@ $("div.ev").prepend("*************<br/>" + data.a + "&nbsp; " + data.b + "&nbsp;
 	data.c + "&nbsp; " + data.d + " complexity = " + data.complexity + "<br/>");
 });
 
-socket.on('eval2', function(data){        // Receives and displays the computer's calculations.
-    console.log(data);
-    var bee = data['alexander'];
-    var len = bee.length;
-    for (i=0; i<len; i+=1) {
-    $('div.ev').prepend(bee[i] + '<br>');
-    }
-$("div.ev").prepend("*************<br>" + data.a + "&nbsp; " + data.b + "&nbsp; " +
-	data.c + "&nbsp; " + data.d + " complexity = " + data.complexity + "<br>");
-});
-
-socket.on('pageUpdate', function (cow){
+primus.on('pageUpdate', function (cow){
 
 	if (cow.pointer === 'roll') {
 		$('.on').attr({"class": "off"});
-		$('.message5').html(' ');
+		//$('.message5').html(' ');
 		$('#compute').hide();
 		$('button#score').fadeIn(700);
 		$('button#impossible').fadeIn(700);
@@ -360,7 +364,7 @@ socket.on('pageUpdate', function (cow){
 
 });
 
-socket.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.
+primus.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.
 	data = dat;
 	$('div.message2').show().append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " +
 		data['newo'] + ". &nbsp;&nbsp;Available numbers are now " + data['a'] +
@@ -375,7 +379,7 @@ socket.on('godzilla', function (dat) {    //  Listens for roll information and p
 	$('#12').val('peaches').hide();
 });
 
-socket.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes.
+primus.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes.
 
 	$('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " +
 		data['newo'] +". &nbsp;&nbsp;Available numbers are now " +
@@ -389,7 +393,7 @@ socket.on('dragon', function (data) {    //  Listens for roll information and po
     $('#11').val('cowD').hide();
 });
 
-socket.on('thor', function (data) {    //  Listens for roll information and populates the selection boxes
+primus.on('thor', function (data) {    //  Listens for roll information and populates the selection boxes
 	$('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
 	$('#0').val(data['newo']);
     $('#1').hide();
@@ -397,12 +401,12 @@ socket.on('thor', function (data) {    //  Listens for roll information and popu
     $('#10').hide();
     });
 
-socket.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
+primus.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
 	if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
 	if (player === data.impossibleClicker) {playerdoc.score += 1}
 });
 
-socket.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
+primus.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
     $.ionSound.play("Gong");
     $('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
     if (data.cow === 6) {
@@ -423,12 +427,12 @@ socket.on('scoreUp', function (data) {    //  Listens for roll information and p
 	if (player === data.impossibleClicker) {playerdoc.score -= 1}
 });
 
-socket.on('wash', function () {
+primus.on('wash', function () {
     $('div.ev').html(" ")
     }
 );
 
-socket.on('tilt', function (data) {    //  Listens for roll information and populates the selection boxes
+primus.on('tilt', function (data) {    //  Listens for roll information and populates the selection boxes
     console.log("44444444444444444444444444444444444444444444444444444444444444_in 'tilt'");
     $.ionSound.play("tilt");
 
@@ -452,11 +456,15 @@ socket.on('tilt', function (data) {    //  Listens for roll information and popu
     if (player === data.impossibleClicker) {playerdoc.score += 1}
 });
 
-socket.on('fractionMessage', function () {
+primus.on('fractionMessage', function () {
 		$('message3').html("Fractions are not allowed on the basic complexity level.  Hint: multipying by a fraction is the same as multiplying by the numerator and dividing by the denominator.");
 	}
 );
 
-socket.on('concatMessage', function () {
+primus.on('concatMessage', function () {
 		$('message3').html("concatenation is only for whole numbers, not fractions.");
+});
+
+primus.on('concatMessage', function () {
+	$('message3').html("concatenation is only for whole numbers, not fractions.");
 });

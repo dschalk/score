@@ -483,7 +483,7 @@ div.message{
     width: 75%;
     margin-right: 83%;
 }
-div.message5{
+div#message5{
     background-color: rgb(0, 0, 0);
     font-size: 65px;
     color: rgb(255,255,1);

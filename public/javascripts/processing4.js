@@ -17,10 +17,22 @@ primus.on('reset', function (data){
 });
 
 $(function() {
-    $('#clean').click(function() {
+    $('#clean')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
         primus.send('erase');
         return false;
     });
+});
+
+
+$(function() {
+	$('#clean2')
+		.asEventStream("click")
+		.subscribe(function(event) {
+		primus.send('erase');
+		return false;
+	});
 });
 
 primus.on('highlightOff', function () {
@@ -28,25 +40,12 @@ primus.on('highlightOff', function () {
 });
 
 primus.on('default', function() {
-
         $('.d1').val(6);
         $('.d2').val(6);
         $('.d3').val(12);
         $('.d4').val(20);
         $('.d5').val(20);
         $('div.sides').html("The sides of the dice are 6, 6, 12, and 20 and the Score Number is 20" );
-})
-
-primus.on('mailbox', function (data) {
-    $('div.usermess').prepend('<br/>' + data.player + ' says ' + data.message);
-    $('#egg').val("");
-});
-
-
-
-primus.on('message', function (data) {
-    $('div.usermess').prepend(data.player + " says: " + data.message + "<br/>");
-    $('.response').val("");
 });
 
 primus.on('showbutton', function (data) {
@@ -78,7 +77,6 @@ primus.on('buttonReset', function(data) {
 		$('#compute').fadeIn(1000);
 	}
 });
-
 
 primus.on('numberchanger', function (data) {
     $(function () {

@@ -1,8 +1,12 @@
 'use strict';
-var RSVP = require('rsvp');
+var Q = require('q');
 var express = require('express')
 	, Primus = require('primus')
+	, redis = require('redis')
 	, app = express();
+var store = redis.createClient();
+var pub = redis.createClient();
+var sub = redis.createClient();
 
 var Rooms = require('primus-rooms'),
 	server = require('http').createServer(app),
@@ -49,7 +53,7 @@ app.configure(function() {
 	gameData = require('./modules/monitor').monitor(primus);
 
 var messages = [];
-var data = {};
+// var data = {};
 var name = "Steve";
 var k = 777;
 var a;
@@ -84,13 +88,17 @@ primus.on('connection', function (spark) {
 	console.log('the whole spark:', spark);
 	console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
+	spark.on('clear', function () {
+		players = {};
+	});
+
 	spark.on('rollRequest', function() {
 		gameData.r();
 		players = {};
 	});
 
-    spark.on('happyclown', function (data) {
-        players[data.player] = data.playerdoc;
+    spark.on('happyclown', function (dd) {
+        players[dd.player] = dd.playerdoc;
 	    primus.send('sb', players);
     });
 
@@ -118,11 +126,13 @@ primus.on('connection', function (spark) {
         evalNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
     });
 
-    spark.on('messages', function (data) {
-        primus.send('mailbox', data);
+    spark.on('messages', function (ww) {
+        primus.send('mailbox', ww);
     });
 
-    spark.on('timer', function(data) {
+    spark.on('timer', function(dat) {
+	    gameData.setInplay(true);
+	    var data = dat;
 	    var sow = {};
 	    var cow = {};
 		primus.send('displayOn');
@@ -135,7 +145,10 @@ primus.on('connection', function (spark) {
 		    setTimeout( function () {
 				primus.send('timeUp, data');
 				var cow = {'pointer': 'timeUp'};
-				primus.send('pageUpdate', cow);
+			    if (gameData.getInplay() === true) {
+				    primus.send('pageUpdate', cow);
+			    }
+			    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++' + gameData.getInplay());
 		    }, 30000);
 		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
 		    console.log(data);
@@ -150,7 +163,9 @@ primus.on('connection', function (spark) {
 		    setTimeout( function () {
 			    primus.send('timeUp, data');
 			    var cow = {'pointer': 'timeUp'};
-			    primus.send('pageUpdate', cow);
+			    if (gameData.getInplay() === true) {
+				    primus.send('pageUpdate', cow);
+			    }
 			}, 60000);
 	    }
 
@@ -161,7 +176,9 @@ primus.on('connection', function (spark) {
 		    setTimeout( function () {
 			    primus.send('timeUp, data');
 			    cow = {'pointer': 'timeUp'};
-			    primus.send('pageUpdate', cow);
+			    if (gameData.getInplay() === true) {
+				    primus.send('pageUpdate', cow);
+			    }
 		    }, 30000);
 	    }
     });
@@ -207,12 +224,32 @@ primus.on('connection', function (spark) {
 	    data.y = dat.y;
 	    data.op = dat.op;
 	    data.m = dat.m;
-	    var promise = new RSVP.Promise(function(resolve, reject) {
-			resolve (gameData.setData(data));
-			reject(console.log('Problem with promise in compute'));
-	    });
-		promise.then(gameData.calc());
+	    Q(gameData.setData(data))
+		    .then(gameData.calc());
 	});
 });
 
+primus.on('connection', function (client) {
+	sub.subscribe("chatting");
+	sub.on("message", function (channel, message) {
+		console.log("message received on server from publish ");
+		client.send(message);
+	});
+
+	client.on("message", function (msg) {
+		console.log(msg);
+		if(msg.type == "chat"){
+			pub.publish("chatting",msg.message);
+		}
+		else if(msg.type == "setUsername"){
+			pub.publish("chatting","A new user in connected:" + msg.user);
+			store.sadd("onlineUsers",msg.user);
+		}
+	});
+
+	client.on('disconnect', function () {
+		sub.quit();
+		pub.publish("chatting","User is disconnected :" + client.id);
+	});
+});
 

@@ -1,5 +1,6 @@
 exports.monitor = function (pri) {
 	var primus = pri;
+	var inplay = false;
 	var nums = {}; //Persists throughout round of play.
 	var numberOb = {}; //Contains currently available numbers.
 	var x, y, op;
@@ -90,6 +91,14 @@ exports.monitor = function (pri) {
 			return nums;
 		},
 
+		getInplay : function () {
+			return inplay;
+		},
+
+		setInplay : function(x) {
+			inplay = x;
+		},
+
 	    setscoreNum: function(number) {
 		    scoreNum = number;
 	    },
@@ -148,6 +157,7 @@ exports.monitor = function (pri) {
 			data.play = play;
 			if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
 				data.impossibleClicker = impossibleClicker;
+				inplay = false;
 				primus.send('scoreUp', data);
 				primus.send('setClock', {tick: -1});
 				primus.send('displayOff');
@@ -165,7 +175,9 @@ exports.monitor = function (pri) {
 			}
 
 			else if (data.m === 2 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== 'donkey')) {
+				inplay = false;
 				primus.send('thor', data);
+				data.impossibleClicker = impossibleClicker;
 				var cow = {'pointer': 'done', 'tick': -1};
 				primus.send('pageUpdate', cow);
 				primus.send('offClock', cow);

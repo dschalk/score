@@ -191,7 +191,7 @@ $(function() {
 				document.getElementById("12").className==="on"))    {
 			$('.message3').html('Please select two numbers').show();
 			return;
-		};
+		}
 
 		{
 			console.log('Past the tests, preparing data for transmission **********************************************');
@@ -205,7 +205,6 @@ $(function() {
 			data.m = m;
 			console.log('Here is data coming out of the click callback^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^: ');
 			console.log(data);
-			$('.ev').append(data.m + ' ' + stage);
 			primus.send('compute', data);
 			$('.on').attr({"class": "off"});
 			// return false;

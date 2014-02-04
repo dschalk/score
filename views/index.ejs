@@ -6,20 +6,19 @@
 <script src="/javascripts/processing4.js"></script>
 <script src="/javascripts/ion.sound.js"></script>
 <script src="/javascripts/Bacon.min.js"></script>
-
-
-
+<script src="/javascripts/underscore-min.js"></script>
+<script src="/javascripts/q.js"></script>
 <script>
 var primus = new Primus;
 </script>
 
-<div class = logs></div>
-
 <body>
+
 <div id="signin">
-<form>
-<button class="nb" type="submit" >Name</button>
-<input type="text" class="n" placeholder="Name" id="cow">
+
+    <div id="login" style="color: yellow; float: left; width: 20%;">
+        Name:<input type="text" size="8">
+    </div>
 
 <div id = "caption">
     The real time<br/>
@@ -59,7 +58,7 @@ var primus = new Primus;
 <br>
 <div class='message'><span class="numb"></span></div><br/>
 
-<div id ='message5'>TIMER OOOOOOOOOOOOOOOOOOO</div><br/>
+<div id ='message5'>L O A D I N G</div><br/>
 <div class='message6'><span class="numb"></span></div><br/>
 
 <div class = message2 ><span id = "ruleMessage">You need to use three or four dice in order to score.<br/>
@@ -92,8 +91,10 @@ var primus = new Primus;
 </div>
 
 <div id="LR">
+<!-- LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL -->
 <div id="L">
 <br>
+    <button class="b2" id="clean2" >ERASE</button>
     <div class = "ev"></div>
     <div id = "ev2"></div>
 
@@ -114,20 +115,17 @@ var primus = new Primus;
         </select>
         <input type='button' class='b2 'value='EVALUATE' id='eval2'/>
     </form>
-
     <button class="b2" id="clean" >ERASE</button>
-
     </div>
 </div>
+<!--LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR-->
 <div id="R">
 
-<div class="usermess"></div>
-<div id = "textbox" >
-    <form class="signin">
-        <button type="submit" id="mess_button" style="color: black; background-color: black"></button>
-        <input type="text" class="not" placeholder="Enter Message" id="egg">
-    </form>
+<div id = "textMessage">
+    Send Message: <input type = "text" size = "8">
 </div>
+
     <div id = non_default style="font-size:24; color:yellowgreen">
         <br/>
     <h3>  NON-DEFAULT NUMBER SELECTOR </h3>

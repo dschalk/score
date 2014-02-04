@@ -2,7 +2,7 @@ var messages = [];
 var tick = -88;
 var stage = 1;
 var typecow = 888;
-var data;
+// var data;
 var idax, idopx, idbx;
 var a, b, newo;
 var playerdoc = { "player": "Steve", "score": 0 };
@@ -45,11 +45,12 @@ $(document).ready(function() {
         volume: "0.3"
     });
 
+	var ta = {};
     setInterval(function() {
-        data.playerdoc = playerdoc;
-        data.player = player;
-	    data.tick = tick;
-        primus.send('happyclown', data);
+        ta.playerdoc = playerdoc;
+        ta.player = player;
+	    ta.tick = tick;
+        primus.send('happyclown', ta);
 	    if (tick < 0) {
 		    $('#message5').html(' ');
 	    }
@@ -58,25 +59,33 @@ $(document).ready(function() {
 		    tick -= 1;
 	    }
     }, 1000);
+
+
+	$(function() {
+		$("#login input")
+			.asEventStream("change")
+			.subscribe(function(event) {
+				player = $('#login input').val();
+				playerdoc.player = $('#login input').val();
+				primus.send('clear');
+			});
+	});
+
+	$(function() {
+		var horse = {};
+		$("#textMessage input")
+			.asEventStream("change")
+			.subscribe(function(event) {
+				horse.message = $('#textMessage input').val();
+				primus.send('messages', horse);
+			});
+	});
 });
 
 primus.on('offClock', function () {
 	tick = -1;
 	//$('.message5').html(' ');
 });
-
-var timeclock = function (n) {
-	if (n < 0) {
-		$('.message5').html('Round Over');
-	} else {
-		while (n > -1) {
-			setTimeout( function () {
-				$('#message5').append(n);
-				n -= 1;
-			}, 1000);
-		}
-	}
-};
 
 primus.on('setClock', function (data) {
 	tick = data.tick;
@@ -96,136 +105,159 @@ primus.on('dragon', function (data) {    //  Listens for roll information and po
 });
 
 $(function() {
-    $('.nb').click(function() {
-        player = $('.n').val();
-        playerdoc = { 'player':player, 'score': 0 };
+    $('.nb')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+		    e.preventDefault();
+	        player = $('.n').val();
+	        playerdoc = { 'player':player, 'score': 0 };
         return false;
     });
 });
 
 $(function() {
-    $('.n').click(function() {
-        $('.n').val("");
-        return false;
+    $('.n')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        $('.n').val("");
+	        return false;
     });
 });
 
 $(function() {
-	$('button#roll').click(function() {
-		primus.send('rollRequest');
-		return false;
-	});
+	$("#roll")
+		.asEventStream("click")
+		.subscribe(function(event) {
+			primus.send('rollRequest');
+		});
 });
 
 $(function() {
-    $('#mess_button').click(function() {
-	    var data = {};
-	    data.message = $('#egg').val();
-	    data.player = player;
-	    primus.send('messages', data);
-	    return false;
+    $('#mess_button')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+		    var data = {};
+		    data.message = $('#egg').val();
+		    data.player = player;
+		    primus.send('messages', data);
+		    return false;
     })
 });
 
 $(function() {
-    $('#random').click(function() {
-        data.cow = 6;
-        typecow = 6;
-        primus.send('rollRequest', data);
+    $('#random')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        data.cow = 6;
+	        typecow = 6;
+	        primus.send('rollRequest', data);
         return false;
     });
 });
 
 $(function() {
-    $('#eval').click(function() {
-        playerdoc = { "player": "Solo", "score": 0 };
-        player = "Solo";
-        var data = {};
-		data.complexity = $('#output').val();
-        primus.send('evalRequest', data);
-        return false;
+    $('#eval')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        playerdoc = { "player": "Solo", "score": 0 };
+	        player = "Solo";
+	        var data = {};
+			data.complexity = $('#output').val();
+	        primus.send('evalRequest', data);
+	        return false;
     });
 });
 
 $(function() {
-    $('#eval2').click(function() {
-        playerdoc = {
-			"player": "Solo",
-			"score": 0
-        };
-	    var cow = {};
-	    cow.complexity = $('#complexity').val();
-        cow.a = $('#a8').val();
-        cow.b = $('#b8').val();
-        cow.c = $('#c8').val();
-        cow.d = $('#d8').val();
-        cow.e = $('#e8').val();
-        primus.send('evalRequest2', cow);
-        return false;
+    $('#eval2')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        playerdoc = {
+				"player": "Solo",
+				"score": 0
+	        };
+		    var cow = {};
+		    cow.complexity = $('#complexity').val();
+	        cow.a = $('#a8').val();
+	        cow.b = $('#b8').val();
+	        cow.c = $('#c8').val();
+	        cow.d = $('#d8').val();
+	        cow.e = $('#e8').val();
+	        primus.send('evalRequest2', cow);
+	        return false;
     });
 });
 
 
 $(function() {
-    $('#impossible').click(function() {
-     /*
-        if (namex == "Solo" || namex == "Steve") {
-            alert("You haven't logged in.");
-            return;
-        }
-    */
-        $('#interrupt').fadeIn(800);
-        data.play = 2;
-	    data.player = player;
-        primus.send('timer', data);
-        return false;
+    $('#impossible')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	     /*
+	        if (namex == "Solo" || namex == "Steve") {
+	            alert("You haven't logged in.");
+	            return;
+	        }
+	    */
+	        $('#interrupt').fadeIn(800);
+	        data.play = 2;
+		    data.player = player;
+	        primus.send('timer', data);
+	        return false;
     });
 });
 
 $(function() {
-    $('#score').click(function() {
-    /*
-        if (player === "Solo" || player === "Steve") {
-            alert("You haven't logged in.");
-            return;
-        }
-    */
-		var data = {play:1};
-	    data.player = player;
-        $('button#compute').fadeIn(500);
-        primus.send('timer', data);
-        return false;
+    $('#score')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	    /*
+	        if (player === "Solo" || player === "Steve") {
+	            alert("You haven't logged in.");
+	            return;
+	        }
+	    */
+			var data = {play:1};
+		    data.player = player;
+	        $('button#compute').fadeIn(500);
+	        primus.send('timer', data);
+	        return false;
     });
 });
 
 $(function() {
-    $('#interrupt').click(function() {
-        data.play = 3;
-	    data.player = player;
-        $('button#compute').fadeIn(800);
-        primus.send('timer', data);
-        return false;
+    $('#interrupt')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        data.play = 3;
+		    data.player = player;
+	        $('button#compute').fadeIn(800);
+	        primus.send('timer', data);
+	        return false;
     });
 });
 
 $(function() {
-    $('#monkey').click(function() {
-        var data = {};
-        data.a = $('.d1').val();
-        data.b = $('.d2').val();
-        data.c = $('.d3').val();
-        data.d = $('.d4').val();
-	    data.scoreNum = $('.d5').val();
-        primus.send('monkey', data);
-        return false;
+    $('#monkey')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	        var data = {};
+	        data.a = $('.d1').val();
+	        data.b = $('.d2').val();
+	        data.c = $('.d3').val();
+	        data.d = $('.d4').val();
+		    data.scoreNum = $('.d5').val();
+	        primus.send('monkey', data);
+	        return false;
     });
 });
 
 $(function() {
-    $('#ape').click(function() {
+    $('#ape')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
        // typecow = 5
        // primus.send('posts:ape', data);
-
         primus.send('reset');
         return false;
     });
@@ -346,7 +378,7 @@ primus.on('pageUpdate', function (cow){
 		$('button#interrupt').fadeOut(1000);
 		$('button#compute').fadeOut(1000);
 		$('div.buttons').fadeOut(1000);
-		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
+		if (player === data.player && player !== data.impossibleClicker) {playerdoc.score -= 1;}
 		if (player === data.impossibleClicker) {playerdoc.score += 1}
 		if (data.cow === 6) {
 			$('button#roll').hide();
@@ -373,8 +405,14 @@ primus.on('pageUpdate', function (cow){
 			$('button#random').hide();
 			$('button#roll').fadeIn(1000);
 		}
+		if (player === data.player && player !== data.impossibleClicker) {playerdoc.score -= 1;}
+		if (player === data.impossibleClicker) {playerdoc.score += 1}
 	}
 
+});
+
+primus.on('mailbox', function (xyz) {
+	$('#textMessage').prepend(player + " says, \"" + xyz.message + "\"" + "<br/>")
 });
 
 primus.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.

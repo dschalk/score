@@ -492,6 +492,11 @@ div#message5{
     width: 25%;
     margin-right: 83%;
 }
+
+#textMessage {
+    color: #63ff23;
+}
+
 div.message6{
     background-color: rgb(0, 0, 0);
     font-size: 65px;

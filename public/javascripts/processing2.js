@@ -2,11 +2,22 @@ var messages = [];
 var tick = -88;
 var stage = 1;
 var typecow = 888;
-// var data;
+var player = 'Jones';
+var ob = {'player': 'Steve', 'score': 0};
+var f = ob.f = function () {
+	return function() {
+		ob.score += 1;
+	}
+};
+var g = ob.g = function () {
+	return function() {
+		ob.score -= 1;
+	}
+};
+var inc = f();
+var dec = g();
 var idax, idopx, idbx;
 var a, b, newo;
-var playerdoc = { "player": "Steve", "score": 0 };
-var player = "Steve";
 var primus = new Primus;
 
 $(document).ready(function() {
@@ -45,12 +56,9 @@ $(document).ready(function() {
         volume: "0.3"
     });
 
-	var ta = {};
     setInterval(function() {
-        ta.playerdoc = playerdoc;
-        ta.player = player;
-	    ta.tick = tick;
-        primus.send('happyclown', ta);
+	    console.log(ob);
+        primus.send('happyclown', {'player': ob.player, 'score': ob.score});
 	    if (tick < 0) {
 		    $('#message5').html(' ');
 	    }
@@ -60,13 +68,12 @@ $(document).ready(function() {
 	    }
     }, 1000);
 
-
 	$(function() {
-		$("#login input")
-			.asEventStream("change")
+		var x = $("#input");
+			x.asEventStream("change")
 			.subscribe(function(event) {
-				player = $('#login input').val();
-				playerdoc.player = $('#login input').val();
+				ob.player = x.val();
+					inc();
 				primus.send('clear');
 			});
 	});
@@ -82,6 +89,15 @@ $(document).ready(function() {
 	});
 });
 
+$(function() {
+	var x = $('#in');
+		x.asEventStream("change")
+		.subscribe(function(event) {
+			ob.player = x.val();
+			return false;
+		});
+});
+
 primus.on('offClock', function () {
 	tick = -1;
 	//$('.message5').html(' ');
@@ -90,7 +106,7 @@ primus.on('offClock', function () {
 primus.on('setClock', function (data) {
 	tick = data.tick;
 	$('#message5').html(' ').show();
-	if (data.play == 3 && player != data.player) {
+	if (data.play == 3 && ob.player != data.player) {
 		$('#compute').fadeOut();
 	}
 });
@@ -102,17 +118,6 @@ primus.on('dragon', function (data) {    //  Listens for roll information and po
 	$('#9').val(data['a']);
 	$('#10').val(data['newo']);
 	$('#11').val('cowD').hide();
-});
-
-$(function() {
-    $('.nb')
-	    .asEventStream("click")
-	    .subscribe(function(event) {
-		    e.preventDefault();
-	        player = $('.n').val();
-	        playerdoc = { 'player':player, 'score': 0 };
-        return false;
-    });
 });
 
 $(function() {
@@ -138,7 +143,7 @@ $(function() {
 	    .subscribe(function(event) {
 		    var data = {};
 		    data.message = $('#egg').val();
-		    data.player = player;
+		    data.player = ob.player;
 		    primus.send('messages', data);
 		    return false;
     })
@@ -160,7 +165,7 @@ $(function() {
 	    .asEventStream("click")
 	    .subscribe(function(event) {
 	        playerdoc = { "player": "Solo", "score": 0 };
-	        player = "Solo";
+	        ob.player = "Solo";
 	        var data = {};
 			data.complexity = $('#output').val();
 	        primus.send('evalRequest', data);
@@ -172,10 +177,7 @@ $(function() {
     $('#eval2')
 	    .asEventStream("click")
 	    .subscribe(function(event) {
-	        playerdoc = {
-				"player": "Solo",
-				"score": 0
-	        };
+			ob.player = 'Solo';
 		    var cow = {};
 		    cow.complexity = $('#complexity').val();
 	        cow.a = $('#a8').val();
@@ -200,8 +202,7 @@ $(function() {
 	        }
 	    */
 	        $('#interrupt').fadeIn(800);
-	        data.play = 2;
-		    data.player = player;
+		    var data = {play:2, 'player': ob.player};
 	        primus.send('timer', data);
 	        return false;
     });
@@ -217,8 +218,7 @@ $(function() {
 	            return;
 	        }
 	    */
-			var data = {play:1};
-		    data.player = player;
+			var data = {play:1, 'player': ob.player, impossiblePlayer: '#&*87uyt*&^dfgh&^%'};
 	        $('button#compute').fadeIn(500);
 	        primus.send('timer', data);
 	        return false;
@@ -229,8 +229,7 @@ $(function() {
     $('#interrupt')
 	    .asEventStream("click")
 	    .subscribe(function(event) {
-	        data.play = 3;
-		    data.player = player;
+		    var data = {play:3, 'player': ob.player};
 	        $('button#compute').fadeIn(800);
 	        primus.send('timer', data);
 	        return false;
@@ -309,6 +308,33 @@ $("div.ev").prepend("*************<br/>" + data.a + "&nbsp; " + data.b + "&nbsp;
 	data.c + "&nbsp; " + data.d + " complexity = " + data.complexity + "<br/>");
 });
 
+primus.on('timeUp', function(data) {
+	console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
+	if (ob.player === data.player && ob.player !== data.impossibleClicker) {
+		dec();
+		console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+	}
+	else if (ob.player === data.impossibleClicker) {
+		inc();
+		console.log('XXXSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
+	}
+	$('.on').attr({"class": "off"});
+	if (data.cow === 6) {
+		$('button#roll').hide();
+		$('.message5').html("Round Over");
+		$('button#random').fadeIn(1000);
+	} else {
+		$('button#random').hide();
+		$('button#roll').fadeIn(1000);
+	}
+	$('button#eval').fadeIn(800);
+	$('button#score').fadeIn(600)
+	$('button#impossible').fadeIn(1000);
+	$('button#interrupt').fadeOut(1000);
+	$('button#compute').fadeOut(1000);
+	$('div.buttons').fadeOut(1000);
+});
+
 primus.on('pageUpdate', function (cow){
 
 	if (cow.pointer === 'roll') {
@@ -362,35 +388,6 @@ primus.on('pageUpdate', function (cow){
 		return;
 	}
 
-	if (cow.pointer = 'timeUp') {
-		$('.on').attr({"class": "off"});
-		if (data.cow === 6) {
-			$('button#roll').hide();
-			$('.message5').html("Round Over");
-			$('button#random').fadeIn(1000);
-		} else {
-			$('button#random').hide();
-			$('button#roll').fadeIn(1000);
-		}
-		$('button#eval').fadeIn(800);
-		$('button#score').fadeIn(600)
-		$('button#impossible').fadeIn(1000);
-		$('button#interrupt').fadeOut(1000);
-		$('button#compute').fadeOut(1000);
-		$('div.buttons').fadeOut(1000);
-		if (player === data.player && player !== data.impossibleClicker) {playerdoc.score -= 1;}
-		if (player === data.impossibleClicker) {playerdoc.score += 1}
-		if (data.cow === 6) {
-			$('button#roll').hide();
-			$('button#random').fadeIn(1000);
-		} else {
-			$('button#random').hide();
-			$('button#roll').fadeIn(1000);
-		}
-		if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
-		if (player === data.impossibleClicker) {playerdoc.score += 1}
-		return;
-	}
 
 	if (cow.pointer = 'done') {
 		$('button#score').fadeOut(1000);
@@ -398,21 +395,21 @@ primus.on('pageUpdate', function (cow){
 		$('button#eval').fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
 		$('button#compute').fadeIn(700);
 		$('#roll').show();
-		if (data.cow === 6) {
+		if (cow.cow === 6) {
 			$('button#roll').hide();
 			$('button#random').fadeIn(1000);
 		} else {
 			$('button#random').hide();
 			$('button#roll').fadeIn(1000);
 		}
-		if (player === data.player && player !== data.impossibleClicker) {playerdoc.score -= 1;}
-		if (player === data.impossibleClicker) {playerdoc.score += 1}
+		if (ob.player === cow.player && ob.player !== cow.impossibleClicker) {dec();}
+		if (ob.player === cow.impossibleClicker) {inc();}
 	}
 
 });
 
 primus.on('mailbox', function (xyz) {
-	$('#textMessage').prepend(player + " says, \"" + xyz.message + "\"" + "<br/>")
+	$('#textMessage').prepend(ob.player + " says, \"" + xyz.message + "\"" + "<br/>")
 });
 
 primus.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.
@@ -452,24 +449,6 @@ primus.on('thor', function (data) {    //  Listens for roll information and popu
     $('#10').hide();
     });
 
-primus.on('timeUp', function (data) {    //  Listens for roll information and populates the selection boxes
-	$('button#eval').fadeIn(1000);
-	$('button#score').fadeOut(1000);
-	$('button#impossible').fadeOut(1000);
-	$('button#interrupt').fadeOut(1000);
-	$('button#compute').fadeOut(1000);
-	$('div.buttons').hide();
-	if (player === data.currentPlayer && player !== data.impossibleClicker) {playerdoc.score -= 1;}
-	if (player === data.impossibleClicker) {playerdoc.score += 1}
-	if (data.cow === 6) {
-		$('button#roll').hide();
-		$('button#random').fadeIn(1000);
-	} else {
-		$('button#random').hide();
-		$('button#roll').fadeIn(1000);
-	}
-});
-
 primus.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
     $.ionSound.play("Gong");
     $('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
@@ -487,8 +466,8 @@ primus.on('scoreUp', function (data) {    //  Listens for roll information and p
     $('button#compute').fadeOut(1000);
     $('div.buttons').fadeIn(800).hide();
     //$('div.message').html(data[7] + " scored!  One point added. ");
-	if (player === data.player && player !== data.impossibleClicker) {playerdoc.score += 1;}
-	if (player === data.impossibleClicker) {playerdoc.score -= 1}
+	if (ob.player === ob.player && ob.player !== data.impossibleClicker) {inc();}
+	if (ob.player === data.impossibleClicker) {dec();}
 });
 
 primus.on('wash', function () {
@@ -516,8 +495,8 @@ primus.on('tilt', function (data) {    //  Listens for roll information and popu
     $('button#interrupt').fadeOut(1000);
     $('button#compute').fadeOut(1000);
     $('div.buttons').fadeIn(800);
-    if (player === data.scoreClicker || player === data.interruptClicker) {playerdoc.score -= 1;}
-    if (player === data.impossibleClicker) {playerdoc.score += 1}
+    if (ob.player === data.scoreClicker || ob.player === data.interruptClicker) {dec();}
+    if (ob.player === data.impossibleClicker) {inc();}
 });
 
 primus.on('fractionMessage', function () {

@@ -1,6 +1,6 @@
 {
   "name": "score3",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "repository:": "http://github.com/dschalk/score",
   "private": false,
   "scripts": {
@@ -21,8 +21,7 @@
     "primus-emitter": "*",
     "sockjs": "~0.3.8",
     "q": "~1.0.0",
-    "express": "~3.4.4",
-    "socket.io-client": "*"
+    "express": "~3.4.4"
   },
   "subdomain": "score",
   "engines": {

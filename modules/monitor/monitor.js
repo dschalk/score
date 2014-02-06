@@ -1,6 +1,7 @@
 exports.monitor = function (pri) {
 	var primus = pri;
 	var inplay = false;
+	var isInterrupted = false;
 	var nums = {}; //Persists throughout round of play.
 	var numberOb = {}; //Contains currently available numbers.
 	var x, y, op;
@@ -99,12 +100,23 @@ exports.monitor = function (pri) {
 			inplay = x;
 		},
 
+		getisInterrupted : function () {
+			return isInterrupted;
+		},
+
+		setisInterrupted : function(x) {
+			isInterrupted = x;
+		},
 	    setscoreNum: function(number) {
 		    scoreNum = number;
 	    },
 
 		setimpossibleClicker: function(x) {
 			impossibleClicker = x;
+		},
+
+		getimpossibleClicker: function() {
+			return impossibleClicker;
 		},
 
 	    getscoreNum: function() {

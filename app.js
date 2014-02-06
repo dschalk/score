@@ -10,9 +10,9 @@ var sub = redis.createClient();
 
 var Rooms = require('primus-rooms'),
 	server = require('http').createServer(app),
-	primus = new Primus(server, { transformer: 'socket.io', parser: 'JSON' }),
+	primus = new Primus(server, { transformer: 'sockjs', parser: 'JSON' }),
 	Emitter = require('primus-emitter');
-primus.use('rooms', Rooms);
+// primus.use('rooms', Rooms);
 primus.use('emitter', Emitter);
 
 var	routes = require('./routes/'),
@@ -53,7 +53,6 @@ app.configure(function() {
 	gameData = require('./modules/monitor').monitor(primus);
 
 var messages = [];
-// var data = {};
 var name = "Steve";
 var k = 777;
 var a;
@@ -97,8 +96,9 @@ primus.on('connection', function (spark) {
 		players = {};
 	});
 
-    spark.on('happyclown', function (dd) {
-        players[dd.player] = dd.playerdoc;
+    spark.on('happyclown', function (ob) {
+	    // console.log(ob);
+        players[ob.player] = {'player': ob.player, 'score': ob.score};
 	    primus.send('sb', players);
     });
 
@@ -132,52 +132,54 @@ primus.on('connection', function (spark) {
 
     spark.on('timer', function(dat) {
 	    gameData.setInplay(true);
+	    gameData.setisInterrupted(false);
 	    var data = dat;
 	    var sow = {};
 	    var cow = {};
 		primus.send('displayOn');
 	    primus.send('buttonReset', data);  //Removes highlighting from buttons.
 	    if (data.play === 1) {
-		    data.pointer = 'score';
 		    sow = {'tick': 30, 'play': 1};
 		    primus.send('setClock', sow);
 		    gameData.setData(data);
 		    setTimeout( function () {
 				primus.send('timeUp, data');
-				var cow = {'pointer': 'timeUp'};
+			    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+			    console.log(data);
+			    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 			    if (gameData.getInplay() === true) {
-				    primus.send('pageUpdate', cow);
+				    primus.send('timeUp', data);
+				    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__cow ');
+				    console.log('_____________________________ Data sent to timeUp');
 			    }
 			    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++' + gameData.getInplay());
 		    }, 30000);
-		    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__data ');
-		    console.log(data);
 	    }
 
 	    if (data.play === 2) {
 		    data.impossibleClicker = data.player;
 		    gameData.setData(data);
 		    gameData.setimpossibleClicker(data.player);
+		    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+		    console.log(data);
+		    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 		    sow = {'tick': 60, 'play': 2};
 		    primus.send('setClock', sow);
 		    setTimeout( function () {
-			    primus.send('timeUp, data');
-			    var cow = {'pointer': 'timeUp'};
-			    if (gameData.getInplay() === true) {
-				    primus.send('pageUpdate', cow);
+			    if (gameData.getInplay() === true && gameData.getisInterrupted() === false) {
+				    primus.send('timeUp', data);
 			    }
 			}, 60000);
 	    }
 
 	    if (data.play === 3) {
+		    gameData.setisInterrupted(true);
 		    sow = {'tick': 30, 'play': 3, 'player': data.player};
 		    primus.send('setClock', sow);
-		    gameData.setData(data);
+		    data.impossibleClicker = gameData.getimpossibleClicker();
 		    setTimeout( function () {
-			    primus.send('timeUp, data');
-			    cow = {'pointer': 'timeUp'};
 			    if (gameData.getInplay() === true) {
-				    primus.send('pageUpdate', cow);
+				    primus.send('timeUp', data);
 			    }
 		    }, 30000);
 	    }
@@ -228,7 +230,7 @@ primus.on('connection', function (spark) {
 		    .then(gameData.calc());
 	});
 });
-
+/*
 primus.on('connection', function (client) {
 	sub.subscribe("chatting");
 	sub.on("message", function (channel, message) {
@@ -253,3 +255,4 @@ primus.on('connection', function (client) {
 	});
 });
 
+*/

@@ -25,7 +25,6 @@ $(function() {
     });
 });
 
-
 $(function() {
 	$('#clean2')
 		.asEventStream("click")
@@ -61,8 +60,7 @@ primus.on('buttonReset', function(data) {
 	$('div.message').html(" ");
 	$('button#score').fadeOut(1000);
 	$('#interrupt').hide();
-	$('#impossible').hide();
-	if (data.currentPlayer === playerdoc.player) {
+	if (data.player === ob.player) {
 		$('#compute').show();
 	}
 

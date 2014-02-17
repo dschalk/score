@@ -25,15 +25,6 @@ $(function() {
     });
 });
 
-$(function() {
-	$('#clean2')
-		.asEventStream("click")
-		.subscribe(function(event) {
-		primus.send('erase');
-		return false;
-	});
-});
-
 primus.on('highlightOff', function () {
     $('.on').attr({"class": "off"});
 });
@@ -79,27 +70,16 @@ primus.on('buttonReset', function(data) {
 primus.on('numberchanger', function (data) {
     $(function () {
 	    $('.on').attr({class:'off'})
-        if (data.cow === 6) {
-            typecow = 6;
+        if (!data.gamma) { // True means the sides are 6's, 12's, and/or 20's.
             $('div.sides').html("Upper bounds on the four random integers: " + data.a + " " + data.b + " " + data.c + " " + data.d);
-            $('button#roll').hide();
-            $('button#random').show();
+            $('#roll').hide();
+            $('#random').show();
         }
         else {
             $('div.sides').html("The virtual dice roll is: " + data.a + " " + data.b + " " + data.c + " " + data.d);
-            $('button#roll').show();
-            $('button#random').hide();
-            typecow = 5
+            $('#roll').show();
+            $('#random').hide();
         }
     });
 });
-
-
-
-
-
-
-
-
-
 

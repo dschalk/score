@@ -1,12 +1,9 @@
 'use strict';
-var Q = require('q');
+
+var Bacon = require('baconjs');
 var express = require('express')
-	, Primus = require('primus')
-	, redis = require('redis')
-	, app = express();
-var store = redis.createClient();
-var pub = redis.createClient();
-var sub = redis.createClient();
+	, Primus = require('primus');
+var app = express();
 
 var Rooms = require('primus-rooms'),
 	server = require('http').createServer(app),
@@ -61,9 +58,11 @@ var i = 888;
 app.get('/', routes.index);
 app.get('/experiments', routes.experiments);
 app.get('/playground', routes.playground);
+app.get('/calculations', routes.calculations);
 app.get('/cow', routes.cow);
 app.use(function (req, res, next){
-    res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
+    res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/Bacon.min.js', '/public/javascripts/Bacon.JQuery.Bindings.js',
+        '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
 });
 
@@ -80,14 +79,17 @@ server.listen(app.get('port'), function(){
 //@@@@@@@@@@@@@#################$$$$$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@
 
 primus.on('connection', function (spark) {
-	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-	console.log('connection has the following headers', spark.headers);
-	console.log('connection was made from', spark.address);
-	console.log('connection id', spark.id);
-	console.log('the whole spark:', spark);
-	console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+	/* console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+	 console.log('connection has the following headers', spark.headers);
+	 console.log('connection was made from', spark.address);
 
-	spark.on('clear', function () {
+	 console.log('the whole spark:', spark);
+	console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');*/
+    var Q = require("q");
+
+
+	console.log('connection id', spark.id);
+    spark.on('clear', function () {
 		players = {};
 	});
 
@@ -126,65 +128,125 @@ primus.on('connection', function (spark) {
         evalNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
     });
 
-    spark.on('messages', function (ww) {
-        primus.send('mailbox', ww);
+    spark.on('messages', function (cow) {
+        primus.send('mailbox', cow);
     });
 
-    spark.on('timer', function(dat) {
-	    gameData.setInplay(true);
-	    gameData.setisInterrupted(false);
-	    var data = dat;
-	    var sow = {};
-	    var cow = {};
-		primus.send('displayOn');
-	    primus.send('buttonReset', data);  //Removes highlighting from buttons.
-	    if (data.play === 1) {
-		    sow = {'tick': 30, 'play': 1};
-		    primus.send('setClock', sow);
-		    gameData.setData(data);
-		    setTimeout( function () {
-				primus.send('timeUp, data');
-			    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			    console.log(data);
-			    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-			    if (gameData.getInplay() === true) {
-				    primus.send('timeUp', data);
-				    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@__cow ');
-				    console.log('_____________________________ Data sent to timeUp');
-			    }
-			    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++' + gameData.getInplay());
-		    }, 30000);
-	    }
+/*
+    $(function() {
+	$('#clean2')
+		.asEventStream("click")
+		.subscribe(function(event) {
+		primus.send('erase');
+		return false;
+	});
+});
+*/
+
+
+
+
+
+    spark.on('timer', function(data) {
+        var impossibleClicker = 'Santa Clause';
+        if (data.play === 2) {impossibleClicker = data.player}
+        console.log('____________________________________________ Yo! _______impossibleClicker: ' + impossibleClicker);
+        var play = data.play;
+        var kiss = 0;
+        var sow = {};
+        var tickeroos;
+        var x;
+        var promiseOne = Q.promise(function (resolve, reject) {
+        resolve(function () {
+            gameData.setStop(true);
+            x = false;
+            console.log('_________________________________________________' + new Date())
+        });
+        reject(function () {
+            console.log('Drat!');
+        });
+    });
+     var promiseTwo = Q.promise(function (resolve, reject) {
+         resolve(function () {
+            gameData.setStop(false);
+            x = true;
+            console.log('_________________________________________________ newer Date()' + new Date())
+        });
+            reject(function () {
+            console.log('Drat!');
+        });
+     });
+        gameData.setStop(false);
+        x = true;
+
+
+        primus.send('displayOn');
+        primus.send('buttonReset', data);  //Removes highlighting from buttons.
+
+        function go () {
+            Q.delay(100)
+            .then('promiseOne')
+            .delay(1000)
+            .then('promiseTwo')
+            .then(function () {
+                cycle();
+            });
+        }
+
+        var cycle = function () {
+            kiss += 1;
+            if (gameData.getStop() === true) {
+                data.play = 100;
+                return;
+            }
+
+            if (kiss === tickeroos) {
+                data.impossibleClicker = impossibleClicker;
+                primus.send('timeUp', data);
+                gameData.setStop(true);
+                var cow = {'tick': -1};
+                primus.send('timeUp', data);
+				primus.send('offClock', cow);
+				data.play = 10;
+                // return;
+            }
+                if (x === true) {
+                sow = {'tick': tickeroos, 'play': play};
+                primus.send('setClock', sow);
+                x = false;
+            }
+            man();
+        };
+        var man = function () {
+            console.log('_______________ Hey! ' + kiss);
+            console.log('@@@@@@@@@@@@@@@@Vyp@@@@@@@@@@@@' + gameData.getStop());
+            console.log('@@@@&&&&&@@@@@@@@@___Hey!' + x);
+            console.info(gameData.getStop());
+            console.log('@@@@@@@@@@@@@@@@Vyp@@@@@@@@@@@@___ play = ' + play);
+            setTimeout(function() {
+                cycle();
+            }, 1000);
+        };
+
+        if (play === 1) {
+            tickeroos = 30;
+            go();
+        }
 
 	    if (data.play === 2) {
-		    data.impossibleClicker = data.player;
-		    gameData.setData(data);
-		    gameData.setimpossibleClicker(data.player);
-		    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-		    console.log(data);
-		    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-		    sow = {'tick': 60, 'play': 2};
-		    primus.send('setClock', sow);
-		    setTimeout( function () {
-			    if (gameData.getInplay() === true && gameData.getisInterrupted() === false) {
-				    primus.send('timeUp', data);
-			    }
-			}, 60000);
-	    }
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$_________________________________Greetings from play === 2');
+            tickeroos = 60;
+            gameData.setimpossibleClicker(impossibleClicker);
+            go();
+            }
 
-	    if (data.play === 3) {
-		    gameData.setisInterrupted(true);
-		    sow = {'tick': 30, 'play': 3, 'player': data.player};
-		    primus.send('setClock', sow);
-		    data.impossibleClicker = gameData.getimpossibleClicker();
-		    setTimeout( function () {
-			    if (gameData.getInplay() === true) {
-				    primus.send('timeUp', data);
-			    }
-		    }, 30000);
+	    if (play === 3) {
+            tickeroos = 30;
+            primus.send('computebuttonOn');
+            go();
 	    }
+        gameData.setStop(false);
     });
-
     spark.on('reset', function() {
         gameData.setd(6, 6, 12, 20);
         gameData.setscoreNum(20);
@@ -197,62 +259,33 @@ primus.on('connection', function (spark) {
 
     spark.on('monkey', function(data) {
         gameData.setd(data.a, data.b, data.c, data.d);
+        gameData.setGamma(false);
 	    var scrum = [data.a, data.b, data.c, data.d];
 	    gameData.setscoreNum(data.scoreNum);
         var k = 0;
 	    for (var n = 0; n <4; n+=1) {
             if (scrum[n] !== '6' && scrum[n] !== '12' && scrum[n] !== '20') {
 	            k += 1;
-                data.cow = 6; // If '6' the browser displays "random numbers," otherwise, "dice."
+                if (k > 0) {
+                data.gamma = false;  // Not ordinary dice.
                 primus.send('numberchanger', data);
-                return;
+                gameData.setGamma(false);
+                }
+            }
+            else {
+                data.gamma = true;  // The sides are all sixes, twelves, and/or twenties.
+                primus.send('numberchanger', data);
+                gameData.setGamma(true);
             }
 	    }
-        data.cow = 5;
-        primus.send('numberchanger', data);
+
     });
-
-	spark.on('updateNums', function (data) {
-		gameData.setnumberOb(data.numa, data.numb, data.numc, data.numd);
-	});
-
-	spark.on('updateNums', function (data) {
-		gameData.setnumberOb(data.numa, data.numb, data.numc, data.numd);
-	});
-
-    spark.on('compute', function (dat) {
-	    var data = gameData.getData();
-	    data.x = dat.x;
-	    data.y = dat.y;
-	    data.op = dat.op;
-	    data.m = dat.m;
-	    Q(gameData.setData(data))
-		    .then(gameData.calc());
+    spark.on('compute', function (data) {
+        console.log('*************************************************   data coming into compute');
+        console.log('*************************************************   data coming into compute');
+        console.log(data);
+        console.log('*************************************************   data coming into compute');
+        console.log('*************************************************   data coming into compute');
+		gameData.calc(data);
 	});
 });
-/*
-primus.on('connection', function (client) {
-	sub.subscribe("chatting");
-	sub.on("message", function (channel, message) {
-		console.log("message received on server from publish ");
-		client.send(message);
-	});
-
-	client.on("message", function (msg) {
-		console.log(msg);
-		if(msg.type == "chat"){
-			pub.publish("chatting",msg.message);
-		}
-		else if(msg.type == "setUsername"){
-			pub.publish("chatting","A new user in connected:" + msg.user);
-			store.sadd("onlineUsers",msg.user);
-		}
-	});
-
-	client.on('disconnect', function () {
-		sub.quit();
-		pub.publish("chatting","User is disconnected :" + client.id);
-	});
-});
-
-*/

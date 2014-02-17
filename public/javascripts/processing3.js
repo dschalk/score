@@ -198,6 +198,7 @@ $(function() {
 			stage += 1; //  This determines what happens in calc() on the server and whether the results
 			// $('div.message3').html(' ');
 			$('.compute').show();
+            data = {'player': ob.player}
 			data.x = ax;
 			data.y = bx;
 			data.op = opx;

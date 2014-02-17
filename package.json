@@ -1,6 +1,6 @@
 {
   "name": "score3",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository:": "http://github.com/dschalk/score",
   "private": false,
   "scripts": {
@@ -10,11 +10,8 @@
     "underscore": "1.5.x",
     "zepto-full": "1.x",
     "ejs": "*",
-    "socket.io": "0.9.x",
-    "redis": "*",
-    "then-redis": "*",
     "baconjs": "*",
-    "baconui": "*",
+    "bacon-jquery-bindings": "*",
     "connect-redis": "~1.4.5",
     "primus": "~1.4.6",
     "primus-rooms": "~1.1.1",

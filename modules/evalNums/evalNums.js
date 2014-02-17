@@ -1,4 +1,5 @@
-exports.roll = function (a, b, c, d, primus, flag, complexity, scNum) {
+exports.roll = function (a, b, c, d, primus, flag, compl, scNum) {
+    var complexity = compl;
 	var scoreNum = scNum;
     console.log('****************************************************__________________scoreNum');
 	console.log('****************************************************__________________scoreNum');
@@ -23,10 +24,7 @@ exports.roll = function (a, b, c, d, primus, flag, complexity, scNum) {
         }
         return r;
     };
-    var lion = [];
-    var works = 0, lizard = 0, tiger = [], jack = 0, jill = 0, hill = 0;
-    var cow2 = 888, goat = 2, horse = 4, burrow = 3, chevy = 5, ford = 2, olds = 7, peach = 0, pear = 1, apple = 2;
-    var cow = 77, ox = 0, pig = 88;
+
 //  All possible combinations of three dice
     var artist = [
         [a, b, c],
@@ -82,20 +80,6 @@ exports.roll = function (a, b, c, d, primus, flag, complexity, scNum) {
         [d, c, b, a]
     ];
 
-    var ar = artist.unique();
-    var ar2 = musician.unique();
-    var j = 0;
-    var horseB = 2, horseC = 3, horseD = 4, goat2 = 6;
-
-    var w1 = ar[j][0];
-    var x1 = ar[j][1];
-    var y1 = ar[j][2];
-
-    var w = ar2[j][0];
-    var x = ar2[j][1];
-    var y = ar2[j][2];
-    var z = ar2[j][3];
-
     var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
         " subtracted from ", " divided into ", " concatenated in front of "
     ];
@@ -122,129 +106,82 @@ var calc = [
 	}
 ];       
 
-    var l = ar.length;
-    var l2 = ar2.length;
-    j = 0;
-    var k = 0;
-    var i = 0;
-    var m = 0;
-
-//  Method 1.  Select only three dice.  Operate on the first pair of number,
-//  then operate on the first result and the third number.
-//  We aren't concerned with dividing the first number by the result of operating
-//  on the second two numbers since the result will always be less than twenty.
-//  All possibilities are covered with the following three loops:
-
-    for (j = 0; j < l; j++) {
-        for (k = 0; k < 5; k++) {
-            for (i = 0; i < 5; i++) {
-
-//  The calculation:
-                ox = calc[i](ar[j][0], ar[j][1]);
-                cow = calc[k](ox, ar[j][2]);
-                pig = calc[k](ar[j][2], ox);
-
-                if (cow === scoreNum) {
-                    w1 = ar[j][0];
-                    x1 = ar[j][1];
-                    y1 = ar[j][2];
-                    works += 15;
-                    lion.push("Score! (" + w1 + " " + op[i] + " " + x1 + ") " + op[k] + " " + y1 + " = " + scoreNum);
-                    works = works + 7;
+    var ar3 = artist.unique();
+    var ar4 = musician.unique();
+    var k, k2, k3, j2, j3, m2, m3, z, result;
+    k = k2 = k3 = j = j2 = j3 = m2 =  m3 = -1;
+    var lion = [];
+    ar3.map(function(ar) {
+        calc.map(function(funcs) {
+            k += 1;
+            calc.map(function(functions) {
+                j += 1;
+                y = functions(funcs(ar[0], ar[1]), ar[2]);
+                z = functions(ar[2], funcs(ar[0], ar[1]));
+                if (y === scoreNum) {
+                     lion.push('(' + ar[0] + '  ' + op[k%5] + ' ' + ar[1] + ') '
+                             + op[j%5] + '  ' + ar[2] + ' = ' + y);
                 }
-
-                if (pig === scoreNum) {
-                    w1 = ar[j][0];
-                    x1 = ar[j][1];
-                    y1 = ar[j][2];
-                    works += 15;
-                    lion.push("Score! " + y1 + " " + op[k] + " (" + w1 + " " + op[i] + " " + x1 + ") = " + scoreNum);
-                    works = works + 3;
+                if (z === scoreNum) {
+                    lion.push('(' + ar[2] + ' ' + op[j%5] + ' (' + ar[0] + '  '
+                            + op[k%5] + ' ' + ar[1] + ') = ' + z);
                 }
+            });
+        });
+    });
 
-            }
-        }
-    }
+    ar4.map(function(ar) {
+        calc.map(function(funcs) {
+            k2 += 1;
+            calc.map(function(functions) {
+                j2 += 1;
+                calc.map(function (f) {
+                    m2 += 1;
+                    result = f(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
+                    if (result === scoreNum) {
+                        lion.push('(' + ar[0] + ' ' + op[k2%5] + ' ' + ar[1] + ')  ' + op[m2%5] + ' ('
+                            + ar[2] + ' ' +  op[j2%5] + ' ' + ar[3] + ') = ' + result);
+                    }
+                });
+            });
+        });
+    });
 
-for (j = 0; j < l2; j++) {
-    for (k = 0; k < 5; k++) {
-        for (i=0; i<5; i++) {
-            for (m=0; m<5; m++) {
-               if (calc[m](calc[k](ar2[j][0], ar2[j][1]), calc[i](ar2[j][2], ar2[j][3])) == scoreNum) {
-                    w = ar2[j][0];
-                    x = ar2[j][1];
-                    y = ar2[j][2];
-                    z = ar2[j][3];
-                    works += 1;
-                    lion.push("Score! (" + w + " " + op[k] + " " + x + ") " + op[m] + " (" + y + " " + op[i] + " " + z + ") = " + scoreNum);
-                }
-            }
-        }
-    }
-}
+    ar4.map(function(ar) {
+        calc.map(function(funcs) {
+            k3 += 1;
+            calc.map(function(functions) {
+                j3 += 1;
+                calc.map(function (f) {
+                    m3 += 1;
+                    resultA = f(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
+                    resultC = f(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
+                    resultB = f(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
+                    resultD = f(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
+                    if (resultA === scoreNum) {
+                        lion.push('((' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1] + ') ' + op[j3%5] + ar[2]
+                        + ') ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultA);
+                    }
+                    if (resultC === scoreNum) {
+                        lion.push('' + ar[3] + ' ' +  op[m3%5] + ' ((' + ar[0] + ' ' + op[k3%5] + ' '
+                                + ar[1] + ') ' + op[j3%5] + ar[2]+ ') = ' + resultC);
+                    }
+                    if (resultB === scoreNum) {
+                        lion.push('(' + ar[2] + ' ' + op[j3%5] + ' (' + ar[0] + ' ' + op[k3%5] + ar[1]
+                                + ')) ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultB);
+                    }
+                    if (resultD === scoreNum) {
+                        lion.push(ar[3] + ' ' + op[m3%5] + ' (' + ar[2] + ' ' + op[j3%5] + '( ' + ar[0]
+                               + '  ' + op[k3%5] + ' ' + ar[1] + ') = ' + resultD);
+                    }
+                });
+            });
+        });
+    });
 
 
-for (j = 0; j < l2; j++) {
-    for (k = 0; k < 5; k++) {
-        for (i = 0; i < 5; i++) {
-            for (m = 0; m < 5; m++) {
 
-                burrow = calc[m](ar2[j][0], ar2[j][1]);   // These are switched and assume all values in the permutations     op[m]
-
-                goat = calc[i](burrow, ar2[j][2]);
-                horse = calc[k](goat, ar2[j][3]);
-                horseB = calc[k](ar2[j][3], goat);
-
-                goat2 = calc[i](ar2[j][2], burrow);
-                horseC = calc[k](goat2, ar2[j][3]);
-                horseD = calc[k](ar2[j][3], goat2);
-
-
-                if (horse === scoreNum) {
-                    works += 11;
-                    w = ar2[j][0];
-                    x = ar2[j][1];
-                    y = ar2[j][2];
-                    z = ar2[j][3];
-                    lion.push("Score! ( (" + w + " " + op[m] + " " + x + ") " + op[i] + " " + y + ") " + op[k] + " " + z + " = " + scoreNum);
-                    works = works + 3;
-                }
-
-                if (horseB === scoreNum) {
-                    works += 11;
-                    w = ar2[j][0];
-                    x = ar2[j][1];
-                    y = ar2[j][2];
-                    z = ar2[j][3];
-                    lion.push("Score! " + z + " " + op[k] + " ( (" + w + " " + op[m] + " " + x + ") " + op[i] + " " + y + ") = " + scoreNum);
-                    works = works + 3;
-                }
-
-                if (horseC === scoreNum) {
-                    works += 11;
-                    w = ar2[j][0];
-                    x = ar2[j][1];
-                    y = ar2[j][2];
-                    z = ar2[j][3];
-                    lion.push("Score! (" + y + " " + op[i] + " (" + w + " " + op[m] + " " + x + ")) " + op[k] + " " + z + " = " + scoreNum);
-                    works = works + 3;
-                }
-
-                if (horseD === scoreNum) {
-                    works += 11;
-                    w = ar2[j][0];
-                    x = ar2[j][1];
-                    y = ar2[j][2];
-                    z = ar2[j][3];
-                    lion.push("Score! " + z + " " + op[k] + " (" + y + " " + op[i] + " (" + w + " " + op[m] + " " + x + ")) = " + scoreNum);
-                    works = works + 3;
-                }
-            }
-        }
-    }
-}
-
-if (works === 0) {
+if (lion.length === 0) {
     lion.push("Impossible");
 }
 console.log("Clowns and devious horses *******************scoreNum****__scoreNum***_2");
@@ -256,10 +193,8 @@ console.log("Clowns and devious horses *******************scoreNum****__scoreNum
     data.alexander = lion;
 	data.complexity = complexity;
     primus.send('eval', data);
+
 };
-
-
-
 
 
 

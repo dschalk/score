@@ -1,8 +1,6 @@
 var messages = [];
 var tick = -88;
 var stage = 1;
-var typecow = 888;
-var player = 'Jones';
 var ob = {'player': 'Steve', 'score': 0};
 var f = ob.f = function () {
 	return function() {
@@ -57,7 +55,6 @@ $(document).ready(function() {
     });
 
     setInterval(function() {
-	    console.log(ob);
         primus.send('happyclown', {'player': ob.player, 'score': ob.score});
 	    if (tick < 0) {
 		    $('#message5').html(' ');
@@ -84,6 +81,7 @@ $(document).ready(function() {
 			.asEventStream("change")
 			.subscribe(function(event) {
 				horse.message = $('#textMessage input').val();
+                horse.player = ob.player;
 				primus.send('messages', horse);
 			});
 	});
@@ -103,12 +101,21 @@ primus.on('offClock', function () {
 	//$('.message5').html(' ');
 });
 
+primus.on('computebuttonOn', function () {
+    $('#compute').show();
+});
+
 primus.on('setClock', function (data) {
 	tick = data.tick;
-	$('#message5').html(' ').show();
-	if (data.play == 3 && ob.player != data.player) {
-		$('#compute').fadeOut();
+    $('#compute').show();
+    if (data.play === 2) {
+        $('#interrupt').show();
+    }
+
+    if (data.play == 3 && ob.player == data.player) {
+		$('#compute').fadeIn();
 	}
+
 });
 
 primus.on('dragon', function (data) {    //  Listens for roll information and populates the selection boxes
@@ -154,7 +161,6 @@ $(function() {
 	    .asEventStream("click")
 	    .subscribe(function(event) {
 	        data.cow = 6;
-	        typecow = 6;
 	        primus.send('rollRequest', data);
         return false;
     });
@@ -164,8 +170,9 @@ $(function() {
     $('#eval')
 	    .asEventStream("click")
 	    .subscribe(function(event) {
-	        playerdoc = { "player": "Solo", "score": 0 };
 	        ob.player = "Solo";
+            ob.score = 0;
+            $('#in').val('solo');
 	        var data = {};
 			data.complexity = $('#output').val();
 	        primus.send('evalRequest', data);
@@ -204,6 +211,7 @@ $(function() {
 	        $('#interrupt').fadeIn(800);
 		    var data = {play:2, 'player': ob.player};
 	        primus.send('timer', data);
+            primus.send(setimpossibleClicker(ob.player));
 	        return false;
     });
 });
@@ -230,7 +238,7 @@ $(function() {
 	    .asEventStream("click")
 	    .subscribe(function(event) {
 		    var data = {play:3, 'player': ob.player};
-	        $('button#compute').fadeIn(800);
+	        $('#compute').show();
 	        primus.send('timer', data);
 	        return false;
     });
@@ -255,7 +263,6 @@ $(function() {
     $('#ape')
 	    .asEventStream("click")
 	    .subscribe(function(event) {
-       // typecow = 5
        // primus.send('posts:ape', data);
         primus.send('reset');
         return false;
@@ -309,22 +316,16 @@ $("div.ev").prepend("*************<br/>" + data.a + "&nbsp; " + data.b + "&nbsp;
 });
 
 primus.on('timeUp', function(data) {
-	console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM');
-	if (ob.player === data.player && ob.player !== data.impossibleClicker) {
-		dec();
-		console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
-	}
-	else if (ob.player === data.impossibleClicker) {
-		inc();
-		console.log('XXXSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
-	}
+	if (ob.player === data.player && data.play === 2) { inc(); }
+	else if (ob.player === data.player) {dec();}
 	$('.on').attr({"class": "off"});
-	if (data.cow === 6) {
-		$('button#roll').hide();
+	if (data.gamma === false) {
+		$('#roll').hide();
 		$('.message5').html("Round Over");
-		$('button#random').fadeIn(1000);
+		$('#random').fadeIn(1000);
 	} else {
 		$('button#random').hide();
+        $('.message5').html("Round Over");
 		$('button#roll').fadeIn(1000);
 	}
 	$('button#eval').fadeIn(800);
@@ -359,7 +360,7 @@ primus.on('pageUpdate', function (cow){
 
 	if (cow.pointer === 'godzilla') {
 		$('.message3').html(' ');
-		$('button#compute').fadeOut(600).
+		$('button#compute').fadeIn(600).
 		$('div.message888').hide();
 		$('button#eval').fadeOut(1000);
 		$('button#roll').fadeOut(1000);
@@ -371,7 +372,7 @@ primus.on('pageUpdate', function (cow){
 
 	if (cow.pointer === 'dragon') {
 		$('.on').attr({"class": "off"});
-		$('button#compute').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+		$('button#compute').fadeIn(100);
 		$('.message3').html(' ');
 		return;
 	}
@@ -395,21 +396,21 @@ primus.on('pageUpdate', function (cow){
 		$('button#eval').fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
 		$('button#compute').fadeIn(700);
 		$('#roll').show();
-		if (cow.cow === 6) {
+		if (!cow.gamma) {
 			$('button#roll').hide();
 			$('button#random').fadeIn(1000);
 		} else {
 			$('button#random').hide();
 			$('button#roll').fadeIn(1000);
 		}
-		if (ob.player === cow.player && ob.player !== cow.impossibleClicker) {dec();}
-		if (ob.player === cow.impossibleClicker) {inc();}
+		if (ob.player === cow.player) {dec();}
+		if (cow.play === 3 && ob.player === cow.impossibleClicker) {inc();}
 	}
-
 });
 
-primus.on('mailbox', function (xyz) {
-	$('#textMessage').prepend(ob.player + " says, \"" + xyz.message + "\"" + "<br/>")
+primus.on('mailbox', function (cow) {
+    $('#textMessage input').val('');
+	$('#textMessage').prepend(cow.player + " says, \"" + cow.message + "\"" + "<br/>")
 });
 
 primus.on('godzilla', function (dat) {    //  Listens for roll information and populates the selection boxes.
@@ -450,9 +451,10 @@ primus.on('thor', function (data) {    //  Listens for roll information and popu
     });
 
 primus.on('scoreUp', function (data) {    //  Listens for roll information and populates the selection boxes.
+    tick = -1;
     $.ionSound.play("Gong");
     $('div.message2').append(data['yin'] + " " + data['operator'] + " " + data['yang'] + " = " + data['newo']);
-    if (data.cow === 6) {
+    if (!data.gamma) {
         $('button#roll').hide();
         $('button#random').fadeIn(1000);
     } else {
@@ -466,7 +468,8 @@ primus.on('scoreUp', function (data) {    //  Listens for roll information and p
     $('button#compute').fadeOut(1000);
     $('div.buttons').fadeIn(800).hide();
     //$('div.message').html(data[7] + " scored!  One point added. ");
-	if (ob.player === ob.player && ob.player !== data.impossibleClicker) {inc();}
+    console.log(data);
+	if (ob.player === data.player) { inc(); }
 	if (ob.player === data.impossibleClicker) {dec();}
 });
 

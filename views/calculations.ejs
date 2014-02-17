@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="/javascripts/underscore-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <script src="/primus/primus.js"></script>
+    <script src="/javascripts/zepto.js"></script>
+    <script src="/javascripts/ion.sound.js"></script>
+    <script src="/javascripts/Bacon.min.js"></script>
+    <script src="/javascripts/Bacon.JQuery.Bindings.js"></script>
+    <script src="/javascripts/q.js"></script>
+<script type="text/javascript" src="/javascripts/lazy.js"></script>
+
+<!-- optional: if you want support for DOM event and AJAX-based sequences: -->
+<script type="text/javascript" src="/javascripts/lazy.browser.js"></script>
+    <script>
+        var primus = new Primus;
+    </script>
+</head>
+<body>
+<br/>
+<h2 style="text-align: center; color: #ff4b2b">This Page Works Offline</h2>
+<h3 style="text-align: center; color: #ff4b2b; font-style: italic;">(Just don't try to reload without a server connection)<h3/>
+<br/>
+<form>
+        <input type="text" id ='a8' size='3'/>
+        <input type="text" id ='b8' size='3'/>
+        <input type="text" id ='c8' size='3'/>
+        <input type="text" id ='d8' size='3'/><br/>
+        Score Number:</span> <input type="text" id ='e8' size='3' value="20"/>
+    <select class='b3' id='complexity'>
+        <option value="simple">Simple solutions.</option>
+        <option value="intermediate">Includes subtraction of negative numbers.</option>
+        <option value="complex">Subtraction of negatives and operations with fractions.</option>
+    </select>
+    <input type='button' class='b2 'value='EVALUATE' id='crows'/>
+</form>
+<button class="b2" id="clean" >ERASE</button>
+
+<div id="cows" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Wolves.*****</span>
+</div>
+
+<div id="pigs" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Demented judges.*****</span>
+</div>
+
+<div id="skunks" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Winds of change.*****</span>
+</div>
+
+<div id="monkeys" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Dissolution and oblivion.*****</span>
+</div>
+
+<div id="dogs" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Cats and dogs.*****</span>
+</div>
+
+<div id="badgers" style="background-color:black; color:springgreen; width:95%; margin-left:7%;">
+<br/><span style="color:#ffc050; font-size:18px;">*****Oblivion would appear to be the destination.*****</span>
+</div>
+
+
+
+<script>
+$(function() {
+    $('#clean')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+	            $('#cows').html('<span style="color:#ffc050; font-size:18px;">Three-dice solutions</span>');
+                $('#pigs').html('<span style="color:#ffc050; font-size:18px;">Combine the results of two distinct computations.</span>');
+                $('#p').html('<span style="color:#ffc050; font-size:18px;">Foxes and hens.</span>');
+                $('#monkeys').html('<span style="color:#ffc050; font-size:18px;">Center first, then left and then right.</span>');
+                $('#skunks').html('<span style="color:#ffc050; font-size:18px;">Center first, then right and then left.</span>');
+                $('#dogs').html('<span style="color:#ffc050; font-size:18px;">Sequentially, left to right.</span>');
+                $('#badgers').html('<span style="color:#ffc050; font-size:18px;">Sequentially, right to left.</span>');
+
+	        return false;
+    });
+});
+
+var calc = [
+	function (xt, yt) {return xt + yt;},
+    function (xt,yt) {
+	    if ((xt - yt) >= 0 || complexity !== "simple") {
+		    return xt - yt;
+	    }
+	    else { return undefined; }
+    },
+    function (xt,yt) {return xt * yt;},
+    function (xt,yt){
+	    if (complexity === "complex" || ~~(xt/yt) === xt/yt) {
+		    return xt/yt
+	    } else { return undefined; }
+	},
+	function (xt, yt) {
+	    if ( typeof xt === 'number' && typeof yt === 'number' && yt >= 0 && xt !== 0 && ~~yt === yt && ~~xt ===xt ) {
+	        var cat = (xt.toString()) + (yt.toString());
+			return parseInt(cat, 10);
+        } else { return undefined; }
+	}
+];
+
+
+
+
+
+
+
+        var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
+        " subtracted from ", " divided into ", " concatenated in front of "
+    ];
+
+       // $('#echo .output').html(bjq.textFieldValue($('#echo input')));//  All possible combinations of three dice
+
+
+
+var crow = $('#crows');
+crow.asEventStream("click")
+    .subscribe(function(event) {
+            $('#cows').html('<span style="color:#ffc050; font-size:18px;">Three-dice solutions</span>');
+            $('#pigs').html('<span style="color:#ffc050; font-size:18px;">Combine the results of two distinct computations.</span>');
+            $('#p').html('<span style="color:#ffc050; font-size:18px;">Foxes and hens.</span>');
+            $('#monkeys').html('<span style="color:#ffc050; font-size:18px;">Center first, then left and then right.</span>');
+            $('#skunks').html('<span style="color:#ffc050; font-size:18px;">Center first, then right and then left.</span>');
+            $('#dogs').html('<span style="color:#ffc050; font-size:18px;">Sequentially, left to right.</span>');
+            $('#badgers').html('<span style="color:#ffc050; font-size:18px;">Sequentially, right to left.</span>');
+            var complexity = $('#complexity').val();
+	        var a = parseInt($('#a8').val(), 10);
+            var b = parseInt($('#b8').val(), 10);
+            var c = parseInt($('#c8').val(), 10);
+            var d = parseInt($('#d8').val(), 10);
+	        var scoreNum = parseInt($('#e8').val(), 10);
+            go(a, b, c, d, complexity, scoreNum);
+    });
+
+ var go = function(a, b, c, d, compl, scNum) {
+
+    var scoreNum = parseInt(scNum, 10);
+        var complexity = compl;
+        var r3 = [
+        [a, b, c],
+        [a, b, d],
+        [a, c, b],
+        [a, c, d],
+        [a, d, b],
+        [a, d, c],
+        [b, a, c],
+        [b, a, d],
+        [b, c, a],
+        [b, c, d],
+        [b, d, a],
+        [b, d, c],
+        [c, a, b],
+        [c, a, d],
+        [c, b, a],
+        [c, b, d],
+        [c, d, a],
+        [c, d, b],
+        [d, a, b],
+        [d, a, c],
+        [d, b, a],
+        [d, b, c],
+        [d, c, a],
+        [d, c, b ]
+    ];
+//  All possible combination of four dice.
+    var r4 = [
+        [a, b, c, d],
+        [a, b, d, c],
+        [a, c, b, d],
+        [a, c, d, b],
+        [a, d, b, c],
+        [a, d, c, b],
+        [b, a, c, d],
+        [b, a, d, c],
+        [b, c, a, d],
+        [b, c, d, a],
+        [b, d, a, c],
+        [b, d, c, a],
+        [c, a, b, d],
+        [c, a, d, b],
+        [c, b, a, d],
+        [c, b, d, a],
+        [c, d, a, b],
+        [c, d, b, a],
+        [d, a, b, c],
+        [d, a, c, b],
+        [d, b, a, c],
+        [d, b, c, a],
+        [d, c, a, b],
+        [d, c, b, a]
+    ];
+
+
+    Array.prototype.unique = function () {
+        var o = {}, i = 0, l = this.length, r = [];
+        for (i = 0; i < l; i += 1) o[this[i]] = this[i];
+        for (var n in o) {
+            r.push(o[n]);
+        }
+        return r;
+    };
+    var ar3 = r3.unique();
+    var ar4 = r4.unique();
+    var k, k2, k3, j2, j3, m2, m3, z, result;
+    k = k2 = k3 = j = j2 = j3 = m2 =  m3 = -1;
+    var cow = $('#cows');
+    ar3.map(function(ar) {
+        calc.map(function(funcs) {
+            k += 1;
+            calc.map(function(functions) {
+                j += 1;
+                y = functions(funcs(ar[0], ar[1]), ar[2]);
+                z = functions(ar[2], funcs(ar[0], ar[1]));
+                if (y === scoreNum) {
+                     cow.append('<br/>Score! &nbsp;&nbsp;(' + ar[0] + '  ' + op[k%5] + ' ' + ar[1] + ') '
+                             + op[j%5] + '  ' + ar[2] + ' = ' + y);
+                }
+                if (z === scoreNum) {
+                    $('#cows').append('<br/>Score!&nbsp;&nbsp; (' + ar[2] + ' ' + op[j%5] + ' (' + ar[0] + '  '
+                            + op[k%5] + ' ' + ar[1] + ') = ' + z);
+                }
+            });
+        });
+    });
+
+    ar4.map(function(ar) {
+        calc.map(function(funcs) {
+            k2 += 1;
+            calc.map(function(functions) {
+                j2 += 1;
+                calc.map(function (f) {
+                    m2 += 1;
+                    result = f(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
+                    if (result === scoreNum) {
+                        $('#pigs').append('<br/>' + ar[0] + ' ' + op[k2%5] + ' ' + ar[1] + ')  ' + op[m2%5] + ' ('
+                            + ar[2] + ' ' +  op[j2%5] + ' ' + ar[3] + ') = ' + result);
+                    }
+                });
+            });
+        });
+    });
+
+    ar4.map(function(ar) {
+        calc.map(function(funcs) {
+            k3 += 1;
+            calc.map(function(functions) {
+                j3 += 1;
+                calc.map(function (f) {
+                    m3 += 1;
+                    resultA = f(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
+                    resultC = f(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
+                    resultB = f(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
+                    resultD = f(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
+                    if (resultA === scoreNum) {
+                        $('#dogs').append('<br/>((' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1] + ') ' + op[j3%5] + ar[2]
+                        + ') ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultA);
+                    }
+                    if (resultC === scoreNum) {
+                        $('#skunks').append('<br/>' + ar[3] + ' ' +  op[m3%5] + ' ((' + ar[0] + ' ' + op[k3%5] + ' '
+                                + ar[1] + ') ' + op[j3%5] + ar[2]+ ') = ' + resultC);
+                    }
+                    if (resultB === scoreNum) {
+                        $('#monkeys').append('<br/>(' + ar[2] + ' ' + op[j3%5] + ' (' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1]
+                                + ')) ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultB);
+                    }
+                    if (resultD === scoreNum) {
+                        $('#badgers').append('<br/>' + ar[3] + ' ' + op[m3%5] + ' (' + ar[2] + ' ' + op[j3%5] + '( ' + ar[0]
+                               + '  ' + op[k3%5] + ' ' + ar[1] + ') = ' + resultD);
+                    }
+                });
+            });
+        });
+    });
+ }
+
+</script>
+</body>
+</html>

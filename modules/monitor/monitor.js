@@ -1,13 +1,14 @@
 exports.monitor = function (pri) {
 	var primus = pri;
+    var stop = false;
 	var inplay = false;
+    var gamma = true;
 	var isInterrupted = false;
 	var nums = {}; //Persists throughout round of play.
 	var numberOb = {}; //Contains currently available numbers.
 	var x, y, op;
-	var abs = Math.abs;
 	var complexity = 0;
-	var impossibleClicker = '%ytr56dfg787%*&';
+	var impossibleClicker;
 	var scoreNum = 20;
 	var data = {};
 	var play = 88;
@@ -25,45 +26,46 @@ exports.monitor = function (pri) {
 	rx4 = 88;
 	var opArray = ['plus', 'minus', 'times', 'divided by', 'concatenated behind'];
 
-	return {calc : function () {
-		x = data.yin = numberOb[data.x];
-		y = data.yang = numberOb[data.y];
-		op = data.op;
-		if (op == 0) {
-			data.newo = x + y;
-		}
-		else if (op == 1) {
-			if (complexity === 0) {
-				data.newo = abs(x - y);
-			}
-			else {data.newo = x - y;}
-		}
-		else if (op == 2) {
-			data.newo = x * y;
-		}
-		else if (op == 3) {
-			if (y === 0) {
-				data.newo = 'horse';
-				}
-			else if (complexity !== 2 && x / y !== ~~x / y) {
-				data.newo = 'mule';
-				return;
-			}
-			else {
-				data.newo = x/y;
-			}
-		}
-		else if (op == 4) {
-			if (~~x === x && ~~y === y) {
-				data.newo = parseInt((x.toString() + y.toString()));
-			} else {
-				data.newo = 'donkey';
-				return;
-			}
-		}
-		else data.newo = 'error';
-		this.process()
-	},
+    return  {
+            calc : function (data) {
+            data.gamma = this.gamma;
+            console.log('7777777777777777777777777777777777777777777777777777777   data coming into calc');
+            console.log('7777777777777777777777777777777777777777777777777777777   data coming into calc');
+            console.log(data);
+            console.log('7777777777777777777777777777777777777777777777777777777   data coming into calc');
+            console.log('7777777777777777777777777777777777777777777777777777777   data coming into calc');
+            var x = data.yin = parseFloat(numberOb[data.x], 10);
+            var y = data.yang = parseFloat(numberOb[data.y], 10);
+            var op = parseInt(data.op, 10);
+            if (op === 0) {
+                data.newo = x + y;
+            }
+            else if (op === 1) {
+                data.newo = x - y;
+            }
+            else if (op === 2) {
+                data.newo = x * y;
+                console.log('_______________________________________****************************_______Everybody up now!')
+                console.log([x, y, data.newo])
+            }
+            else if (op === 3) {
+                if (y === 0) {
+                primus.send('tilt', data);
+				primus.send('offClock');
+                }
+                data.newo = x/y;
+                }
+            else if (op === 4) {
+                if (~~x === x && ~~y === y) {
+                    data.newo = parseInt((x.toString() + y.toString()));
+                } else {
+                    data.newo = 'undefined';
+                    return;
+                }
+            }
+            else {data.newo = 'error';}
+            this.process(data);
+	    },
 
         setd: function(x, y, z, w) {
             d1 = x;
@@ -88,6 +90,14 @@ exports.monitor = function (pri) {
             rx4 = data.d;
         },
 
+		setStop : function (b) {
+			stop = b;
+		},
+
+		getStop : function () {
+			return stop;
+		},
+
 		getNums : function () {
 			return nums;
 		},
@@ -98,6 +108,15 @@ exports.monitor = function (pri) {
 
 		setInplay : function(x) {
 			inplay = x;
+		},
+
+
+		getGamma : function () {
+			return gamma;
+		},
+
+		setGamma : function(x) {
+			gamma = x;
 		},
 
 		getisInterrupted : function () {
@@ -111,12 +130,22 @@ exports.monitor = function (pri) {
 		    scoreNum = number;
 	    },
 
-		setimpossibleClicker: function(x) {
-			impossibleClicker = x;
+		setimpossibleClicker: function(xyz) {
+			impossibleClicker = xyz;
+            console.log('___$$$$$$$$$$$$$$$$&&&&&&&@@@@@#######################@@@@@@**************________ You bet!');
 		},
 
 		getimpossibleClicker: function() {
 			return impossibleClicker;
+		},
+
+
+		setinterruptClicker: function(x) {
+			interruptClicker = x;
+		},
+
+		getinterruptClicker: function() {
+			return interruptClicker;
 		},
 
 	    getscoreNum: function() {
@@ -126,6 +155,7 @@ exports.monitor = function (pri) {
 		setData : function (d) {
 			data = d;
 			play = d.play;
+            gamma = d.gamma;
 		},
 
 		getData : function () {
@@ -152,27 +182,39 @@ exports.monitor = function (pri) {
 	        primus.send('pageUpdate', cow);
         },
 
-		process : function() {
+		process : function(data) {
+            data.gamma = gamma;
+            console.log('*************************************************************** data coming into process');
+            console.log('*************************************************************** data coming into process');
+            console.log(data);
+            console.log('*************************************************************** data coming into process');
+            console.log('*************************************************************** data coming into process');
 			var temp = [];
 			var n = 0;
 			for (k = 0; k < data.m; k += 1) {
-				var arg = [k, data.m, numberOb[k], data.x, data.y];
-				if (k !== data.x && k !== data.y) {
+				if (k !== parseInt(data.x, 10) && k !== parseInt(data.y, 10)) {
 					temp[n] = numberOb[k];
 					n += 1;
 					console.log(temp);
 				}
 			}
-			data.a = temp[0];
+            data.a = temp[0];
 			data.b = temp[1];
 			data.operator = opArray[data.op];
 			data.play = play;
-			if ((data.newo === scoreNum && data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
+            console.log('*************************************************************** data coming later in process');
+            console.log('*************************************************************** data coming later in process');
+            console.log(data);
+            console.log('*************************************************************** data coming later in process');
+            console.log('*************************************************************** data coming later in process');
+			if ((data.newo === scoreNum & data.m === 3 && (data.x === 2 || data.y === 2)) || (data.newo === scoreNum && data.m === 2)) {
 				data.impossibleClicker = impossibleClicker;
-				inplay = false;
+                inplay = false;
+                stop = true;
+                console.log('___________________________________*********************************__________________ Yo!');
+                console.log(data);
+                console.log('___________________________________*********************************__________________ Yo!');
 				primus.send('scoreUp', data);
-				primus.send('setClock', {tick: -1});
-				primus.send('displayOff');
 				play = 10;
 			}
 
@@ -181,17 +223,18 @@ exports.monitor = function (pri) {
 				primus.send('godzilla', data);
 			}
 
-			else if (data.m === 3 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== 'donkey')) {
+			else if (data.m === 3) {
 				numberOb = {'0':data.a, '1':data.newo};
 				primus.send('dragon', data);
 			}
 
-			else if (data.m === 2 && (data.newo !== 'horse' && data.newo !== 'mule' && data.newo !== 'donkey')) {
+			else if (data.m === 2) {
+                stop = true;
 				inplay = false;
 				primus.send('thor', data);
 				data.impossibleClicker = impossibleClicker;
-				var cow = {'pointer': 'done', 'tick': -1};
-				primus.send('pageUpdate', cow);
+				var cow = {'tick': -1};
+				primus.send('timeUp', data);
 				primus.send('offClock', cow);
 				play = data.play = 10;
 			}
@@ -201,19 +244,8 @@ exports.monitor = function (pri) {
 				primus.send('offClock');
 			}
 
-			else if (data.newo === 'mule') {
-
-			}
-
-			else if (data.newo === 'donkey') {
-
-			}
-
-			else if (data.newo === 'error') {
-				console.log('calc failed to return a number');
-			}
-
 		}
+
 	};
 };
 

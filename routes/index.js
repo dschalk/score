@@ -14,3 +14,7 @@ exports.cow = function(request, response){
 exports.playground = function(request, response){
 	response.render('playground.ejs');
 };
+
+exports.calculations = function(request, response){
+	response.render('calculations.ejs');
+};

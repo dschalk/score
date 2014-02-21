@@ -2,18 +2,21 @@
 <html>
 <head>
     <title></title>
-    <script src="/javascripts/underscore-min.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <script src="/primus/primus.js"></script>
     <script src="/javascripts/zepto.js"></script>
+    <script src="/javascripts/udon.js"></script>
     <script src="/javascripts/ion.sound.js"></script>
     <script src="/javascripts/Bacon.min.js"></script>
-    <script src="/javascripts/Bacon.JQuery.Bindings.js"></script>
+    <!-- <script src="/javascripts/Bacon.JQuery.Bindings.js"></script>  -->
     <script src="/javascripts/q.js"></script>
 <script type="text/javascript" src="/javascripts/lazy.js"></script>
 
-<!-- optional: if you want support for DOM event and AJAX-based sequences: -->
+<!-- optional: if you want support for DOM event and AJAX-based sequences:
+     <script src="/javascripts/underscore-min.js"></script>
 <script type="text/javascript" src="/javascripts/lazy.browser.js"></script>
+ -->
+
     <script>
         var primus = new Primus;
     </script>
@@ -62,7 +65,7 @@
 <br/><span style="color:#ffc050; font-size:18px;">*****Oblivion would appear to be the destination.*****</span>
 </div>
 
-
+<br/><br/>
 
 <script>
 $(function() {
@@ -102,20 +105,11 @@ var calc = [
         } else { return undefined; }
 	}
 ];
-
-
-
-
-
-
-
         var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
         " subtracted from ", " divided into ", " concatenated in front of "
     ];
 
        // $('#echo .output').html(bjq.textFieldValue($('#echo input')));//  All possible combinations of three dice
-
-
 
 var crow = $('#crows');
 crow.asEventStream("click")
@@ -194,7 +188,6 @@ crow.asEventStream("click")
         [d, c, b, a]
     ];
 
-
     Array.prototype.unique = function () {
         var o = {}, i = 0, l = this.length, r = [];
         for (i = 0; i < l; i += 1) o[this[i]] = this[i];
@@ -203,78 +196,81 @@ crow.asEventStream("click")
         }
         return r;
     };
+
     var ar3 = r3.unique();
     var ar4 = r4.unique();
-    var k, k2, k3, j2, j3, m2, m3, z, result;
-    k = k2 = k3 = j = j2 = j3 = m2 =  m3 = -1;
+    var k, k2, k3, j2, j3, m2, m3, j, z, result, indOne, indTwo;
+    k = k2 = k3 = j = j2 = j3 = m2 = j = m3 = -1;
     var cow = $('#cows');
-    ar3.map(function(ar) {
-        calc.map(function(funcs) {
+    Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j += 1;
                 y = functions(funcs(ar[0], ar[1]), ar[2]);
                 z = functions(ar[2], funcs(ar[0], ar[1]));
                 if (y === scoreNum) {
-                     cow.append('<br/>Score! &nbsp;&nbsp;(' + ar[0] + '  ' + op[k%5] + ' ' + ar[1] + ') '
-                             + op[j%5] + '  ' + ar[2] + ' = ' + y);
+                    //cow.append(calc.indexOf(functions));
+                    //cow.append(calc.indexOf(funcs));
+                    cow.append('<br/>Score! &nbsp;&nbsp;(' + ar[0] + '  ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') '
+                            + op[calc.indexOf(functions)] + '  ' + ar[2] + ' = ' + y);
                 }
                 if (z === scoreNum) {
-                    $('#cows').append('<br/>Score!&nbsp;&nbsp; (' + ar[2] + ' ' + op[j%5] + ' (' + ar[0] + '  '
-                            + op[k%5] + ' ' + ar[1] + ') = ' + z);
+                     cow.append('<br/>Score!&nbsp;&nbsp; (' + ar[2] + ' ' + op[calc.indexOf(funcs)] + ' (' + ar[0] + '  '
+                           + op[calc.indexOf(functions)] + ' ' + ar[1] + ') = ' + z);
                 }
-            });
-        });
-    });
+            }, calc);
+        }, calc);
+    }, ar3);
 
-    ar4.map(function(ar) {
-        calc.map(function(funcs) {
+    Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k2 += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j2 += 1;
-                calc.map(function (f) {
+                Udon.map(function (fu) {
                     m2 += 1;
-                    result = f(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
+                    result = fu(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
                     if (result === scoreNum) {
-                        $('#pigs').append('<br/>(' + ar[0] + ' ' + op[k2%5] + ' ' + ar[1] + ')  ' + op[m2%5] + ' ('
-                            + ar[2] + ' ' +  op[j2%5] + ' ' + ar[3] + ') = ' + result);
+                        $('#pigs').append('<br/>(' + ar[0] + ' ' + op[calc.indexOf(funcs)]  + ' ' + ar[1] + ') ' + op[calc.indexOf(fu)] + ' ('
+                            + ar[2] + ' ' +  op[calc.indexOf(functions)] + ' ' + ar[3] + ') = ' + result);
                     }
-                });
-            });
-        });
-    });
+                }, calc);
+            }, calc);
+        }, calc);
+    }, ar4);
 
-    ar4.map(function(ar) {
-        calc.map(function(funcs) {
+    Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k3 += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j3 += 1;
-                calc.map(function (f) {
+                Udon.map(function (fi) {
                     m3 += 1;
-                    resultA = f(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
-                    resultC = f(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
-                    resultB = f(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
-                    resultD = f(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
+                    resultA = fi(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
+                    resultC = fi(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
+                    resultB = fi(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
+                    resultD = fi(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
                     if (resultA === scoreNum) {
-                        $('#dogs').append('<br/>((' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1] + ') ' + op[j3%5] + ar[2]
-                        + ') ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultA);
+                        $('#dogs').append('<br/>((' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') ' + op[calc.indexOf(functions)] + ar[2]
+                        + ') ' + op[calc.indexOf(fi)] + ' ' + ar[3] + ' = ' + resultA);
                     }
                     if (resultC === scoreNum) {
-                        $('#skunks').append('<br/>' + ar[3] + ' ' +  op[m3%5] + ' ((' + ar[0] + ' ' + op[k3%5] + ' '
-                                + ar[1] + ') ' + op[j3%5] + ar[2]+ ') = ' + resultC);
+                        $('#skunks').append('<br/>' + ar[3] + ' ' +  op[calc.indexOf(fi)] + ' ((' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' '
+                                + ar[1] + ') ' + op[calc.indexOf(functions)] + ar[2]+ ') = ' + resultC);
                     }
                     if (resultB === scoreNum) {
-                        $('#monkeys').append('<br/>(' + ar[2] + ' ' + op[j3%5] + ' (' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1]
-                                + ')) ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultB);
+                        $('#monkeys').append('<br/>(' + ar[2] + ' ' + op[calc.indexOf(functions)] + ' (' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' ' + ar[1]
+                                + ')) ' + op[calc.indexOf(fi)] + ' ' + ar[3] + ' = ' + resultB);
                     }
                     if (resultD === scoreNum) {
-                        $('#badgers').append('<br/>' + ar[3] + ' ' + op[m3%5] + ' (' + ar[2] + ' ' + op[j3%5] + '( ' + ar[0]
-                               + '  ' + op[k3%5] + ' ' + ar[1] + ') = ' + resultD);
+                        $('#badgers').append('<br/>' + ar[3] + ' ' + op[calc.indexOf(fi)] + ' (' + ar[2] + ' ' + op[calc.indexOf(functions)] + '( ' + ar[0]
+                               + '  ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') = ' + resultD);
                     }
-                });
-            });
-        });
-    });
+                }, calc);
+            }, calc);
+        }, calc);
+    }, ar4);
  }
 
 </script>

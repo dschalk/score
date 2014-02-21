@@ -105,11 +105,16 @@ primus.on('computebuttonOn', function () {
     $('#compute').show();
 });
 
+primus.on('computebuttonOff', function () {
+    $('#compute').hide();
+});
+
 primus.on('setClock', function (data) {
 	tick = data.tick;
     $('#compute').show();
     if (data.play === 2) {
         $('#interrupt').show();
+        $('#compute').hide();
     }
 
     if (data.play == 3 && ob.player == data.player) {

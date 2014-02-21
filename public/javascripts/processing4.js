@@ -25,6 +25,15 @@ $(function() {
     });
 });
 
+$(function() {
+    $('#clean2')
+	    .asEventStream("click")
+	    .subscribe(function(event) {
+        primus.send('erase');
+        return false;
+    });
+});
+
 primus.on('highlightOff', function () {
     $('.on').attr({"class": "off"});
 });

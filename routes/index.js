@@ -18,3 +18,7 @@ exports.playground = function(request, response){
 exports.calculations = function(request, response){
 	response.render('calculations.ejs');
 };
+
+exports.calculationsUdon = function(request, response){
+	response.render('calculationsUdon.ejs');
+};

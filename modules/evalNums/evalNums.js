@@ -1,4 +1,5 @@
 exports.roll = function (a, b, c, d, primus, flag, compl, scNum) {
+    var Udon = require('udon');
     var complexity = compl;
 	var scoreNum = scNum;
     console.log('****************************************************__________________scoreNum');
@@ -108,82 +109,83 @@ var calc = [
 
     var ar3 = artist.unique();
     var ar4 = musician.unique();
-    var k, k2, k3, j2, j3, m2, m3, z, result;
-    k = k2 = k3 = j = j2 = j3 = m2 =  m3 = -1;
+    var k, k2, k3, j2, j3, m2, m3, j, z, result;
+    k = k2 = k3 = j = j2 = j3 = m2 = j =  m3 = -1;
     var lion = [];
-    ar3.map(function(ar) {
-        calc.map(function(funcs) {
+    var resultA, resultB, resultC, resultD;
+   Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j += 1;
                 y = functions(funcs(ar[0], ar[1]), ar[2]);
                 z = functions(ar[2], funcs(ar[0], ar[1]));
                 if (y === scoreNum) {
-                     lion.push('(' + ar[0] + '  ' + op[k%5] + ' ' + ar[1] + ') '
-                             + op[j%5] + '  ' + ar[2] + ' = ' + y);
+                    lion.push('Score! &nbsp;&nbsp;(' + ar[0] + '  ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') '
+                            + op[calc.indexOf(functions)] + '  ' + ar[2] + ' = ' + y);
                 }
                 if (z === scoreNum) {
-                    lion.push('(' + ar[2] + ' ' + op[j%5] + ' (' + ar[0] + '  '
-                            + op[k%5] + ' ' + ar[1] + ') = ' + z);
+                     lion.push('Score!&nbsp;&nbsp; (' + ar[2] + ' ' + op[calc.indexOf(funcs)] + ' (' + ar[0] + '  '
+                           + op[calc.indexOf(functions)] + ' ' + ar[1] + ') = ' + z);
                 }
-            });
-        });
-    });
+            }, calc);
+        }, calc);
+    }, ar3);
 
-    ar4.map(function(ar) {
-        calc.map(function(funcs) {
+    Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k2 += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j2 += 1;
-                calc.map(function (f) {
+                Udon.map(function (fu) {
                     m2 += 1;
-                    result = f(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
+                    result = fu(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
                     if (result === scoreNum) {
-                        lion.push('(' + ar[0] + ' ' + op[k2%5] + ' ' + ar[1] + ')  ' + op[m2%5] + ' ('
-                            + ar[2] + ' ' +  op[j2%5] + ' ' + ar[3] + ') = ' + result);
+                        lion.push('(' + ar[0] + ' ' + op[calc.indexOf(funcs)]  + ' ' + ar[1] + ') ' + op[calc.indexOf(fu)] + ' ('
+                            + ar[2] + ' ' +  op[calc.indexOf(functions)] + ' ' + ar[3] + ') = ' + result);
                     }
-                });
-            });
-        });
-    });
+                }, calc);
+            }, calc);
+        }, calc);
+    }, ar4);
 
-    ar4.map(function(ar) {
-        calc.map(function(funcs) {
+    Udon.map(function(ar) {
+        Udon.map(function(funcs) {
             k3 += 1;
-            calc.map(function(functions) {
+            Udon.map(function(functions) {
                 j3 += 1;
-                calc.map(function (f) {
+                Udon.map(function (fi) {
                     m3 += 1;
-                    resultA = f(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
-                    resultC = f(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
-                    resultB = f(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
-                    resultD = f(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
+                    resultA = fi(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);
+                    resultC = fi(ar[3], (functions(funcs(ar[0], ar[1]), ar[2])));
+                    resultB = fi(functions(ar[2], funcs(ar[0], ar[1])), ar[3]);
+                    resultD = fi(ar[3], (functions(ar[2], funcs(ar[0], ar[1]))));
                     if (resultA === scoreNum) {
-                        lion.push('((' + ar[0] + ' ' + op[k3%5] + ' ' + ar[1] + ') ' + op[j3%5] + ar[2]
-                        + ') ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultA);
+                        lion.push('((' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') ' + op[calc.indexOf(functions)] + ar[2]
+                        + ') ' + op[calc.indexOf(fi)] + ' ' + ar[3] + ' = ' + resultA);
                     }
                     if (resultC === scoreNum) {
-                        lion.push('' + ar[3] + ' ' +  op[m3%5] + ' ((' + ar[0] + ' ' + op[k3%5] + ' '
-                                + ar[1] + ') ' + op[j3%5] + ar[2]+ ') = ' + resultC);
+                        lion.push(ar[3] + ' ' +  op[calc.indexOf(fi)] + ' ((' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' '
+                                + ar[1] + ') ' + op[calc.indexOf(functions)] + ar[2]+ ') = ' + resultC);
                     }
                     if (resultB === scoreNum) {
-                        lion.push('(' + ar[2] + ' ' + op[j3%5] + ' (' + ar[0] + ' ' + op[k3%5] + ar[1]
-                                + ')) ' + op[m3%5] + ' ' + ar[3] + ' = ' + resultB);
+                        lion.push('(' + ar[2] + ' ' + op[calc.indexOf(functions)] + ' (' + ar[0] + ' ' + op[calc.indexOf(funcs)] + ' ' + ar[1]
+                                + ')) ' + op[calc.indexOf(fi)] + ' ' + ar[3] + ' = ' + resultB);
                     }
                     if (resultD === scoreNum) {
-                        lion.push(ar[3] + ' ' + op[m3%5] + ' (' + ar[2] + ' ' + op[j3%5] + '( ' + ar[0]
-                               + '  ' + op[k3%5] + ' ' + ar[1] + ') = ' + resultD);
+                        lion.push(ar[3] + ' ' + op[calc.indexOf(fi)] + ' (' + ar[2] + ' ' + op[calc.indexOf(functions)] + '( ' + ar[0]
+                               + '  ' + op[calc.indexOf(funcs)] + ' ' + ar[1] + ') = ' + resultD);
                     }
-                });
-            });
-        });
-    });
-
+                }, calc);
+            }, calc);
+        }, calc);
+    }, ar4);
 
 
 if (lion.length === 0) {
     lion.push("Impossible");
 }
+
 console.log("Clowns and devious horses *******************scoreNum****__scoreNum***_2");
 	console.log("Clowns and devious horses *************************************************_4");
     console.log(scoreNum);

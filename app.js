@@ -1,6 +1,7 @@
 'use strict';
 
 var Bacon = require('baconjs');
+var Udon = require('udon');
 var express = require('express')
 	, Primus = require('primus');
 var app = express();
@@ -59,9 +60,10 @@ app.get('/', routes.index);
 app.get('/experiments', routes.experiments);
 app.get('/playground', routes.playground);
 app.get('/calculations', routes.calculations);
+app.get('/calculationsUdon', routes.calculationsUdon);
 app.get('/cow', routes.cow);
 app.use(function (req, res, next){
-    res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/Bacon.min.js', '/public/javascripts/Bacon.JQuery.Bindings.js',
+    res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/udon.js', '/public/javascripts/Bacon.min.js', '/public/javascripts/Bacon.JQuery.Bindings.js',
         '/public/javascripts/ion.sounds.js', '/modules/processing3.js', '/public/javascripts/processing4.js', '/public/javascripts/processing2.js'];
     next();
 });
@@ -142,30 +144,33 @@ primus.on('connection', function (spark) {
 	});
 });
 */
-
-
-
-
-
     spark.on('timer', function(data) {
         var impossibleClicker = 'Santa Clause';
-        if (data.play === 2) {impossibleClicker = data.player}
+        if (data.play === 2) {
+            impossibleClicker = data.player;
+            primus.send("computebuttonOff");
+        }
         console.log('____________________________________________ Yo! _______impossibleClicker: ' + impossibleClicker);
         var play = data.play;
         var kiss = 0;
         var sow = {};
         var tickeroos;
         var x;
+
         var promiseOne = Q.promise(function (resolve, reject) {
-        resolve(function () {
-            gameData.setStop(true);
-            x = false;
-            console.log('_________________________________________________' + new Date())
+
+            resolve(function () {
+                gameData.setStop(true);
+                x = false;
+                console.log('_________________________________________________' + new Date())
+            });
+
+            reject(function () {
+                console.log('Drat!');
+            });
+
         });
-        reject(function () {
-            console.log('Drat!');
-        });
-    });
+
      var promiseTwo = Q.promise(function (resolve, reject) {
          resolve(function () {
             gameData.setStop(false);
@@ -176,6 +181,7 @@ primus.on('connection', function (spark) {
             console.log('Drat!');
         });
      });
+
         gameData.setStop(false);
         x = true;
 
@@ -205,7 +211,6 @@ primus.on('connection', function (spark) {
                 primus.send('timeUp', data);
                 gameData.setStop(true);
                 var cow = {'tick': -1};
-                primus.send('timeUp', data);
 				primus.send('offClock', cow);
 				data.play = 10;
                 // return;
@@ -217,6 +222,7 @@ primus.on('connection', function (spark) {
             }
             man();
         };
+
         var man = function () {
             console.log('_______________ Hey! ' + kiss);
             console.log('@@@@@@@@@@@@@@@@Vyp@@@@@@@@@@@@' + gameData.getStop());
@@ -247,6 +253,7 @@ primus.on('connection', function (spark) {
 	    }
         gameData.setStop(false);
     });
+
     spark.on('reset', function() {
         gameData.setd(6, 6, 12, 20);
         gameData.setscoreNum(20);

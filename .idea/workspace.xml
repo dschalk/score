@@ -2,46 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2937a1c3-8102-4ef8-ac13-55eb5e08af8a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/evalNums/compute.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/views/experiments.ejs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/views/playground.ejs" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/src/Bacon.coffee" afterPath="$PROJECT_DIR$/node_modules/baconjs/src/Bacon.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/dist/Bacon.js" afterPath="$PROJECT_DIR$/node_modules/baconjs/dist/Bacon.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/dist/Bacon.min.js" afterPath="$PROJECT_DIR$/node_modules/baconjs/dist/Bacon.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/spec/BaconSpec.coffee" afterPath="$PROJECT_DIR$/node_modules/baconjs/spec/BaconSpec.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/spec/CompatibilityTest.coffee" afterPath="$PROJECT_DIR$/node_modules/baconjs/spec/CompatibilityTest.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/Gruntfile.coffee" afterPath="$PROJECT_DIR$/node_modules/baconjs/Gruntfile.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Node_js_Dependencies_for_score_mod.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Node_js_Dependencies_for_score_mod.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/README.md" afterPath="$PROJECT_DIR$/node_modules/baconjs/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/RELEASE-NOTES.md" afterPath="$PROJECT_DIR$/node_modules/baconjs/RELEASE-NOTES.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/lib/_stream_readable.js" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/lib/_stream_readable.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/lazy.browser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/lazy.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/bower.json" afterPath="$PROJECT_DIR$/node_modules/baconjs/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/component.json" afterPath="$PROJECT_DIR$/node_modules/baconjs/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/calculations.ejs" afterPath="$PROJECT_DIR$/views/calculations.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/evalNums/evalNums.js" afterPath="$PROJECT_DIR$/modules/evalNums/evalNums.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/monitor/monitor.js" afterPath="$PROJECT_DIR$/modules/monitor/monitor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/baconjs/package.json" afterPath="$PROJECT_DIR$/node_modules/baconjs/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/ejs/package.json" afterPath="$PROJECT_DIR$/node_modules/ejs/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/package.json" afterPath="$PROJECT_DIR$/node_modules/express/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/buffer-crc32/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/buffer-crc32/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/node_modules/core-util-is/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/readable-stream/node_modules/core-util-is/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/stream-counter/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/multiparty/node_modules/stream-counter/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/pause/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/connect/node_modules/pause/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/debug/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/debug/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/mkdirp/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/mkdirp/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/range-parser/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/range-parser/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/express/node_modules/send/node_modules/mime/package.json" afterPath="$PROJECT_DIR$/node_modules/express/node_modules/send/node_modules/mime/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/zepto-full/package.json" afterPath="$PROJECT_DIR$/node_modules/zepto-full/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/processing2.js" afterPath="$PROJECT_DIR$/public/javascripts/processing2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/processing3.js" afterPath="$PROJECT_DIR$/public/javascripts/processing3.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/processing4.js" afterPath="$PROJECT_DIR$/public/javascripts/processing4.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/score_mod.iml" afterPath="$PROJECT_DIR$/.idea/score_mod.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="score_mod.iws" />
@@ -65,56 +35,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="5" selection-start="4547" selection-end="4547" vertical-scroll-proportion="0.0" vertical-offset="4002" max-vertical-offset="8316">
+            <state line="213" column="0" selection-start="6258" selection-end="6258" vertical-scroll-proportion="0.47276264" vertical-offset="5721" max-vertical-offset="8512">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calculations.ejs" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/calculations.ejs">
+      <file leaf-file-name="evalNums.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/evalNums/evalNums.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="93" selection-start="2553" selection-end="2553" vertical-scroll-proportion="0.6351607" vertical-offset="1232" max-vertical-offset="8036">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#2;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1392617872603" expanded="false" signature="3009:3039" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3118:3148" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3253:3283" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3360:3390" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3490:3520" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3618:3648" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="3738:3768" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="4901:4931" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5006:5036" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5137:5167" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5240:5270" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5366:5396" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5490:5520" placeholder="..." />
-                <marker date="1392617872603" expanded="false" signature="5606:5636" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="monitor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/monitor/monitor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="40" selection-start="3285" selection-end="3285" vertical-scroll-proportion="0.0" vertical-offset="3325" max-vertical-offset="7224">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="processing2.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/processing2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="206" column="48" selection-start="4610" selection-end="4610" vertical-scroll-proportion="0.0" vertical-offset="5376" max-vertical-offset="14588">
+            <state line="199" column="0" selection-start="7151" selection-end="7151" vertical-scroll-proportion="-11.434211" vertical-offset="4703" max-vertical-offset="5824">
               <folding />
             </state>
           </provider>
@@ -123,16 +56,16 @@
       <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="3" selection-start="3692" selection-end="3692" vertical-scroll-proportion="-17.405405" vertical-offset="2016" max-vertical-offset="5544">
+            <state line="91" column="0" selection-start="3553" selection-end="3553" vertical-scroll-proportion="11.946667" vertical-offset="3444" max-vertical-offset="5544">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="processing3.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/processing3.js">
+      <file leaf-file-name="processing2.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/processing2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="20" selection-start="2806" selection-end="2807" vertical-scroll-proportion="-4.0" vertical-offset="3816" max-vertical-offset="6160">
+            <state line="257" column="36" selection-start="5853" selection-end="5853" vertical-scroll-proportion="-45.763157" vertical-offset="5457" max-vertical-offset="14728">
               <folding />
             </state>
           </provider>
@@ -141,7 +74,16 @@
       <file leaf-file-name="processing4.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/processing4.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="34" selection-start="1354" selection-end="1354" vertical-scroll-proportion="-5.6969695" vertical-offset="1184" max-vertical-offset="2548">
+            <state line="13" column="29" selection-start="483" selection-end="483" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2800">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="2" selection-start="532" selection-end="532" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="812">
               <folding />
             </state>
           </provider>
@@ -171,7 +113,6 @@
         <option value="$PROJECT_DIR$/views/playground.ejs.html" />
         <option value="$PROJECT_DIR$/package_canibolize.json" />
         <option value="$PROJECT_DIR$/test.html" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/app2.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/public/javascripts/Bacon.JQuery.Bindings.js" />
@@ -180,23 +121,27 @@
         <option value="$PROJECT_DIR$/views/calculations_Native_map_perfect.ejs" />
         <option value="$PROJECT_DIR$/views/calculations_Perfect_Underscore.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/processing3.js" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/processing4.js" />
-        <option value="$PROJECT_DIR$/modules/evalNums/evalNums.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/javascripts/processing2.js" />
         <option value="$PROJECT_DIR$/modules/monitor/monitor.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/calculations.ejs" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/public/javascripts/udon.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/modules/evalNums/evalNums.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/processing4.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/lazy.js" />
+        <option value="$PROJECT_DIR$/views/calculationsLazy.ejs" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/processing2.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-4" />
-    <option name="width" value="1922" />
-    <option name="height" value="1085" />
+    <option name="x" value="63" />
+    <option name="y" value="31" />
+    <option name="width" value="1890" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -224,104 +169,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score_mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="score" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="evalNums" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -442,14 +289,112 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score_mod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="score" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="evalNums" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
-    <property name="last_opened_file_path" value="/mnt" />
+    <property name="options.lastSelected" value="appearance" />
+    <property name="last_opened_file_path" value="$USER_HOME$/scoreinscore/score/views/calculations.ejs" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -464,8 +409,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/modules/evalNums" />
       <recent name="$PROJECT_DIR$/views" />
+      <recent name="$PROJECT_DIR$/modules/evalNums" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/public/javascripts" />
     </key>
@@ -692,7 +637,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-4" width="1922" height="1085" extended-state="6" />
+    <frame x="63" y="31" width="1890" height="1053" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -700,19 +645,19 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19453377" sideWeight="0.61685216" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21522453" sideWeight="0.61685216" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39806867" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.38155803" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908705" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3701367" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3329646" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -734,27 +679,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="62" selection-start="3404" selection-end="3404" vertical-scroll-proportion="0.0" vertical-offset="2041" max-vertical-offset="5544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/processing3.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="24" selection-start="2549" selection-end="2550" vertical-scroll-proportion="0.0" vertical-offset="3612" max-vertical-offset="6132">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/processing4.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="3" selection-start="1842" selection-end="1842" vertical-scroll-proportion="0.0" vertical-offset="1525" max-vertical-offset="3052">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="198" column="43" selection-start="6410" selection-end="6410" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7336">
@@ -774,9 +698,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="6" selection-start="3544" selection-end="3544" vertical-scroll-proportion="0.0" vertical-offset="3612" max-vertical-offset="5544">
-          <folding />
-        </state>
+        <state line="90" column="6" selection-start="3544" selection-end="3544" vertical-scroll-proportion="0.0" vertical-offset="3612" max-vertical-offset="5544" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/monitor/monitor.js">
@@ -939,11 +861,6 @@
         <state line="12" column="0" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4216" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="26" selection-start="413" selection-end="413" vertical-scroll-proportion="0.6461988" vertical-offset="0" max-vertical-offset="858" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="388" column="0" selection-start="6072" selection-end="6072" vertical-scroll-proportion="0.0" vertical-offset="9750" max-vertical-offset="16900" />
@@ -954,53 +871,35 @@
         <state line="2" column="22" selection-start="58" selection-end="58" vertical-scroll-proportion="0.16883117" vertical-offset="0" max-vertical-offset="13494" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/evalNums/compute.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="17" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.0" vertical-offset="1260" max-vertical-offset="8036" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/express/lib/router/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="290" column="0" selection-start="6490" selection-end="6490" vertical-scroll-proportion="3.039146" vertical-offset="6412" max-vertical-offset="9156">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="562" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/evalNums/evalNums.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="14" selection-start="794" selection-end="794" vertical-scroll-proportion="0.6204986" vertical-offset="0" max-vertical-offset="5768" />
+        <state line="290" column="0" selection-start="6490" selection-end="6490" vertical-scroll-proportion="3.039146" vertical-offset="6412" max-vertical-offset="9156" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/processing3.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="20" selection-start="2806" selection-end="2807" vertical-scroll-proportion="-4.0" vertical-offset="3816" max-vertical-offset="6160">
-          <folding />
-        </state>
+        <state line="140" column="20" selection-start="2780" selection-end="2781" vertical-scroll-proportion="0.0" vertical-offset="3920" max-vertical-offset="6160" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/processing4.js">
+    <entry file="file://$USER_HOME$/scoreinscore/score/views/calculations.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="34" selection-start="1354" selection-end="1354" vertical-scroll-proportion="-5.6969695" vertical-offset="1184" max-vertical-offset="2548">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="3" selection-start="3692" selection-end="3692" vertical-scroll-proportion="-17.405405" vertical-offset="2016" max-vertical-offset="5544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/processing2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="48" selection-start="4610" selection-end="4610" vertical-scroll-proportion="0.0" vertical-offset="5376" max-vertical-offset="14588">
-          <folding />
+        <state line="2" column="6" selection-start="29" selection-end="29" vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="8036">
+          <folding>
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392920328999" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1011,36 +910,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="5" selection-start="4547" selection-end="4547" vertical-scroll-proportion="0.0" vertical-offset="4002" max-vertical-offset="8316">
+        <state line="9" column="23" selection-start="205" selection-end="205" vertical-scroll-proportion="-4.794872" vertical-offset="65" max-vertical-offset="924">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/calculations.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="93" selection-start="2553" selection-end="2553" vertical-scroll-proportion="0.6351607" vertical-offset="1232" max-vertical-offset="8036">
+        <state line="229" column="25" selection-start="8443" selection-end="8443" vertical-scroll-proportion="0.03773585" vertical-offset="6380" max-vertical-offset="8036">
           <folding>
-            <element signature="n#style#0;n#div#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#2;n#h3#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1392617872603" expanded="false" signature="3009:3039" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3118:3148" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3253:3283" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3360:3390" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3490:3520" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3618:3648" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="3738:3768" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="4901:4931" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5006:5036" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5137:5167" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5240:5270" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5366:5396" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5490:5520" placeholder="..." />
-            <marker date="1392617872603" expanded="false" signature="5606:5636" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392936847491" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/evalNums/evalNums.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="199" column="0" selection-start="7151" selection-end="7151" vertical-scroll-proportion="-11.434211" vertical-offset="4703" max-vertical-offset="5824">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/processing4.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="29" selection-start="483" selection-end="483" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/udon.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="19" selection-start="539" selection-end="539" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5796">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="0" selection-start="3553" selection-end="3553" vertical-scroll-proportion="11.946667" vertical-offset="3444" max-vertical-offset="5544">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="2" selection-start="532" selection-end="532" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="812">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/processing2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="257" column="36" selection-start="5853" selection-end="5853" vertical-scroll-proportion="-45.763157" vertical-offset="5457" max-vertical-offset="14728">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="213" column="0" selection-start="6258" selection-end="6258" vertical-scroll-proportion="0.47276264" vertical-offset="5721" max-vertical-offset="8512">
+          <folding />
         </state>
       </provider>
     </entry>

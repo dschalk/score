@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <script src="/primus/primus.js"></script>
     <script src="/javascripts/zepto.js"></script>
-    <script src="/javascripts/udon.js"></script>
+     <script src="/javascripts/udon.js"></script>
     <script src="/javascripts/ion.sound.js"></script>
     <script src="/javascripts/Bacon.min.js"></script>
     <!-- <script src="/javascripts/Bacon.JQuery.Bindings.js"></script>  -->
@@ -84,30 +84,7 @@ $(function() {
     });
 });
 
-var calc = [
-	function (xt, yt) {return xt + yt;},
-    function (xt,yt) {
-	    if ((xt - yt) >= 0 || complexity !== "simple") {
-		    return xt - yt;
-	    }
-	    else { return undefined; }
-    },
-    function (xt,yt) {return xt * yt;},
-    function (xt,yt){
-	    if (complexity === "complex" || ~~(xt/yt) === xt/yt) {
-		    return xt/yt
-	    } else { return undefined; }
-	},
-	function (xt, yt) {
-	    if ( typeof xt === 'number' && typeof yt === 'number' && yt >= 0 && xt !== 0 && ~~yt === yt && ~~xt ===xt ) {
-	        var cat = (xt.toString()) + (yt.toString());
-			return parseInt(cat, 10);
-        } else { return undefined; }
-	}
-];
-        var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
-        " subtracted from ", " divided into ", " concatenated in front of "
-    ];
+
 
        // $('#echo .output').html(bjq.textFieldValue($('#echo input')));//  All possible combinations of three dice
 
@@ -188,7 +165,36 @@ crow.asEventStream("click")
         [d, c, b, a]
     ];
 
-    Array.prototype.unique = function () {
+     var calc = [
+	function (xt, yt) {return xt + yt;},
+    function (xt,yt) {
+	    if ((xt - yt) >= 0 || complexity !== "simple") {
+		    return xt - yt;
+	    }
+	    else { return undefined; }
+    },
+    function (xt,yt) {return xt * yt;},
+    function (xt,yt){
+	    if (complexity === "complex" || ~~(xt/yt) === xt/yt) {
+		    return xt/yt
+	    } else { return undefined; }
+	},
+	function (xt, yt) {
+	    if ( typeof xt === 'number' && typeof yt === 'number' && yt >= 0 && xt !== 0 && ~~yt === yt && ~~xt ===xt ) {
+	        var cat = (xt.toString()) + (yt.toString());
+			return parseInt(cat, 10);
+        } else { return undefined; }
+	}
+];
+        var op = [" + ", " - ", " x ", " divided by ", " concatenated left of ",
+        " subtracted from ", " divided into ", " concatenated in front of "
+    ];
+
+
+
+
+
+     Array.prototype.unique = function () {
         var o = {}, i = 0, l = this.length, r = [];
         for (i = 0; i < l; i += 1) o[this[i]] = this[i];
         for (var n in o) {
@@ -204,9 +210,7 @@ crow.asEventStream("click")
     var cow = $('#cows');
     Udon.map(function(ar) {
         Udon.map(function(funcs) {
-            k += 1;
             Udon.map(function(functions) {
-                j += 1;
                 y = functions(funcs(ar[0], ar[1]), ar[2]);
                 z = functions(ar[2], funcs(ar[0], ar[1]));
                 if (y === scoreNum) {
@@ -225,9 +229,7 @@ crow.asEventStream("click")
 
     Udon.map(function(ar) {
         Udon.map(function(funcs) {
-            k2 += 1;
             Udon.map(function(functions) {
-                j2 += 1;
                 Udon.map(function (fu) {
                     m2 += 1;
                     result = fu(funcs(ar[0], ar[1]), functions(ar[2], ar[3]));
@@ -242,9 +244,7 @@ crow.asEventStream("click")
 
     Udon.map(function(ar) {
         Udon.map(function(funcs) {
-            k3 += 1;
             Udon.map(function(functions) {
-                j3 += 1;
                 Udon.map(function (fi) {
                     m3 += 1;
                     resultA = fi(functions(funcs(ar[0], ar[1]), ar[2]), ar[3]);

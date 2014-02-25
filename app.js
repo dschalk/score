@@ -47,7 +47,7 @@ app.configure(function() {
     app.use(express.logger("short"));
     app.use(express.directory('public'));
 });
-	var evalNums = require('./modules/evalNums'),
+	var eNums = require('./modules/eNums'),
 	gameData = require('./modules/monitor').monitor(primus);
 
 var messages = [];
@@ -57,10 +57,9 @@ var a;
 var l;
 var i = 888;
 app.get('/', routes.index);
-app.get('/experiments', routes.experiments);
-app.get('/playground', routes.playground);
 app.get('/calculations', routes.calculations);
 app.get('/calculationsUdon', routes.calculationsUdon);
+app.get('/calculationsLazy', routes.calculationsLazy);
 app.get('/cow', routes.cow);
 app.use(function (req, res, next){
     res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/udon.js', '/public/javascripts/Bacon.min.js', '/public/javascripts/Bacon.JQuery.Bindings.js',
@@ -120,14 +119,14 @@ primus.on('connection', function (spark) {
 		var z = gameData.getNums();
 	    z.complexity = data.complexity;
 		var scNum = parseInt(gameData.getscoreNum(), 10);
-	    evalNums.roll(z.a, z.b, z.c, z.d, primus, flag, z.complexity, scNum);
+	    eNums.roll(z.a, z.b, z.c, z.d, primus, flag, z.complexity, scNum);
     });
 
     spark.on('evalRequest2', function (data) {
 		players = {};
 		var flag = 5;
 		var scNum = parseInt(data.e, 10);
-        evalNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
+        eNums.roll(data.a, data.b, data.c, data.d, primus, flag, data.complexity, scNum);
     });
 
     spark.on('messages', function (cow) {

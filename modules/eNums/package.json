@@ -2,5 +2,5 @@
 	"name": "eval",
 	"version": "0.0.3",
 	"private": false,
-	"main": "evalNums.js"
+	"main": "eNums.js"
 }

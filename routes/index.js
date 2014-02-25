@@ -11,8 +11,8 @@ exports.cow = function(request, response){
 	response.redirect('http://alexschalk.com');
 };
 
-exports.playground = function(request, response){
-	response.render('playground.ejs');
+exports.calculationsLazy = function(request, response){
+	response.render('calculationsLazy.ejs');
 };
 
 exports.calculations = function(request, response){

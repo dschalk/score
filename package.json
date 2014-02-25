@@ -1,6 +1,6 @@
 {
   "name": "score3",
-  "version": "0.2.3-4",
+  "version": "0.2.4",
   "repository:": "http://github.com/dschalk/score",
   "private": false,
   "scripts": {
@@ -11,6 +11,7 @@
     "ejs": "*",
     "udon": "*",
     "baconjs": "*",
+    "lazy.js": "*",
     "bacon-jquery-bindings": "*",
     "connect-redis": "~1.4.5",
     "primus": "2.x",

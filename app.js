@@ -1,5 +1,4 @@
 'use strict';
-
 var Bacon = require('baconjs');
 var Udon = require('udon');
 var express = require('express')
@@ -10,7 +9,6 @@ var Rooms = require('primus-rooms'),
 	server = require('http').createServer(app),
 	primus = new Primus(server, { transformer: 'sockjs', parser: 'JSON' }),
 	Emitter = require('primus-emitter');
-// primus.use('rooms', Rooms);
 primus.use('emitter', Emitter);
 
 var	routes = require('./routes/'),
@@ -80,14 +78,8 @@ server.listen(app.get('port'), function(){
 //@@@@@@@@@@@@@#################$$$$$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@
 
 primus.on('connection', function (spark) {
-	/* console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-	 console.log('connection has the following headers', spark.headers);
-	 console.log('connection was made from', spark.address);
 
-	 console.log('the whole spark:', spark);
-	console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');*/
     var Q = require("q");
-
 
 	console.log('connection id', spark.id);
     spark.on('clear', function () {
@@ -133,16 +125,6 @@ primus.on('connection', function (spark) {
         primus.send('mailbox', cow);
     });
 
-/*
-    $(function() {
-	$('#clean2')
-		.asEventStream("click")
-		.subscribe(function(event) {
-		primus.send('erase');
-		return false;
-	});
-});
-*/
     spark.on('timer', function(data) {
         var impossibleClicker = 'Santa Clause';
         if (data.play === 2) {

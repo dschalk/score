@@ -80,7 +80,6 @@ p   {
     padding: 15px;
 }
 
-
 .b2:hover {
     text-align: center;
     font-size: 15px;
@@ -277,8 +276,6 @@ div.score {
     border-color: orange;
 }
 
-
-
 .not {
     float: left;
     width: 75%;
@@ -329,8 +326,6 @@ div.score {
     border: 5px outset;
     border-color: orange;
 }
-
-
 
 div.scoreboard{
     float:right;
@@ -400,7 +395,6 @@ div.scoreboard{
     text-align: center;
 }
 
-
 button.hover  {
     border:1px inset;
     color: black;
@@ -458,8 +452,6 @@ div.scoreboard{
     border-color: rgb(255,165,0);
     padding: 15px;
 }
-
-
 
 .blank {
     height: 10px;
@@ -526,7 +518,6 @@ div.buttons{
     margin-right: 10%;
     margin-left: 10%;
 }
-
 
 .message{
     color: rgb(0,255,255);
@@ -616,7 +607,6 @@ div#rolldisplay {
     padding: 15px;
 }
 
-
 #b:hover {
     text-align: center;
     font-size: 15px;
@@ -627,7 +617,6 @@ div#rolldisplay {
     border-color: red;
     padding: 15px;
 }
-
 
 #bfocus {
     text-align: center;

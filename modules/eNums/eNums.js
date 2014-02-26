@@ -10,7 +10,6 @@ exports.roll = function (a, b, c, d, primus, flag, complexity, scoreNum) {
     data.d = d;
     var lion = [];
     var works;
-
 //  All possible combinations of three dice
     var artist = [
         [a, b, c],
@@ -96,7 +95,7 @@ exports.roll = function (a, b, c, d, primus, flag, complexity, scoreNum) {
         for (i = 0; i < l; i += 1) {
                 o[ar[i]] = ar[i];
         }
-        var l = 0;
+        l = 0;
         for (var x in o) {
                 ob[l] = o[x];
                 l += 1;

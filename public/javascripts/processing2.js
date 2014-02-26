@@ -29,19 +29,7 @@ $(document).ready(function() {
     $('button#impossible').fadeOut(1000);
     $('button#compute').fadeOut(1000);
     $('.message3').html(' ');
-	// $('.message5').html(' ');
     //$('div.message').html("Greetings from Alex and David ");
-	/*
-	if (data.play === 1) {
-		console.log('data received ##########@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-		$('button#roll').hide();
-		$('button#random').fadeIn(1000);
-	} else {
-		$('button#random').hide();
-		$('button#roll').fadeIn(1000);
-	}
-	if (player === data.scoreClicker || player === data.imposibleClicker) {playerdoc.score -= 1;}
-    */
 
 	$.ionSound({
         sounds: [
@@ -290,10 +278,11 @@ primus.on('rollNums', function(dat) {    //  Listens for roll information and po
 
 primus.on('sb', function (players) {
     $(function () {
-        $('div.scoreboard').html("Score Board <br><br>");
+        var scorediv = $('div.scoreboard');
+        scorediv.html("Score Board <br><br>");
         for (cows in players) {
             if (players.hasOwnProperty(cows)) {
-                $('div.scoreboard').append(players[cows].player + "  " + players[cows].score + "<br>");
+                scorediv.append(players[cows].player + "  " + players[cows].score + "<br>");
             }
         }
     });
@@ -394,7 +383,6 @@ primus.on('pageUpdate', function (cow){
 		return;
 	}
 
-
 	if (cow.pointer = 'done') {
 		$('button#score').fadeOut(1000);
 		$('button#impossible').fadeOut(1000);
@@ -483,12 +471,9 @@ primus.on('wash', function () {
     }
 );
 
-primus.on('tilt', function (data) {    //  Listens for roll information and populates the selection boxes
-    console.log("44444444444444444444444444444444444444444444444444444444444444_in 'tilt'");
+primus.on('tilt', function (data) {
+    console.log("44444444444444444444444444444444444444444444444444444444444444_in 'tilt'");C
     $.ionSound.play("tilt");
-
-   // $('message3').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
-   // $('message2').html("<span id='tilt'>TILT **** TILT **** TILT</span><br/>A number divided by zero is either undefined or infinity. Either way, it cannot combine with another number to produce 20.").show();
     if (data.cow === 6) {
         $('button#roll').hide();
         $('button#random').fadeIn(1000);

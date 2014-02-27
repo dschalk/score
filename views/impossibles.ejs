@@ -66,6 +66,14 @@
 <br/><br/>
 
 <script>
+var works = 0;
+var works1 = 0;
+var works2 = 0;
+var works3 = 0;
+var works4 = 0;
+var works5 = 0;
+var works6 = 0;
+var j, k, l, m, n;
 $(function() {
     $('#clean')
 	    .asEventStream("click")
@@ -100,10 +108,20 @@ crow.asEventStream("click")
 	        var scoreNum = parseInt($('#e8').val(), 10);
             go(a, b, c, d, complexity, scoreNum);
     });
-
- var go = function(a, b, c, d, compl, scNum) {
-    var works = 0;
-    var scoreNum = parseInt(scNum, 10);
+var go = function () {
+    for (j=1; j<7; j+=1) {
+        for (k=j; k<7; k+=1) {
+            for (i=k; i<12; i+=1) {
+                for (m=i; m<20; m+=1) {
+                    imp (j, k, i, m);
+                }
+            }
+        }
+    }
+};
+var imp = function(a, b, c, d, compl, scNum) {
+    works = 0;
+    var scoreNum = 20;
         var complexity = compl;
         var r3 = [
         [a, b, c],
@@ -187,7 +205,7 @@ crow.asEventStream("click")
 
     var dataObject = function (ar) {
         var o = {}, ob = {}, i;
-        for (i = 0; i < 24; i += 1) {
+        for (i = 0; i < 12; i += 1) {
                 o[ar[i]] = ar[i];
         }
         var l = 0;
@@ -208,16 +226,17 @@ crow.asEventStream("click")
         for (k = 0; k < 5; k++) {
             for (i = 0; i < 5; i++) {
                 if (calc[i]( calc[k](o[j][0], o[j][1]), o[j][2] ) === scoreNum) {
-                    cow.append( '<br/>(' + o[j][0] + " " + op[k] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + " = " + scoreNum);
-                    works = works + 7;
+                  //  cow.append( '<br/>(' + o[j][0] + " " + op[k] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + " = " + scoreNum);
+                    works1 = works + 7;
                 }
                 if (calc[i](o[j][2],  calc[k](o[j][0], o[j][1])  ) === scoreNum) {
-                    cow.append('<br/>' + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[k] + " " + o[j][1] + ") = " + scoreNum);
-                    works = works + 3;
+                  //  cow.append('<br/>' + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[k] + " " + o[j][1] + ") = " + scoreNum);
+                    works1 = works + 3;
                 }
             }
         }
     }
+    if (works1 === 0)  cow.append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
 
     var musicianOb = dataObject(r4);
     o = musicianOb.ob;
@@ -228,14 +247,15 @@ for (j = 0; j < l2; j++) {
         for (i=0; i<5; i++) {
             for (m=0; m<5; m++) {
                if (calc[m](calc[k](o[j][0], o[j][1]), calc[i](o[j][2], o[j][3])) == scoreNum) {
-                    works += 1;
-                    $('#pigs').append("<br/>(" + o[j][0] + " " + op[k] + " " + o[j][1] + ") " + op[m] + " (" + o[j][2]
-                        + " " + op[i] + " " + o[j][3] + ") = " + scoreNum);
+                    works2 += 1;
+                    //$('#pigs').append("<br/>(" + o[j][0] + " " + op[k] + " " + o[j][1] + ") " + op[m] + " (" + o[j][2]
+                     //   + " " + op[i] + " " + o[j][3] + ") = " + scoreNum);
                 }
             }
         }
     }
 }
+if (works2 === 0) $('#pigs').append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
 
 for (j = 0; j < l2; j++) {
     for (k = 0; k < 5; k++) {
@@ -243,40 +263,31 @@ for (j = 0; j < l2; j++) {
             for (m = 0; m < 5; m++) {
 
                 if (calc[k](calc[i](calc[m](o[j][0], o[j][1]), o[j][2]), o[j][3]) === scoreNum) {
-                    works += 11;
-                    $('#dogs').append("<br/>( (" + o[j][0] + " " + op[m] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + ") " + op[k] + " " + o[j][3] + " = " + scoreNum);
-                    works = works + 3;
+                    works3 += 11;
+               //     $('#dogs').append("<br/>( (" + o[j][0] + " " + op[m] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + ") " + op[k] + " " + o[j][3] + " = " + scoreNum);
                 }
+                if (works3 === 0) $('#dogs').append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
 
                 if (calc[k](o[j][3], calc[i](calc[m](o[j][0], o[j][1]), o[j][2])) === scoreNum) {
-                    works += 11;
-                    $('#skunks').append("<br/>" + o[j][3] + " " + op[k] + " ( (" + o[j][0] + " " + op[m] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + ") = " + scoreNum);
-                    works = works + 3;
+                    works4 += 11;
+                 //   $('#skunks').append("<br/>" + o[j][3] + " " + op[k] + " ( (" + o[j][0] + " " + op[m] + " " + o[j][1] + ") " + op[i] + " " + o[j][2] + ") = " + scoreNum);
+                if (works4 === 0) $('#skunks').append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
                 }
 
                 if (calc[k](calc[i](o[j][2], calc[m](o[j][0], o[j][1])), o[j][3]) === scoreNum) {
-                    works += 11;
-                    $('#monkeys').append("<br/>(" + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[m] + " " + o[j][1] + ")) " + op[k] + " " + o[j][3] + " = " + scoreNum);
-                    works = works + 3;
+                    works5 += 11;
+                 //   $('#monkeys').append("<br/>(" + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[m] + " " + o[j][1] + ")) " + op[k] + " " + o[j][3] + " = " + scoreNum);
+                if (works5 === 0) $('#monkeys').append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
                 }
 
                 if (calc[k](o[j][3], calc[i](o[j][2], calc[m](o[j][0], o[j][1]))) === scoreNum) {
-                    works += 11;
-                    $('#badgers').append("<br/>" + o[j][3] + " " + op[k] + " (" + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[m] + " " + o[j][1] + ")) = " + scoreNum);
-                    works = works + 3;
+                    works6 += 11;
+                //    $('#badgers').append("<br/>" + o[j][3] + " " + op[k] + " (" + o[j][2] + " " + op[i] + " (" + o[j][0] + " " + op[m] + " " + o[j][1] + ")) = " + scoreNum);
+                if (works6 === 0) $('#badgers').append('<br/>' + a + ' ' +  b + ' ' + c + ' ' + d);
                 }
             }
         }
     }
-}
-
-if (works === 0) {
-    $('#cows').html('IMPOSSIBLE');
-    $('#dogs').html(' ');
-    $('#pigs').html(' ');
-    $('#skunks').html(' ');
-    $('#badgers').html(' ');
-    $('#monkeys').html(' ');
 }
 
 }

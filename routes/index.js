@@ -22,3 +22,7 @@ exports.calculations = function(request, response){
 exports.calculationsUdon = function(request, response){
 	response.render('calculationsUdon.ejs');
 };
+
+exports.impossibles = function(request, response){
+	response.render('impossibles.ejs');
+};

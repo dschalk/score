@@ -58,6 +58,7 @@ app.get('/', routes.index);
 app.get('/calculations', routes.calculations);
 app.get('/calculationsUdon', routes.calculationsUdon);
 app.get('/calculationsLazy', routes.calculationsLazy);
+app.get('/impossibles', routes.impossibles);
 app.get('/cow', routes.cow);
 app.use(function (req, res, next){
     res.locals.scripts = ['/public/javascripts/jquery-1.10.3-min.js', '/public/javascripts/udon.js', '/public/javascripts/Bacon.min.js', '/public/javascripts/Bacon.JQuery.Bindings.js',

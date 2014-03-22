@@ -1,6 +1,6 @@
 {
   "name": "score3",
-  "version": "0.2.5-3",
+  "version": "0.3.0",
   "repository:": "http://github.com/dschalk/score",
   "private": false,
   "scripts": {

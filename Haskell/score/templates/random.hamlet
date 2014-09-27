@@ -1,0 +1,14 @@
+      <br>
+      \<a href=@{HomeR}>HOME</a>  <span id="black"> ** </span> <a href=@{RandomR}>ROLL</a>
+      <br>
+      <div id="snakes">Score!</div>
+      <br>
+      <div id="birds">You can evaluate this random roll as it is, or substitute any numbers you like.</div>
+        <form action=@{InputR}>
+            <p>
+                <input type=double name=a value=#{rN' 6}>
+                <input type=double name=b value=#{rN' 6}>
+                <input type=double name=c value=#{rN' 12}>
+                <input type=double name=d value=#{rN' 20}>
+                <input id="sheep" type=submit value="Evaluate">
+

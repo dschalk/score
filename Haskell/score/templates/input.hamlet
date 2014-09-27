@@ -1,0 +1,15 @@
+      <br>
+      \<a href=@{HomeR}>HOME</a>  <span class="black"> ** </span> <a href=@{RandomR}>ROLL</a> 
+      <br>
+      <div id="snakes">Score!</div>
+      <br>
+      <p><span id="animals"> #{fRound $ a roll} <span class="black"> - </span> #{fRound $ b roll} <span class="black"> - </span> #{fRound $ c roll} <span class="black"> - </span> #{fRound $ d roll}</span>
+      <div id="birds">
+        <p>
+        $if T.null (T.concat (cars (a roll) (b roll) (c roll) (d roll)))
+          <p>Impossible.
+        $else
+          <ul>
+            $forall cow <- (cars (a roll) (b roll) (c roll) (d roll))
+              <li>#{cow}
+              <br>

@@ -1,0 +1,15 @@
+A Haskell version of
+<div class="dragons">The game of Score!</div>
+<br>
+This is a scafolded Yesod construction site.
+<br>
+The NodeJS version is more fully developed. It is a real-time, multi-player game hosted at <a href="http://score.nodejitsu.com">"https://score.nodejitsu.com/"</a>.
+<br>
+The object of Score! is to make the number "20" out of three or four dice. Four dice are rolled. Two of the dice are six-sided; one is twelve-sided; the fourth die has twenty sides.
+<br>
+If you click "ROLL" below, a randomly generated dice roll will appear in four boxes. You can command the computer to evaluate it, or you can substitute your own numbers and the computer will evaluate whatever you enter. 95% of rolls of 6, 6, 12, and 20 sided dice have solutions. 1 1 1 4 has no solution, but 1 1 1 3 can be made into twenty in three ways, all involving concatenation. Concatenating 3 with 1 and 1 with 1 yields 31 and 11.  31 - 11 = 20. Score! is educational for anyone who needs practice with subtracting negative number and dividing by fractions. When checking the computer's solutions, be sure to go to the inner-most parentheses first and work your way out.
+<br>
+This will eventually be a real-time, multiplayer game like the NodeJS version at <a href="https://score.nodejitsu.com/">"http://score.nodejitsu.com"</a>. So far, I have not had to resort to using any Javascript at all. Javascript can be fun, but Haskell is rock solid and thoroughly predictable. The Yesod framework is an work of art and genius. 
+<br>
+Here is the link I mentioned: <a href=@{RandomR}>ROLL</a> 
+  

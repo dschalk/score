@@ -1,0 +1,40 @@
+body {
+	background-color: #000000;
+	color: #eddd6a;
+	font-size: 16px;
+}
+
+.center {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#birds {
+	color: #eddd6a;
+	font-size: 16px;
+}
+
+#snakes {
+	color: #ff0000;
+	text-align: center;
+	font-size: 28px;
+}
+
+.dragons {
+	color: #f2742b;
+	font-size: 20px;
+	text-align: center
+}
+
+#black {
+	background-color: #000000
+}
+
+.small {
+	color: #eddd6a;
+	font-size: 10px;
+}
+

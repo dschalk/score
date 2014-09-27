@@ -1,0 +1,51 @@
+body {
+	background-color: #000000
+}
+
+h2 {
+    text-align: center
+}
+
+h2##{aDomId} {
+    color: #990
+}
+
+ul {
+    list-style-type: none;
+}
+
+#animals {
+	color: #ff0000;
+	font-size: 20px;
+}
+
+#birds {
+	color: #eddd6a;
+	font-size: 16px;
+}
+
+#snakes {
+	color: #ff6600;
+	text-align: center;
+	font-size: 28px;
+}
+
+#cow {
+	color: #000000;
+}
+
+.black {
+	background-color: #00000;
+	color: #000000
+}
+
+input.hover {
+   background: red  ;
+   color: white     ;
+   padding: 3px     ;
+   border-radius: 5px         ;
+   border: 1px solid black    ; 
+   text-decoration: none      ;
+}
+
+

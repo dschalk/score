@@ -1,0 +1,64 @@
+body {
+	background-color: #000000
+}
+
+input {
+	color: #ff0000;
+	font-size: 18px;
+	font-weight: 900;
+    width: 2em; 
+    height: 2em;
+    text-align: center;
+    background-color: #000000;
+    padding: 1px;
+    border-radius: 1px;
+    border: 1px #000000;
+}
+
+#sheep {
+	width: 6em !important;
+}
+
+h2##{aDomId} {
+    color: #990
+}
+
+ul {
+    list-style-type: none;
+}
+
+#animals {
+	color: #ff0000;
+	font-size: 20px;
+}
+
+#birds {
+	color: #eddd6a;
+	font-size: 16px;
+}
+
+#snakes {
+	color: #ff0000;
+	text-align: center;
+	font-size: 28px;
+}
+
+#dragons {
+	color: #eddd6a;
+	font-size: 20px;
+}
+
+.black {
+	background-color: #00000;
+	color: #000000
+}
+
+input:hover {
+   background-color: yellow;
+   color: green ;
+   padding: 0px ;
+   border-color: green ;
+   border-radius: 1px ;
+   border: 1px red ; 
+}
+
